@@ -1,0 +1,12 @@
+---
+layout: default
+---
+<p>最新文章</p>
+<ul>
+　　{% for post in site.posts %}
+　　　　<li>
+			<h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
+			{{ post.description }}
+		</li>
+　　{% endfor %}
+</ul>
