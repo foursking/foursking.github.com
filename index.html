@@ -1,12 +1,25 @@
 ---
 layout: default
 ---
-<p>最新文章</p>
-<ul>
-　　{% for post in site.posts %}
-　　　　<li>
-			<h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
-			{{ post.description }}
-		</li>
-　　{% endfor %}
-</ul>
+<div class="section">
+    <p class="h2">LATEST</p>
+    <ul>
+        　　{% for post in site.posts %}
+        　　　　<li>
+        <span class="entry-date">{{ post.date|date:"%Y-%m-%d" }}</span>
+        <span class="entry-sep"> — </span>
+        <span class="entry-title"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
+        </li>
+        　　{% endfor %}
+    </ul>
+</div>
+
+<div class="section">
+    <p class="h2">FIND ME ELSEWHERE</p>
+    <ul class="simple">
+        <li><a href="http://github.com/foursking/" target="_blank">Github</a></li>
+        <li><a href="http://www.douban.com/people/59302465/" target="_blank">豆瓣</a></li>
+        <li><a href="http://www.v2ex.com/member/foursking" target="_blank">V2EX</a></li>
+        <li><a href="http://weibo.com/u/2166318483" target="_blank">微博</a></li>
+    </ul>
+</div>
