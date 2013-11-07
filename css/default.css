@@ -25,7 +25,6 @@ a:hover {
 .site .header {
     padding-top: 2em;
     padding-bottom: 2em;
-	border-bottom: 1px solid gray;
 }
 
 .site .header .title {
@@ -34,7 +33,8 @@ a:hover {
 }
 
 .site .header .title a {
-    color: #0ef;
+    color:#fff;
+
 }
 
 .site .header .contact {
@@ -52,15 +52,27 @@ a:hover {
 }
 
 .post-title {
-    font-weight: bold;
-    margin-bottom: 6px;
-    text-align: center;
-    font-size: 30px;
+font-family: "Palatino","Georgia",/*"Hiragino Mincho ProN",*/"Microsoft YaHei","WenQuanYi Micro Hei",serif;
+    color:#343434;
+    border-bottom:1px solid #bcbdbd;
+    line-height:200%;
+    margin:0 0 5px 0;
 }
 
-.post-date {
-    text-align: center;
-    color: #999;
-    margin-bottom: 60px;
-    font-size: 14px;
+.entry-meta {
+font-size: 1.1em;
+font-family: Helvetica,'Hiragino Sans GB',Arial,sans-serif;
+padding: 0.4em 0 1em;
+color: #BCBCBC;
+}
+
+.entry-meta span.entry-date {
+color: #808081;
+font-size: 80%;
+font-family: menlo, monospace;
+}
+
+.entry-meta span.entry-cat {
+    float:right;
+    color:#0088cc;
 }
