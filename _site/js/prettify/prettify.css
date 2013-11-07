@@ -1,0 +1,91 @@
+/* Pretty printing styles. Used with prettify.js. */
+/* Vim sunburst theme by David Leibovic */
+ pre {
+  font-family: Monaco, Consolas, "Lucida Console", monospace;
+  background-color: #333;
+  padding: 20px;
+  font-size: 0.7em;
+  border: 0;
+  color: #e9e4e5;
+  line-height: 1.9em;
+  margin: 1em 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+ pre .pln, code.pln { color: #e9e4e5; }
+ pre .str, code.str { color: #bcd42a; }
+ pre .kwd, code.kwd { color: #4bb1b1; }
+ pre .com, code.com { color: #888888; }
+ pre .typ, code.typ { color: #ef7c61; }
+ pre .lit, code.lit { color: #bcd42a; }
+ pre .pun, code.pun,
+ pre .opn, code.pun,
+ pre .clo, code.pun,{ color: #ffffff; }
+ pre .tag, code.pun,{ color: #4bb1b1; }
+ pre .atn, code.pun,{ color: #ef7c61; }
+ pre .atv, code.pun,{ color: #bcd42a; }
+ pre .dec, code.pun,
+ pre .var, code.pun,{ color: #660066; }
+ pre .fun, code.pun,{ color: #ff0000; }
+ pre,code { font-family: Monaco, Consolas, "Lucida Console", monospace; }
+ p { line-height: 1.6em; font-weight: 300; }
+ p code {
+  display: inline-block;
+  font-size: 0.75em;
+  font-family: Monaco, Consolas, "Lucida Console", monospace;
+  background-color: #eee;
+  color: #555;
+  padding: 0em 0.6em;
+  margin: 0 0.2em;
+}
+
+
+
+
+
+pre.prettyprint, code.prettyprint {
+        background-color:#333;
+        /*
+		background: #002B36 url('../imgs/noise.png') top left !important;
+		color: #93A1A1 !important;
+        -moz-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -o-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -khtml-border-radius: 8px;
+        border-radius: 8px;
+        */
+}
+
+pre.prettyprint {
+        width: 95%;
+        margin: 1em auto;
+        padding: 1em;
+        white-space: pre-wrap;
+		font-family: Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace !important;
+		font-size:13px !important;
+}
+
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums { margin-top: 0; margin-bottom: 0; color: #AEAEAE;} /* IE indents via margin-left */
+li.L0,li.L1,li.L2,li.L3,li.L4,li.L5,li.L6,li.L7,li.L8,li.L9 { list-style-type: none; height: 21px !important;}
+/* Alternate shading for lines */
+/*li.L1,li.L3,li.L5,li.L7,li.L9 {background: #002B36 url('../imgs/noise.png') top left !important; color: #93A1A1 !important;}*/
+@media print{
+ pre .pln, code.pln { color: #e9e4e5; }
+ pre .str, code.str { color: #bcd42a; }
+ pre .kwd, code.kwd { color: #4bb1b1; }
+ pre .com, code.com { color: #888888; }
+ pre .typ, code.typ { color: #ef7c61; }
+ pre .lit, code.lit { color: #bcd42a; }
+ pre .pun, code.pun,
+ pre .opn, code.pun,
+ pre .clo, code.pun,{ color: #ffffff; }
+ pre .tag, code.pun,{ color: #4bb1b1; }
+ pre .atn, code.pun,{ color: #ef7c61; }
+ pre .atv, code.pun,{ color: #bcd42a; }
+ pre .dec, code.pun,
+ pre .var, code.pun,{ color: #660066; }
+ pre .fun, code.pun,{ color: #ff0000; }
+ }

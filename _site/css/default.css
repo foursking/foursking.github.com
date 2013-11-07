@@ -1,0 +1,142 @@
+body {
+    font-family: "微软雅黑","Arial","Helvetica","sans-serif";
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #e40;
+}
+
+
+p.h2 {
+line-height: 36px;
+font-weight: normal;
+text-align: left;
+font-size: 13px !important;
+margin: 0 0 1px 0;
+color: #ADADAD;
+text-transform: uppercase;
+font-family: Helvetica, arial, sans-serif;
+}
+
+.site {
+	line-height: 1.5em;
+	width: 50em;
+	margin: auto;
+
+}
+
+.site .header {
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+.site .header .title {
+	font-size: 230%;
+	font-weight: bold;
+}
+
+.site .header .title a {
+    color:#fff;
+
+}
+
+.site .header .contact {
+    float: right;
+}
+
+.site .footer {
+    border-top: 1px solid #ddd;
+    padding-top: 1em;
+    padding-bottom: 2em;
+}
+
+#post {
+    margin-bottom: 4em;
+}
+
+.post-title {
+font-family: "Palatino","Georgia",/*"Hiragino Mincho ProN",*/"Microsoft YaHei","WenQuanYi Micro Hei",serif;
+    color:#343434;
+    border-bottom:1px solid #bcbdbd;
+    line-height:200%;
+    margin:0 0 5px 0;
+}
+
+.entry-meta {
+font-size: 1.1em;
+font-family: Helvetica,'Hiragino Sans GB',Arial,sans-serif;
+padding: 0.4em 0 1em;
+color: #BCBCBC;
+}
+
+.entry-meta span.entry-date {
+color: #808081;
+font-size: 80%;
+font-family: menlo, monospace;
+}
+
+.entry-meta span.entry-cat {
+    float:right;
+    color:#0088cc;
+}
+
+
+
+.section {
+    margin:20px 0;
+}
+
+.section a{
+    color:#0088cc;
+}
+.section a:hover{
+    color:#005580;
+}
+
+.section li{
+    height:26px;
+    list-style:none;
+
+}
+
+.section ul{
+    list-style: square;
+    margin: 10px;
+}
+
+.section .entry-date {
+color: #808081;
+font-size: 80%;
+}
+.section .entry-sep {
+color: #808081;
+margin: 0.8em;
+}
+
+.section .entry-title{
+    font-size:16px;
+}
+.section .entry-title a{
+    color:#0088cc;
+}
+.section .entry-title a:hover{
+    color:#005580;
+}
+
+.section .simple li{
+    list-style-type:square;
+    margin-left:1em;
+    font-size:14px !important;
+    float:left;
+    margin-right:120px;
+
+}
