@@ -1,1 +1,4 @@
-baseurl: /
+baseurl:
+source:      .
+plugins:     ./_plugins
+permalink: pretty
