@@ -3,6 +3,8 @@ layout: default
 ---
 
 <link rel="stylesheet" href="/js/prettify/prettify.css" />
+
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 <script type="text/javascript" src="/js/prettify/prettify.js"></script>
 
 <div id="post">
@@ -15,9 +17,13 @@ layout: default
 </div>
 
 <script type="text/javascript">
-	(function() {
+	$(function(){
+		$('pre').each(function(){
+			$(this).addClass('prettyprint');
+		});
 		prettyPrint();
-	})();
+	});
+
 </script>
 
 <div id="disqus_thread"></div>

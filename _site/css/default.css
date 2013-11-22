@@ -16,16 +16,6 @@ a:hover {
 }
 
 
-p.h2 {
-line-height: 36px;
-font-weight: normal;
-text-align: left;
-font-size: 13px !important;
-margin: 0 0 1px 0;
-color: #ADADAD;
-text-transform: uppercase;
-font-family: Helvetica, arial, sans-serif;
-}
 
 .site {
 	line-height: 1.5em;
@@ -102,6 +92,12 @@ font-family: menlo, monospace;
     color:#005580;
 }
 
+.section p{
+    margin:0.6em 1.5em 1em;
+    font-size:14px !important;
+
+}
+
 .section li{
     height:26px;
     list-style:none;
@@ -139,4 +135,15 @@ margin: 0.8em;
     float:left;
     margin-right:120px;
 
+}
+
+p.h2 {
+line-height: 36px;
+font-weight: normal;
+text-align: left;
+font-size: 13px !important;
+margin: 0 0 1px 0;
+color: #ADADAD;
+text-transform: uppercase;
+font-family: Helvetica, arial, sans-serif;
 }

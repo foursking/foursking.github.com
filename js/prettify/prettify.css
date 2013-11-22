@@ -20,13 +20,15 @@
  pre .lit, code.lit { color: #bcd42a; }
  pre .pun, code.pun,
  pre .opn, code.pun,
- pre .clo, code.pun,{ color: #ffffff; }
- pre .tag, code.pun,{ color: #4bb1b1; }
- pre .atn, code.pun,{ color: #ef7c61; }
- pre .atv, code.pun,{ color: #bcd42a; }
- pre .dec, code.pun,
- pre .var, code.pun,{ color: #660066; }
- pre .fun, code.pun,{ color: #ff0000; }
+ pre .clo, code.clo,{ color: #ffffff; }
+ pre .tag, code.tag,{ color: #4bb1b1; }
+ pre .atn, code.atn,{ color: #ef7c61; }
+ pre .atv, code.atv,{ color: #bcd42a; }
+ pre .dec, code.dec,
+ pre .var, code.var,{ color: #660066; }
+ pre .fun, code.fun,{ color: #ff0000; }
+
+
  pre,code { font-family: Monaco, Consolas, "Lucida Console", monospace; }
  p { line-height: 1.6em; font-weight: 300; }
  p code {
