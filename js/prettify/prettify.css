@@ -11,7 +11,14 @@
   margin: 1em 0;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
+  overflow:auto;
+  white-space:pre-wrap;/*css-3*/
+  white-space:-moz-pre-wrap;/*Mozilla,since1999*/
+  white-space:-pre-wrap;/*Opera4-6*/
+  white-space:-o-pre-wrap;/*Opera7*/
+  word-wrap:break-word;/*InternetExplorer5.5+*/　
 }
+
  pre .pln, code.pln { color: #e9e4e5; }
  pre .str, code.str { color: #bcd42a; }
  pre .kwd, code.kwd { color: #4bb1b1; }

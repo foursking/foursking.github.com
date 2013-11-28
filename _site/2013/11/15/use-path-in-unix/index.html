@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+　　<title>use path in unix</title>
+	<link rel="stylesheet" href="/css/default.css" type="text/css" />
+</head>
+<body>
+
+<div class="site">
+	<div class="header">
+        <div class='logo' style="text-align:center">
+            <a href=""> <img src="/image/logo.svg" height="50" alt="BOXKS"> </a>
+        </div>
+	<!--	<div class="title"><a href="">Abstrack</a></div>
+		<div class="contact">
+			<a href="mailto:lyf021408@gmail.com">lyf021408@gmail.com</a>
+		</div>
+        -->
+	</div>
+
+　　<link rel="stylesheet" href="/js/prettify/prettify.css" />
+
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/prettify/prettify.js"></script>
+
+<div id="post">
+	<h2 class="post-title">use path in unix</h2>
+    <div class="entry-meta">
+        <span class="entry-date">2013-11-15</span>
+        <span class="entry-cat">unix</span>
+    </div>
+	
+<p>Sometimes , after install some script (like npm …) , when use it , we my get the command</p>
+
+<pre><code>command not found</code></pre>
+
+<p>Two reasons</p>
+
+<ol>
+<li>script not installed</li>
+
+<li>can’t find script in path</li>
+</ol>
+
+<p>So if is reason 2 ,just put the script dir in your path.</p>
+
+<p>Where is PATH ?</p>
+
+<pre><code>echo $PATH
+
+/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin:/usr/include/include:/usr/include:/Users/mac/pear/bin:/usr/local/git/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin</code></pre>
+
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		$('pre').each(function(){
+			$(this).addClass('prettyprint');
+		});
+		prettyPrint();
+	});
+
+</script>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'blogleon';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+
+</div>
+
+</body>
+</html>
