@@ -28,13 +28,11 @@ phpunit test
 ```php
 class FooTest extends PHPUnit_Framework_TestCase {
 
-     public function setUp()
-     {
+     public function setUp() {
          //do some setup here...
      }
 
-     public function test_plus()
-     {
+     public function test_plus() {
          //get function plus
          $method = new \ReflectionMethod(new \Foo() , 'plus');
 
