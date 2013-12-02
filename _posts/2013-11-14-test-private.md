@@ -7,43 +7,46 @@ cat: phpunit
 
 Demo class
 
-    class Foo{
+```php
+class Foo {
 
-        public function __construct()
-        {
-            //do some construct
-        }
-
-        private function plus($a , $b)
-        {
-            return $a + $b;
-        }
-
+    public function __construct() {
+        //do some construct
     }
+
+    private function plus($a , $b) {
+        return $a + $b;
+    }
+
+}
+```
 
 
 phpunit test
 
-    class FooTest extends PHPUnit_Framework_TestCase {
 
-         public function setUp()
-         {
-             //do some setup here...
-         }
+```php
+class FooTest extends PHPUnit_Framework_TestCase {
 
-         public function test_plus()
-         {
-             //get function plus
-             $method = new \ReflectionMethod(new \Foo() , 'plus');
+     public function setUp()
+     {
+         //do some setup here...
+     }
 
-             //set accessible
-             $method->setAccessible(true);
+     public function test_plus()
+     {
+         //get function plus
+         $method = new \ReflectionMethod(new \Foo() , 'plus');
 
-             //invoke function
-             $testres = $method->invoke(new Foo() , 2 , 3);
+         //set accessible
+         $method->setAccessible(true);
 
-             //test function
-             $this->assertEquals(5 , $testres);
-         }
+         //invoke function
+         $testres = $method->invoke(new Foo() , 2 , 3);
 
-    }
+         //test function
+         $this->assertEquals(5 , $testres);
+     }
+
+}
+```
