@@ -1,6 +1,6 @@
 ---
 layout: post
-title: test private function in php
+title: Test-Private-Function-In-Php
 cat: phpunit
 ---
 

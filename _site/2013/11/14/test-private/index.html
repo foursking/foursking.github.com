@@ -2,7 +2,7 @@
 <html>
 <head>
 　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-　　<title>test private function in php</title>
+　　<title>Test-Private-Function-In-Php</title>
 	<link rel="stylesheet" href="/css/default.css" type="text/css" />
 </head>
 <body>
@@ -25,13 +25,12 @@
 <script type="text/javascript" src="/js/prettify/prettify.js"></script>
 
 <div id="post">
-	<h2 class="post-title">test private function in php</h2>
+	<h2 class="post-title">Test-Private-Function-In-Php</h2>
     <div class="entry-meta">
         <span class="entry-date">2013-11-14</span>
         <span class="entry-cat">phpunit</span>
     </div>
-	
-<p>Demo class</p>
+	<p>Demo class</p>
 
 <pre><code>class Foo{
 
@@ -45,7 +44,8 @@
         return $a + $b;
     }
 
-}</code></pre>
+}
+</code></pre>
 
 <p>phpunit test</p>
 
@@ -59,7 +59,7 @@
      public function test_plus()
      {
          //get function plus
-         $method = new \ReflectionMethod(new \Foo() , &#39;plus&#39;);
+         $method = new \ReflectionMethod(new \Foo() , 'plus');
 
          //set accessible
          $method-&gt;setAccessible(true);
@@ -71,7 +71,8 @@
          $this-&gt;assertEquals(5 , $testres);
      }
 
-}</code></pre>
+}
+</code></pre>
 
 </div>
 

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+　　<title>Php-Code-Style</title>
+	<link rel="stylesheet" href="/css/default.css" type="text/css" />
+</head>
+<body>
+
+<div class="site">
+	<div class="header">
+        <div class='logo' style="text-align:center">
+            <a href=""> <img src="/image/logo.svg" height="50" alt="BOXKS"> </a>
+        </div>
+	<!--	<div class="title"><a href="">Abstrack</a></div>
+		<div class="contact">
+			<a href="mailto:lyf021408@gmail.com">lyf021408@gmail.com</a>
+		</div>
+        -->
+	</div>
+
+　　<link rel="stylesheet" href="/js/prettify/prettify.css" />
+
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/prettify/prettify.js"></script>
+
+<div id="post">
+	<h2 class="post-title">Php-Code-Style</h2>
+    <div class="entry-meta">
+        <span class="entry-date">2013-12-01</span>
+        <span class="entry-cat">php</span>
+    </div>
+	<hr />
+
+<h3># 通用约定：</h3>
+
+<ul>
+<li>代码缩进全部用tab，在编辑器里面设置tab存为制表符，不要存为空格。不要打一堆空格来做缩进。</li>
+<li>SVN / Git 中新建文件编码类型统一用utf-8编码（不带BOM）。</li>
+<li>Unix 风格的换行: LF</li>
+<li>所有可以直接访问的url中包含的文件名都是小写，如果是多个词组成，则用下划线连接。</li>
+<li>行宽：120 字符</li>
+</ul>
+
+
+<h3># 代码规范</h3>
+
+<pre><code class="php">&lt;?php // 开头必须使用 &lt;?php
+// panxiaoliang@baixing.com 每个文件必须注明owner的邮箱
+
+require_once('cg_conf/config.inc.php'); // require_once必须有括弧，并且左括弧前面没有空格
+
+class CodingStandard { // 大括号前面加空格，类名开头字母大写，多个字母首字母大写
+    private $attribute; // 属性注释直接注释在后方
+
+    // 数组格式
+    public $color = array(
+        '1' =&gt; 'red', // 用tab缩进一次
+        '2' =&gt; 'blue',
+        '3' =&gt; 'yellow',
+        '4' =&gt; array(
+            '1' =&gt; 'green', // 在前面的数组对齐列之后再tab缩进一次
+            '2' =&gt; 'gray'
+        ) // 数组的结尾与声明的变量最前面对齐
+    ); // 数组的结尾与数组变量声明的地方对齐
+
+    public $number = array(1, 2, 3, 4); // 对于简单数组，可以放一行
+
+    // 方法的注释采用双斜线，尽量在一行内完成
+    function foo($i, $list) { // 1.function名后面的(前面没有空格 2.多个参数，如果有逗号，那么逗号后面要有空格
+        for ($j = 0; $j &lt; $i; $j++) { // for后面加空格
+            echo "This is no.{$j}, content is {$list[$j]}"; // echo语句不加括号。
+
+            // echo语句里面用单引号还是双引号，根据实际情况定
+            echo '&amp;lttable border="0" cellspacing="5" cellpadding="5"&amp;gt';
+        }
+        if ($i &gt; 0) { // 1.if后面加空格 2.操作符前后都要有空格
+            return $i % 2; // 操作符前后是有空格的
+        } else { // else前后也要有空格
+            return null;
+        }
+
+        if ($j == $i) return 1; // if里面只有一句语句且较短的情况，建议写成一行，如果要拆成多行，则前后建议加上括号。
+
+        $count = count($_SERVER); // 在外面写赋值
+        if ($count &gt; 10) echo 'pass'; // if里面只做布尔判断，不要写赋值语句
+    }
+
+    public static function testFunction() { // 静态非静态方法命名都遵守驼峰原则
+    }
+}
+
+$s = new CodingStandard(); // new一个对象，后面必须加括弧
+$s-&gt;foo(10, $s-&gt;color); // 函数后面的括弧不要有空格，函数里面超过一个参数，逗号后面就要有空格
+CodingStandard::testFunction(); // 静态代码的调用方式唯一，仅限双冒号调用方式
+
+// php文件必须以 ?&gt; 结尾，并且保证其后面没有空格或空行。
+?&gt;
+</code></pre>
+
+<h3># 文献</h3>
+
+<ul>
+<li><a href="http://framework.zend.com/manual/1.12/en/coding-standard.html">Zend Framework Coding Standard for PHP</a></li>
+<li><a href="http://codex.wordpress.org/WordPress_Coding_Standards">WordPress Coding Standards</a></li>
+<li><a href="http://drupal.org/coding-standards">Drupal Coding Standards</a></li>
+<li><a href="http://pear.php.net/manual/en/standards.php">Pear Coding Standards</a></li>
+</ul>
+
+
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		$('pre').each(function(){
+			$(this).addClass('prettyprint');
+		});
+		prettyPrint();
+	});
+
+</script>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'blogleon';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+
+</div>
+
+</body>
+</html>

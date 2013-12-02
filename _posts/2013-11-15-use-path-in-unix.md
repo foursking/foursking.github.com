@@ -1,6 +1,6 @@
 ---
 layout: post
-title: use path in unix
+title: Use-Path-In-Unix
 cat: unix
 ---
 
