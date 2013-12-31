@@ -6,10 +6,11 @@ li {
     list-style-type: none;
 }
 
-a {
-    color: black;
+ a{
+    color:#0088cc;
 	text-decoration: none;
 }
+
 
 a:hover {
 	color: #e40;
