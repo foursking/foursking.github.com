@@ -6,7 +6,7 @@ cat: php
 
 ***
 
-### \# 通用约定：
+## 通用约定：
 
 - 代码缩进全部用tab，在编辑器里面设置tab存为制表符，不要存为空格。不要打一堆空格来做缩进。
 - SVN / Git 中新建文件编码类型统一用utf-8编码（不带BOM）。
@@ -15,8 +15,8 @@ cat: php
 - 行宽：120 字符
 
 
-### \# 代码规范
-```php
+## 代码规范：
+```
 <?php // 开头必须使用 <?php
 // panxiaoliang@baixing.com 每个文件必须注明owner的邮箱
 
@@ -70,7 +70,7 @@ CodingStandard::testFunction(); // 静态代码的调用方式唯一，仅限双
 ?>
 ```
 
-### \# 文献
+## 文献
 
 - [Zend Framework Coding Standard for PHP](http://framework.zend.com/manual/1.12/en/coding-standard.html)
 - [WordPress Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards)

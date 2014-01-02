@@ -1,6 +1,51 @@
 body {
-    font-family: "微软雅黑","Arial","Helvetica","sans-serif";
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:#777;
+    font-size:16px;
 }
+
+h1, h2, h3, h4, h5, h6 {
+margin: 0;
+font-family: inherit;
+font-weight: bold;
+color: inherit;
+text-rendering: optimizelegibility;
+}
+
+
+h1 {
+  font-size: 30px;
+  line-height: 36px;
+}
+
+h2 {
+  font-size: 20px;
+  line-height: 36px;
+}
+
+h3 {
+  line-height: 27px;
+  font-size: 18px;
+}
+
+h4, h5, h6 {
+  line-height: 18px;
+}
+
+h4 {
+  font-size: 14px;
+}
+
+h5 {
+  font-size: 12px;
+}
+
+h6 {
+  font-size: 11px;
+  color: #999999;
+  text-transform: uppercase;
+}
+
 
 li {
     list-style-type: none;
@@ -50,21 +95,23 @@ a:hover {
     padding-bottom: 2em;
 }
 
-#post {
+.entry{
     margin-bottom: 4em;
 }
 
-.post-title {
-font-family: "Palatino","Georgia",/*"Hiragino Mincho ProN",*/"Microsoft YaHei","WenQuanYi Micro Hei",serif;
+.entry-title{
     color:#343434;
-    border-bottom:1px solid #bcbdbd;
     line-height:200%;
     margin:0 0 5px 0;
 }
 
+ .entry-content pre {
+  background: #272821;
+  color: #E6DC62;
+}
+
 .entry-meta {
 font-size: 1.1em;
-font-family: Helvetica,'Hiragino Sans GB',Arial,sans-serif;
 padding: 0.4em 0 1em;
 color: #BCBCBC;
 }
@@ -154,6 +201,7 @@ table {
     *border-collapse: collapse; /* IE7 and lower */
     border-spacing: 0;
     width: 100%;
+    margin:15px 0;
 }
 
 table{
