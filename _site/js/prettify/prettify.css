@@ -42,6 +42,21 @@
 
  pre,code { font-family: Monaco, Consolas, "Lucida Console", monospace; }
  /* p { line-height: 1.6em; font-weight: 300; } */
+<<<<<<< HEAD
+=======
+
+ p code {
+     font-size:13px;
+     padding: 2px 4px;
+     color: #d14;
+     white-space: nowrap;
+     background-color: #f7f7f9;
+     border: 1px solid #e1e1e8;
+     -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+     border-radius: 3px;
+}
+>>>>>>> e9f5403b29e384c0775cbe6ab6346796df6b1e63
 
 
 
