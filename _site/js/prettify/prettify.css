@@ -26,7 +26,7 @@
  /* pre .pln, code.pln { color: #e9e4e5; } */
  /* pre .str, code.str { color: #bcd42a; } */
  /* pre .kwd, code.kwd { color: #4bb1b1; } */
- pre .com, code.com { color: #888888; }
+ /* pre .com, code.com { color: #888888; } */
  /* pre .typ, code.typ { color: #ef7c61; } */
  /* pre .lit, code.lit { color: #bcd42a; } */
  /* pre .pun, code.pun, */
@@ -42,18 +42,6 @@
 
  pre,code { font-family: Monaco, Consolas, "Lucida Console", monospace; }
  /* p { line-height: 1.6em; font-weight: 300; } */
-
- p code {
-     font-size:13px;
-     padding: 2px 4px;
-     color: #d14;
-     white-space: nowrap;
-     background-color: #f7f7f9;
-     border: 1px solid #e1e1e8;
-     -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-     border-radius: 3px;
-}
 
 
 

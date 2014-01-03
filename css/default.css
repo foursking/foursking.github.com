@@ -4,6 +4,8 @@ body {
     font-size:16px;
 }
 
+
+
 h1, h2, h3, h4, h5, h6 {
 margin: 0;
 font-family: inherit;
@@ -12,7 +14,9 @@ color: inherit;
 text-rendering: optimizelegibility;
 }
 
-
+strong, b {
+font-weight: bold;
+}
 h1 {
   font-size: 30px;
   line-height: 36px;
@@ -46,15 +50,42 @@ h6 {
   text-transform: uppercase;
 }
 
+.sitename a {
+font-size: 30px;
+font-weight: normal;
+color: #2C3E50;
+}
+
+.nav a{
+color: #2C3E50;
+font-size: 16px;
+margin: 0px 20px 0px 0px;
+}
+
 
 li {
     list-style-type: none;
+    line-height:30px;
 }
 
  a{
     color:#0088cc;
 	text-decoration: none;
 }
+
+li code {
+    font-size:13px;
+    padding: 2px 4px;
+    color: #d14;
+    white-space: nowrap;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+
 
 
 a:hover {
@@ -64,7 +95,7 @@ a:hover {
 
 
 .site {
-	line-height: 1.5em;
+	line-height: 1.7;
 	width: 50em;
 	margin: auto;
 
@@ -103,6 +134,14 @@ a:hover {
     color:#343434;
     line-height:200%;
     margin:0 0 5px 0;
+}
+
+.entry-content{
+    line-height:2;
+}
+
+.entry-content li {
+    list-style-type:circle;
 }
 
  .entry-content pre {
@@ -246,6 +285,40 @@ vertical-align: inherit;
 table tr:nth-child(2n) {
 background-color: #f8f8f8;
 }
+
+
+.wrapper{
+    background-color: #fff;
+    margin: 0px 0px 20px 0px;
+}
+
+.wrapper h2{
+font-size: 1.2em;
+line-height: 35px;
+background-color: #F6F9FC;
+text-align: center;
+margin: 10px 0;
+}
+
+.postslist{
+    padding:0;
+margin: 0px 0px 10px 0px;
+}
+
+
+.postslist li {
+list-style: none;
+padding: 5px 0px;
+border-bottom: 1px solid #F9F9F9;
+}
+
+.postslist li span {
+color: #BDC3C7;
+float: right;
+font-size: 0.8em;
+}
+
+
 
 
 .bordered {

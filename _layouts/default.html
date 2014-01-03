@@ -8,19 +8,17 @@
 <body>
 
 <div class="site">
-	<div class="header">
-        <div class='logo' style="text-align:center">
-            <a href="{{ site.baseurl }}"> <img src="/image/logo.svg" height="50" alt="BOXKS"> </a>
-        </div>
-	<!--	<div class="title"><a href="{{ site.baseurl }}">Abstrack</a></div>
-		<div class="contact">
-			<a href="mailto:lyf021408@gmail.com">lyf021408@gmail.com</a>
-		</div>
-        -->
-	</div>
-
-　　{{ content }}
-
+    <div class="header">
+        <!-- <div class='logo' style="text-align:center"> <a href="{{ site.baseurl }}"> <img src="/image/logo.svg" height="50" alt="BOXKS"> </a> </div> -->
+        <div class="sitename"><a>SILVER <b> WING </b></a></div>
+            <div class="nav">
+                <a href="{{ site.baseurl }}">INDEX</a>
+                <a href="{{ site.baseurl }}/archive">ARCHIVE</a>
+                <a href="{{ site.baseurl }}/about">ABOUT</a>
+                <a href="{{ site.baseurl }}">RSS</a>
+            </div>
+    </div>
+    　　{{ content }}
 </div>
 
 </body>
