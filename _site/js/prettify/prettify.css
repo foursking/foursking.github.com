@@ -42,8 +42,6 @@
 
  pre,code { font-family: Monaco, Consolas, "Lucida Console", monospace; }
  /* p { line-height: 1.6em; font-weight: 300; } */
-<<<<<<< HEAD
-=======
 
  p code {
      font-size:13px;
@@ -56,8 +54,6 @@
      -moz-border-radius: 3px;
      border-radius: 3px;
 }
->>>>>>> e9f5403b29e384c0775cbe6ab6346796df6b1e63
-
 
 
 pre.prettyprint {

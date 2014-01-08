@@ -1,65 +1,93 @@
 body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     color:#777;
-    font-size:16px;
+    font-size:15px;
+    background-color:#f9f9f9;
 }
 
 
 
 h1, h2, h3, h4, h5, h6 {
-margin: 0;
-font-family: inherit;
-font-weight: bold;
-color: inherit;
-text-rendering: optimizelegibility;
+    margin: 0;
+    font-family: inherit;
+    font-weight: bold;
+    color: inherit;
+    text-rendering: optimizelegibility;
 }
 
 strong, b {
-font-weight: bold;
+    font-weight: bold;
 }
 h1 {
-  font-size: 30px;
-  line-height: 36px;
+    font-size: 30px;
+    line-height: 36px;
 }
 
 h2 {
-  font-size: 20px;
-  line-height: 36px;
+    font-size: 20px;
+    line-height: 36px;
 }
 
 h3 {
-  line-height: 27px;
-  font-size: 18px;
+    line-height: 27px;
+    font-size: 18px;
 }
 
 h4, h5, h6 {
-  line-height: 18px;
+    line-height: 18px;
 }
 
 h4 {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 h5 {
-  font-size: 12px;
+    font-size: 12px;
 }
 
 h6 {
-  font-size: 11px;
-  color: #999999;
-  text-transform: uppercase;
+    font-size: 11px;
+    color: #999999;
+    text-transform: uppercase;
 }
 
+.left .right{
+
+    display:inline;
+}
+
+.left{
+    float:left;
+}
+
+#nav_avatars_back {
+background: url('/images/lion.png') no-repeat;
+width: 100px;
+height: 100px;
+border-radius: 50%;
+box-shadow: 1px 1px 3px rgb(136, 136, 136);
+}
+
+#home_avatar {
+width: 100px;
+height: 100px;
+position: absolute;
+border-radius: 50%;
+opacity: 0;
+z-index: 9;
+}
+
+
 .sitename a {
-font-size: 30px;
-font-weight: normal;
-color: #2C3E50;
+    font-size: 30px;
+    font-weight: normal;
+    color: #2C3E50;
 }
 
 .nav a{
-color: #2C3E50;
-font-size: 16px;
-margin: 0px 20px 0px 0px;
+    color: #2C3E50;
+    font-size: 15px;
+    margin: 0px 20px 0px 0px;
 }
 
 
@@ -68,9 +96,9 @@ li {
     line-height:30px;
 }
 
- a{
+a{
     color:#0088cc;
-	text-decoration: none;
+    text-decoration: none;
 }
 
 li code {
@@ -86,18 +114,29 @@ li code {
 }
 
 
-
-
 a:hover {
-	color: #e40;
+    color: #e40;
 }
 
 
+.header{
+    margin:30px 0 50px 0;
+}
+
+.header .logo{
+
+    margin:0 0 30px 0;
+}
 
 .site {
-	line-height: 1.7;
-	width: 50em;
-	margin: auto;
+    line-height: 1.7;
+    width: 50em;
+    height:100%;
+    margin: 30px auto 20px;
+    position: relative;
+    background: #fff;
+    box-shadow: 0 2px 6px #ccc;
+    z-index: 0;
 
 }
 
@@ -107,8 +146,8 @@ a:hover {
 }
 
 .site .header .title {
-	font-size: 230%;
-	font-weight: bold;
+    font-size: 230%;
+    font-weight: bold;
 }
 
 .site .header .title a {
@@ -131,6 +170,8 @@ a:hover {
 }
 
 .entry-title{
+    text-align:center;
+    font-size:24px;
     color:#343434;
     line-height:200%;
     margin:0 0 5px 0;
@@ -138,31 +179,32 @@ a:hover {
 
 .entry-content{
     line-height:2;
+    margin: 0 30px 20px;
 }
 
 .entry-content li {
     list-style-type:circle;
 }
 
- .entry-content pre {
-  background: #272821;
-  color: #E6DC62;
+.entry-content pre {
+    background: #272821;
+    color: #E6DC62;
 }
 
 .entry-meta {
-font-size: 1.1em;
-padding: 0.4em 0 1em;
-color: #BCBCBC;
+    font-size:14px;
+    color: #BCBCBC;
+    text-align:center;
+    margin-bottom:30px;
 }
 
 .entry-meta span.entry-date {
-color: #808081;
-font-size: 80%;
-font-family: menlo, monospace;
+    color: #808081;
+    font-family: menlo, monospace;
+    margin-right:25px;
 }
 
 .entry-meta span.entry-cat {
-    float:right;
     color:#0088cc;
 }
 
@@ -197,12 +239,12 @@ font-family: menlo, monospace;
 }
 
 .section .entry-date {
-color: #808081;
-font-size: 80%;
+    color: #808081;
+    font-size: 80%;
 }
 .section .entry-sep {
-color: #808081;
-margin: 0.8em;
+    color: #808081;
+    margin: 0.8em;
 }
 
 .section .entry-title{
@@ -215,24 +257,30 @@ margin: 0.8em;
     color:#005580;
 }
 
+
+.section .simple{
+    clear:both;
+    margin-bottom:50px;
+}
+
 .section .simple li{
     list-style-type:square;
     margin-left:1em;
     font-size:14px !important;
     float:left;
-    margin-right:120px;
+    margin-right:100px;
 
 }
 
 p.h2 {
-line-height: 36px;
-font-weight: normal;
-text-align: left;
-font-size: 13px !important;
-margin: 0 0 1px 0;
-color: #ADADAD;
-text-transform: uppercase;
-font-family: Helvetica, arial, sans-serif;
+    line-height: 36px;
+    font-weight: normal;
+    text-align: left;
+    font-size: 13px !important;
+    margin: 0 0 1px 0;
+    color: #ADADAD;
+    text-transform: uppercase;
+    font-family: Helvetica, arial, sans-serif;
 }
 
 
@@ -250,72 +298,73 @@ table{
     border-collapse:collapse;
     border-spacing:0;
     border-color:gray;
-font-size: 15px;
-line-height: 1.7;
+    font-size: 15px;
+    line-height: 1.7;
 }
 
 
 thead {
-display: table-header-group;
-vertical-align: middle;
-border-color: inherit;
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
 }
 
 tr {
-display: table-row;
-vertical-align: inherit;
-border-color: inherit;
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
 }
 
 
 table tr {
-border-top: 1px solid #ccc;
-background-color: #fff;
+    border-top: 1px solid #ccc;
+    background-color: #fff;
 }
 
 
 table th, table td {
-border: 1px solid #ddd;
-padding: 6px 13px;
-display: table-cell;
-vertical-align: inherit;
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+    display: table-cell;
+    vertical-align: inherit;
 }
 
 
 table tr:nth-child(2n) {
-background-color: #f8f8f8;
+    background-color: #f8f8f8;
 }
 
 
 .wrapper{
+    margin: 0 50px 20px;
     background-color: #fff;
-    margin: 0px 0px 20px 0px;
 }
 
 .wrapper h2{
-font-size: 1.2em;
-line-height: 35px;
-background-color: #F6F9FC;
-text-align: center;
-margin: 10px 0;
+    font-size: 1.2em;
+    line-height: 35px;
+    background-color: #F6F9FC;
+    text-align: center;
+    margin: 10px 0;
 }
 
 .postslist{
     padding:0;
-margin: 0px 0px 10px 0px;
+    margin: 0px 0px 10px 0px;
+    font-size:14px;
 }
 
 
 .postslist li {
-list-style: none;
-padding: 5px 0px;
-border-bottom: 1px solid #F9F9F9;
+    list-style: none;
+    padding: 5px 0px;
+    margin-bottom:10px;
 }
 
 .postslist li span {
-color: #BDC3C7;
-float: right;
-font-size: 0.8em;
+    color: #BDC3C7;
+    float: right;
+    font-size: 0.8em;
 }
 
 
@@ -394,4 +443,8 @@ font-size: 0.8em;
     -moz-border-radius: 0 0 6px 0;
     -webkit-border-radius: 0 0 6px 0;
     border-radius: 0 0 6px 0;
+}
+
+#disqus_thread{
+    margin: 0 30px 20px;
 }

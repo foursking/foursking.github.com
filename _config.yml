@@ -3,3 +3,4 @@ source:      .
 plugins:     ./_plugins
 permalink: pretty
 markdown: rdiscount
+auto: true
