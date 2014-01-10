@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+　　<title>shell 流控制</title>
+	<link rel="stylesheet" href="/css/default.css" type="text/css" />
+</head>
+<body>
+    <div class="header">
+        <div class='logo' style="text-align:center"> <a href=""> <img src="/image/logo.svg" height="50" alt="BOXKS"> </a> </div>
+            <div class="nav" style="text-align:center">
+                <a href="">Index</a>
+                <a href="/about">About</a>
+                <a href="/tags">Tags</a>
+                <a href="/feed.xml">Feed</a>
+            </div>
+    </div>
+
+<div class="site">
+
+    　　<link rel="stylesheet" href="/js/prettify/prettify.css" />
+
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/prettify/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
+
+<div class="entry-content">
+	<h2 class="entry-title">shell 流控制</h2>
+    <div class="entry-meta">
+        <span class="entry-date">2014-01-10</span>
+        <span class="entry-cat">shell</span>
+    </div>
+	<h2>shell流控制分类</h2>
+
+<ul>
+<li>判断 if</li>
+<li>分支判断case</li>
+<li>循环 for</li>
+<li>循环 while</li>
+<li>循环 until</li>
+</ul>
+
+
+<p> 其实概括起来，只是2类结构而已：<code>判断和循环</code></p>
+
+<pre><code class="sh">#!/bin/sh
+if [commend1];then
+    commend2
+    ......
+else
+    commend3
+    ......
+fi
+</code></pre>
+
+<h3>if条件判断</h3>
+
+<ul>
+<li><p>字符串判断</p>
+
+<ul>
+<li>str1 = str2　　　　　　当两个串有相同内容、长度时为真</li>
+<li>str1 != str2　　　　　 当串str1和str2不等时为真</li>
+<li>-n str1　　　　　　　 当串的长度大于0时为真(串非空)</li>
+<li>-z str1　　　　　　　 当串的长度为0时为真(空串)</li>
+<li>str1　　　　　　　　   当串str1为非空时为真</li>
+</ul>
+</li>
+<li><p>数字的判断</p>
+
+<ul>
+<li>int1 -eq int2　　　　两数相等为真</li>
+<li>int1 -ne int2　　　　两数不等为真</li>
+<li>int1 -gt int2　　　　int1大于int2为真</li>
+<li>int1 -ge int2　　　　int1大于等于int2为真</li>
+<li>int1 -lt int2　　　　int1小于int2为真</li>
+<li>int1 -le int2　　　　int1小于等于int2为真</li>
+</ul>
+</li>
+<li><p>文件的判断</p>
+
+<ul>
+<li>-r file　　　　　用户可读为真</li>
+<li>-w file　　　　　用户可写为真</li>
+<li>-x file　　　　　用户可执行为真</li>
+<li>-f file　　　　　文件为正规文件为真</li>
+<li>-d file　　　　　文件为目录为真</li>
+<li>-c file　　　　　文件为字符特殊文件为真</li>
+<li>-b file　　　　　文件为块特殊文件为真</li>
+<li>-s file　　　　　文件大小非0时为真</li>
+<li>-t file　　　　　当文件描述符(默认为1)指定的设备为终端时为真</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>简单脚本示例</h3>
+
+<pre><code class="sh">#!/bin/bash
+i="shell"
+if [ "$i"=="shell" ]; then
+    echo $i
+else
+    echo "not shell"
+fi
+</code></pre>
+
+<h3>总结的注意点</h3>
+
+<ol>
+<li>有点不习惯书写方式 如表达式 $i==shell 也成立 作为一个写php的觉得很不习惯</li>
+<li><code>[]</code> 左右都要留一个空格</li>
+<li><code>==</code> 两边最好都要用<code>""</code>扩起来,防止有特殊的变量</li>
+<li>不要忘记fi</li>
+</ol>
+
+
+</div>
+
+<p id="back-to-top" style="display: block;"><a href="#top"><img width="40px" height="40px" src="/image/back-to-top.png" alt="back to the top"></a></p>
+
+<script type="text/javascript">
+	$(function(){
+		$('pre').each(function(){
+			$(this).addClass('prettyprint');
+		});
+  		prettyPrint();
+	});
+</script>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'foursk';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+</div>
+
+<div class ="footer">
+  <span class="muted">© foursk. All Rights Reserved.</span><br>
+</div>
+
+</body>
+</html>

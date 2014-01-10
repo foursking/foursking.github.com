@@ -1,30 +1,12 @@
 ---
 layout: default
+title: 首页
+permalink: /
 ---
-<div class="section">
-    <!-- <p class="h2">LATEST</p> -->
-    <!-- <ul> -->
-    <!--     　　{% for post in site.posts %} -->
-    <!--     　　　　<li> -->
-    <!--     <span class="entry-date">{{ post.date|date:"%Y-%m-%d" }}</span> -->
-    <!--     <span class="entry-sep"> — </span> -->
-    <!--     <span class="entry-title"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span> -->
-    <!--     </li> -->
-    <!--     　　{% endfor %} -->
-    <!-- </ul> -->
-</div>
-<div class="section">
-    <p class="h2">ABOUT MY WORK</p>
-    <p>作为个电子专业毕业的人来说，就焊过几个收音机，以及设计过几个简单的数字+模拟电路，至于到底是几个，就不要详细追究了 :(</p>
-    <p>作为一个程序员来说，也没写过什么让自己特别满意的代码。东西都在<a class="reference external" href="http://github.com/foursking" target="_blank">Github</a>上面，可以去看看。</p>
-</div>
-
-<div class="section">
-    <p class="h2">FIND ME ELSEWHERE</p>
-    <ul class="simple">
-        <li><a href="http://github.com/foursking/" target="_blank">Github</a></li>
-        <li><a href="http://www.douban.com/people/59302465/" target="_blank">豆瓣</a></li>
-        <li><a href="http://www.v2ex.com/member/foursking" target="_blank">V2EX</a></li>
-        <li><a href="http://weibo.com/u/2166318483" target="_blank">微博</a></li>
-    </ul>
+<div class="wrapper">{% assign post_year1 = "" %}
+<ul class="postslist">
+    {% for post in site.posts %}{% capture post_year2 %}{{ post.date | date: '%Y' }}{% endcapture %}
+<li><span>{{ post.date | date_to_long_string }}</span> <a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+</ul>
 </div>

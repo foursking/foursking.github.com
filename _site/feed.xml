@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <description></description>
+    <link></link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>shell 流控制</title>
+        <description>&lt;h2&gt;shell流控制分类&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;判断 if&lt;/li&gt;
+&lt;li&gt;分支判断case&lt;/li&gt;
+&lt;li&gt;循环 for&lt;/li&gt;
+&lt;li&gt;循环 while&lt;/li&gt;
+&lt;li&gt;循环 until&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt; 其实概括起来，只是2类结构而已：&lt;code&gt;判断和循环&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;#!/bin/sh
+if [commend1];then
+    commend2
+    ......
+else
+    commend3
+    ......
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;if条件判断&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;字符串判断&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;str1 = str2　　　　　　当两个串有相同内容、长度时为真&lt;/li&gt;
+&lt;li&gt;str1 != str2　　　　　 当串str1和str2不等时为真&lt;/li&gt;
+&lt;li&gt;-n str1　　　　　　　 当串的长度大于0时为真(串非空)&lt;/li&gt;
+&lt;li&gt;-z str1　　　　　　　 当串的长度为0时为真(空串)&lt;/li&gt;
+&lt;li&gt;str1　　　　　　　　   当串str1为非空时为真&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;数字的判断&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;int1 -eq int2　　　　两数相等为真&lt;/li&gt;
+&lt;li&gt;int1 -ne int2　　　　两数不等为真&lt;/li&gt;
+&lt;li&gt;int1 -gt int2　　　　int1大于int2为真&lt;/li&gt;
+&lt;li&gt;int1 -ge int2　　　　int1大于等于int2为真&lt;/li&gt;
+&lt;li&gt;int1 -lt int2　　　　int1小于int2为真&lt;/li&gt;
+&lt;li&gt;int1 -le int2　　　　int1小于等于int2为真&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;文件的判断&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;-r file　　　　　用户可读为真&lt;/li&gt;
+&lt;li&gt;-w file　　　　　用户可写为真&lt;/li&gt;
+&lt;li&gt;-x file　　　　　用户可执行为真&lt;/li&gt;
+&lt;li&gt;-f file　　　　　文件为正规文件为真&lt;/li&gt;
+&lt;li&gt;-d file　　　　　文件为目录为真&lt;/li&gt;
+&lt;li&gt;-c file　　　　　文件为字符特殊文件为真&lt;/li&gt;
+&lt;li&gt;-b file　　　　　文件为块特殊文件为真&lt;/li&gt;
+&lt;li&gt;-s file　　　　　文件大小非0时为真&lt;/li&gt;
+&lt;li&gt;-t file　　　　　当文件描述符(默认为1)指定的设备为终端时为真&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h3&gt;简单脚本示例&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;#!/bin/bash
+i=&quot;shell&quot;
+if [ &quot;$i&quot;==&quot;shell&quot; ]; then
+    echo $i
+else
+    echo &quot;not shell&quot;
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;总结的注意点&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;有点不习惯书写方式 如表达式 $i==shell 也成立 作为一个写php的觉得很不习惯&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;[]&lt;/code&gt; 左右都要留一个空格&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;==&lt;/code&gt; 两边最好都要用&lt;code&gt;&quot;&quot;&lt;/code&gt;扩起来,防止有特殊的变量&lt;/li&gt;
+&lt;li&gt;不要忘记fi&lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+        <pubDate>Fri, 10 Jan 2014 00:00:00 +0800</pubDate>
+        <link>/2014/01/10/condition-test/</link>
+        <guid isPermaLink="true">/2014/01/10/condition-test/</guid>
+      </item>
+    
+      <item>
+        <title>陈小姐</title>
+        <description>&lt;p&gt;几日前，有个多日不见的朋友和我诉苦，说是思念一个人，希望留下点回忆的东西，却总是得不到合适的寄托。他和我讲述了他和她的故事。故事不长，和那些烂长的小说故事比起来说甚至短的有点可怜，记下来一是因为白白听了别人一个故事，就当是做个寄托，二是因为确实是个好故事。&lt;/p&gt;
+
+&lt;p&gt;好友暂称为E君 ，故事中的她暂称为陈小姐。&lt;/p&gt;
+
+&lt;p&gt;陈小姐二十五岁，开心时笑起来特美，眼睛弯起来像月牙那样，仿佛能让人忘掉忧愁。&lt;/p&gt;
+
+&lt;p&gt;和陈小姐的相遇算是机缘，他笑说一定是上辈子未尽的缘分，陈小姐也不反驳，只露出另一种醉人的微笑给予回应。&lt;/p&gt;
+
+&lt;p&gt;E君在网上闲逛的时候遇到一个转让物品的帖子,价钱超乎寻常的低，大概意思就是由于搬家，低价转让。E君看了看价格，第一反应就是：是个骗子！ E君很生气，不过转念一想，反正上午没什么工作，就抽空好好“教育教育”这个家伙吧，&lt;/p&gt;
+
+&lt;p&gt;“喂，你好”
+出于应有的礼貌E君主动向对方问好。
+“嗯，你好
+” 电话的那头传来了一个女孩子的声音。&lt;/p&gt;
+
+&lt;p&gt;E君听到对方的声音心里突然感觉有点慌，因为听着声音对方应该是个和自己差不多年纪的女孩，对于单身的E君来说这种同龄女孩子E君都会有莫名其妙的好感，（不要问我为什么，我自己也不知道），随带的便会感到紧张，手足无措，不知道说什么好，即便是我们的E君压根就不知道手机另外一端的这个女孩子张什么样子，仅仅是就听了她说“嗯，你好”，当然还有一个更加简单而又重要的原因:&quot;这个声音很好听~ E君心里想着，这么好听的声音怎么可能是一个骗子的，不对，应该是一个骗子怎么可能会有这么好听的声音。总而言之，E君奇怪的逻辑又开始作祟了，E君忽然觉得对不起这个仅仅就听对方说了一句话的女孩子，不应该把她定义成一个骗子。只是E君的这些想法对于在电话另一端的女孩子来说，全然不知。&lt;/p&gt;
+
+&lt;p&gt;”今天晚上，地铁口面交“&lt;/p&gt;
+
+&lt;p&gt;E君来到了和女孩约定的地铁口，时间正好，E君拿出了手机拨了那个女孩的电话&lt;/p&gt;
+
+&lt;p&gt;“喂，你在哪，我已经到了” E君和女孩子说着
+“嗯，我就在出口着”  电话里传来了那个女孩子的声音，E君忽然觉得这个声音是那么的熟悉，整整一个下午在脑海中回荡的那个声音，那个像是魔豆一样落地就疯狂生长，缠绕着E君脑海的声音，再一次听到，仿佛什么东西突然苏醒了一样，让E君就这样愣在了那里。而就在这时，E君看到了一个女子，相距30米外，笑着，一手扶着头发，另外一只手中垂着还未挂掉的电话。&lt;/p&gt;
+
+&lt;p&gt;这是E君和她第一次见面，在后来的日子里，有的时候E君躺在床上也会回忆那天晚上见面的场景，每一个细节，每一个动作E君都很贪婪的想把它们想起来，然后E君就会开始用双手敲打自己的头，厉声的骂自己为什么都当时怎么就没有好好的记住，E君也未曾想到自己会如此的渴望多记得一点，自己会如此的念念不忘。&lt;/p&gt;
+
+&lt;p&gt;大约一个月前的闲闷午后，他出门散心，偏遇变天，骤袭的暴雨把他逼进一家饮品店避难。一时半刻却不见雨小，无聊之际他便索性打量起周遭来：约莫二十平米的小店，算上老板和自己一共四人，一个是坐在店最里端埋头敲键盘的西装男，剩下一个靠窗边摆弄手机的便是陈小姐了。他说他会永远记得那个在那座城市的下午，因为整个故事就像那天的天气的一样，当人还沉浸在难得的温煦阳光中时，却被骤雨袭来浇灭一切，然后又忽地消失，仿佛什么都未曾发生。&lt;/p&gt;
+
+&lt;p&gt;他也是个怪人。陌生人前爱撑文艺范儿：黑框眼镜，水洗牛仔，格子衬衫，再搭着半醉半醒的惺忪小眼。可熟识的朋友都知道他骨子里其实是个闷骚的人，带点神经质，总在七七八八地幻想，比如生命的意义、宇宙的起源之类。这样的「文艺青年」一般都有敏感症候群，有时敏感过头，瞧见烟雾就疑心火灾——好在他不抽烟。因此大家也时常觉得他这人特事儿，无风起浪小题大做。大概也恰是因为这种另类的不安分，才惊起了他后来生活中的小波澜。&lt;/p&gt;
+
+&lt;p&gt;他跟我描述第一眼看到陈小姐时的情形，两个字可以概括：心动。当然这是我归结的，他讲了一大堆肉麻的废话来形容，大约都是什么似曾相识、梦中人，什么感到温暖、熟悉的味道之类，我笑原来她是加多宝。说白了就是长得好看，我戏谑他说你看到哪个美女都是熟悉的味道，他却一脸正经地反驳，说这次是说真的。我看过陈小姐的照片，鹅蛋脸殷桃嘴，留着可爱的齐刘海，笑起来水灵的眼里还跳动着光芒，给人一种落落大方、温柔恬静又不失几分俏皮可爱的印象。大概是个男人都会对这样的女人心动，但照片里的她却总与故事里的陈小姐对不上号，照片里的她没那么多忧伤。&lt;/p&gt;
+
+&lt;p&gt;相识的剧情很俗套，却也自然：他去搭讪，闲聊几番后便互留了联系方式。一切的开始都似曾相识，总是很美好，那种春风化雨的感觉，就仿佛爱情真的光临了一样。他说现在想想觉得伤感，不知以后还会不会有这种温暖的感觉。说这话时我看到他眼里点点泛光，本想嘲笑他矫情，开口却只是心酸。感情这东西就是这么可怕，再坚强的人也会被它轻易降服。&lt;/p&gt;
+
+&lt;p&gt;他说陈小姐抄给他看过这样一句歌词：「爱上一匹野马，可我家里没有草原。」我笑说怪不得，原来也是个文艺青年，他却只顾摇头，像是喃喃自语：「可我没有草原。」我不知该怎么接话，就由思绪跟着他们一起飘去，去看他没法带给她的那片草原。待我回过神质问他除了漂亮到底还喜欢人家哪点？他竟倒不屑起来：「我不在乎她的外表。」我在心里默默呸了一声听他继续说：「你也知道我就相信缘分。跟她聊天的时候情话收都收不住，连自己都觉得肉麻。我跟她说我觉得遇见你我才完整。你瞧这是我平时说的话吗？」我便更不知该如何接话了。原谅我的词穷，转述不出他的那种深情，深情到让肉麻的情话听起来都那么自然。我相信他是动了真情，虽然他平日总一副靠不住的模样，但这回却摆着一副圣人脸，让他因为一个人而这么揪心倒还真是难得。&lt;/p&gt;
+
+&lt;p&gt;他跟我讲后来的情形，我总觉得一切太莫名其妙。不到一个月他们就掰了，说是掰了也不合适，是陈小姐就这么消失了，从他的世界里，毫无征兆地突然消失了。他说那晚他俩聊到了未来，他是个理想主义的人，爱把一切未知都畅想得很美好，他说要带她去没去过的游乐场，要带她吃没吃过的美食，还要带她走遍没走过的每一个国家。陈小姐很开心，开心到说要给他写读不完的情书，开心到放下矜持跟他一起畅想未来。本以为生活会就此走上正轨，然而转折却来得如此快，故事竟就在这里戛然而止。没等到周游世界，没等到游乐场，甚至没等到手牵手一起压马路，他就被丢在了回忆的荒原里，再也找不到另一个身影。「她说的最后两个字是晚安。我倒真希望她说的是再见，起码给我留个念想。」他说得很平静，像在讲述二十年前的童年往事一样，听不出半点感情。&lt;/p&gt;
+
+&lt;p&gt;那晚之后他再也没联系上过陈小姐。第二天一早醒来他照例给陈小姐发短信，却一直没有得到回复，之后他打去电话，接通一会儿后那头却又提示用户忙。他起初一愣，以为是不方便接电话，可之后再打却也一直是这样的结果，发短信更如石沉大海。整整一天杳无音讯，他开始感到惊讶，再到怀疑到焦急到愤怒再到绝望。其实也不算杳无音讯，他明白事实相反，而且更糟：陈小姐在故意躲避他。他终于强烈地不安，他明白，陈小姐离开了。再过一天后，陈小姐的号码就已经提示停机。&lt;/p&gt;
+
+&lt;p&gt;我始终怀疑着这结局，也许是他们之前积累了什么矛盾，或者他触碰到了陈小姐的什么底线，他没再告诉我更多。只是从他眼里，能看到无尽的遗憾和惋惜。之后他也有想尽办法去寻找陈小姐：在相遇的那条街守候了三天，从城市的这一头坐车绕到另一头，翻遍他所知道的陈小姐的所有社交网络……却总也寻不到哪怕是一个相似的背影、一点有用的信息。他后来说陈小姐或许出国了，因为她曾说过会去美国，最糟糕的状况是发生了什么灾祸，他甚至有好几天都紧张兮兮地查阅那座城市的每一条新闻看是否有什么事故发生。终究还是一无所获。&lt;/p&gt;
+
+&lt;p&gt;「她还是属于草原。」感叹完这句，他也走了，说是要离开那座城市，他说在那座城市遇到陈小姐已经花光了他所有的运气。&lt;/p&gt;
+
+&lt;p&gt;我不知道这样的「感情」算什么，更无法体会对他或她造成的影响，也许他们都无所谓，彼此并没有多少切实的付出，要说付出，大概只有那些义无反顾不计后果的感情宣泄。理性地想想也许他们在一起也不会有好的结局：陈小姐大家闺秀，家境殷实不愁前途，他却还在茫然无知中找寻未来；陈小姐太多忧伤，也许是以前的感情让她不再敢轻易付出，他却一腔热血只想挥霍青春。他们太不相似，也许因此才互相吸引，可陈小姐终究是个理智的人。他曾说陈小姐总觉得自己会还不起他付出的那些感情——他们真的不属于同一个世界。到头来一切都是幻想。他说他不会责怪陈小姐，撕裂他们的是现实。&lt;/p&gt;
+
+&lt;p&gt;其实，他有他的故事，陈小姐也有陈小姐的过往，落花流水，注定只能相伴一程。只是他们又都在彼此的生活里，悄悄刻下了自己的名字。&lt;/p&gt;
+
+&lt;p&gt;他说他最终没得到陈小姐，是不够福分，也不敢再奢望。但我猜，他还在等着陈小姐，等着一通电话、一条短信，又或是等着她和她说过，要寄出的那些情书。&lt;/p&gt;
+</description>
+        <pubDate>Wed, 08 Jan 2014 00:00:00 +0800</pubDate>
+        <link>/2014/01/08/Miss-Chen/</link>
+        <guid isPermaLink="true">/2014/01/08/Miss-Chen/</guid>
+      </item>
+    
+      <item>
+        <title>Plag-Git</title>
+        <description>&lt;h2&gt;1.如何安装git&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mac &lt;code&gt;brew install git&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Linux(Ubuntu) &lt;code&gt;apt-get install git&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;windows 下载 &lt;a href=&quot;http://msysgit.github.io&quot;&gt;msysgit&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;2.如何設定 Git&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mac : &lt;a href=&quot;https://help.github.com/articles/set-up-git#platform-mac&quot;&gt; Set Up Git on Mac &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Linux : &lt;a href=&quot;https://help.github.com/articles/set-up-git#platform-linux&quot;&gt;Set Up Git on Linux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Windows : &lt;a href=&quot;https://help.github.com/articles/set-up-git#platform-windows&quot;&gt;Set up Git on Windows&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;3. 开始一个 Git Repository&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用 &lt;code&gt;git init&lt;/code&gt; 建立一个git仓库 使用 &lt;code&gt;git init --bare&lt;/code&gt; 建立一个裸仓库&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;git clone&lt;/code&gt; 来获取一个git仓库&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;4. 将文件加入Stage&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用 &lt;code&gt;git add filename&lt;/code&gt; 将文件加入stage&lt;/li&gt;
+&lt;li&gt;也可以使用 &lt;code&gt;git add .&lt;/code&gt; 将所有修改文件加入 stage&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;5. 取消前一次文件add (reset)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git reset HEAD filename&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;6. 如何將文件提交(commit)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git commit -m 'commit信息'&lt;/code&gt; 可以略过编辑器提交 commit&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit -am 'commit信息'&lt;/code&gt; 等同与 &lt;code&gt;git add . &amp;amp;&amp;amp; git commit -m 'commit信息'&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;7. 如何修改/取消上一次的 commit&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git commit --amend&lt;/code&gt; 修改上一次的 commit 信息。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit --amend filename1 filename2&lt;/code&gt; 將filename1、filename2加入上一次的 commit。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git reset HEAD^ --soft&lt;/code&gt; 取消刚刚的 commit，但保留修改的文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git reset HEAD^ --hard&lt;/code&gt; 取消刚刚的 commit，回到再上一次 commit 状态&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;8. 分支基本操作(branch)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git branch&lt;/code&gt; 列出所有本地端的 branch&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git branch -r&lt;/code&gt; 列出所有远程端的 branch&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git branch -a&lt;/code&gt; 列出所有本地及远程端的 branch&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git branch &quot;branch名称&quot;&lt;/code&gt; 建立一個新的 branch&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git checkout branch名称&lt;/code&gt; 切换到另一個 branch(所有修改过程會被保留)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git checkout -b &quot;branch名称&quot;&lt;/code&gt; 建立一個新的 branch 并切换到该 branch&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git branch -d &quot;branch名称&quot;&lt;/code&gt; 刪除 branch&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;9. 远端操作(remote)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git remote add remote名称&lt;/code&gt; remote地址 加入一个 remote repository，例如&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;pre&gt;&lt;code class=&quot;git&quot;&gt;git remote add github git://github.com/foursking/test.git
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git push remote名称 :branch名称&lt;/code&gt; 刪除远端 branch，例如&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;pre&gt;&lt;code class=&quot;git&quot;&gt;git push origin :somebranch
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git pull remote名称 branch名称&lt;/code&gt; 下載一個远端的 branch 并合并(注意是下载远端的 branch 合并到目前本地端所在的 branch)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git push&lt;/code&gt;  类似于pull 操作，將本地端的 branch 上傳到远端&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;10. 合并操作(merge)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git merge branch名称&lt;/code&gt; 合并指定的 branch 到目前的 branch&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git merge branch名称 --no-commit&lt;/code&gt; 合并指定的 branch 到目前的 branch 但是不會产生合并的 commit&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;11.  以下操作自己还不是很熟练，暂时不整理&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;git branch branch名称 起始点 以起始点作为基准建立一個新的 branch，起始点可以是一個 tag，branch 或是 commit&lt;/li&gt;
+&lt;li&gt;git branch --track branch名称 远端branch 建立一個 tracking 远端 branch 的 branch，這樣以後 push/pull都會直接對應到該遠端的branch&lt;/li&gt;
+&lt;li&gt;git branch --set-upstream branch 遠端branch 將一個已存在的 branch 設定成 tracking 遠端的branch&lt;/li&gt;
+&lt;li&gt;git -r -d 遠端branch 刪除一個 tracking 的遠端 branch，例如git branch -r -d wycats/master&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;git push repository名稱 :遠端branch 刪除一個 repository 的 branch，通常用在刪除遠端的 branch，例如git push origin :old_branch_to_be_deleted&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;git cherry-pick SHA 將某一個 commit 的內容合併到目前 branch，指定 commit 是使用該 commit 的 SHA 值，例如 git cherry-pick 7300a6130d9447e18a931e898b64eefedea19544&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;git stash 將目前所做的修改都暫存起來&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;git stash apply 取出最新一次的暫存&lt;/li&gt;
+&lt;li&gt;git stash pop 取出最新一次的暫存並將他從暫存清單中移除&lt;/li&gt;
+&lt;li&gt;git stash list 顯示出所有的暫存清單&lt;/li&gt;
+&lt;li&gt;git stash clear 清除所有暫存&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sat, 04 Jan 2014 00:00:00 +0800</pubDate>
+        <link>/2014/01/04/play-git/</link>
+        <guid isPermaLink="true">/2014/01/04/play-git/</guid>
+      </item>
+    
+      <item>
+        <title>Best-App</title>
+        <description>&lt;h4&gt;1.1 Ubuntu&lt;/h4&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;评分  &lt;/th&gt;
+&lt;th&gt; 名称  &lt;/th&gt;
+&lt;th&gt; 功能简述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★★ &lt;/td&gt;
+&lt;td&gt; &lt;a href=&quot;http://www.vim.org/&quot;&gt;vim&lt;/a&gt; &lt;/td&gt;
+&lt;td&gt; 心目中排名第一的神器&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★★ &lt;/td&gt;
+&lt;td&gt; &lt;a href=&quot;https://fcitx-im.org/wiki/Fcitx/&quot;&gt;Fcitx&lt;/a&gt;+&lt;a href=&quot;https://code.google.com/p/rimeime/&quot;&gt;Rime&lt;/a&gt; &lt;/td&gt;
+&lt;td&gt; Ubuntu下感觉最好用的输入法&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★★ &lt;/td&gt;
+&lt;td&gt; &lt;a href=&quot;http://www.google.cn/chrome/intl/zh-cn/landing_chrome.html&quot;&gt;Chrome&lt;/a&gt; &lt;/td&gt;
+&lt;td&gt;浏览器首选，Linux 下有Chromium ,不过不稳定&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★★ &lt;/td&gt;
+&lt;td&gt; &lt;a href=&quot;http://community.linuxmint.com/software/view/yakuake/&quot;&gt;Yakuake&lt;/a&gt; &lt;/td&gt;
+&lt;td&gt; 下拉式终端，比系统自带的方便许多，自定义度较高，也比较方便&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★★ &lt;/td&gt;
+&lt;td&gt; &lt;a href=&quot;http://lifehacker.com/5704221/synapse-is-a-super+fast-tightly-integrated-application-launcher-for-linux/&quot;&gt;Synapse&lt;/a&gt; &lt;/td&gt;
+&lt;td&gt; 此乃Ubuntu桌面文件搜索查找、应用程序查找打开的神器&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★★ &lt;/td&gt;
+&lt;td&gt; &lt;a href=&quot;&quot;&gt;VirtualBox&lt;/a&gt; &lt;/td&gt;
+&lt;td&gt; 虚拟机，用于安装一些Ubuntu不能安装的工具&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★★ &lt;/td&gt;
+&lt;td&gt; &lt;a href=&quot;&quot;&gt;Wunderlist&lt;/a&gt; &lt;/td&gt;
+&lt;td&gt; 好用的GTK工具,界面优雅，关键是全平台通用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★☆ &lt;/td&gt;
+&lt;td&gt; [uGet+aria2] &lt;/td&gt;
+&lt;td&gt; 下载暂时选用这个&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★☆ &lt;/td&gt;
+&lt;td&gt; &lt;a href=&quot;http://ranger.nongnu.org/&quot;&gt;ranger&lt;/a&gt; &lt;/td&gt;
+&lt;td&gt; 终端下文件管理器，可以使用vim快捷键&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★☆ &lt;/td&gt;
+&lt;td&gt; &lt;a href=&quot;http://www.mupdf.com/&quot;&gt;MuPdf&lt;/a&gt; &lt;/td&gt;
+&lt;td&gt; MuPDF是类似Vim操作的PDF浏览器，没有任何按钮,对中文支持好&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★☆ &lt;/td&gt;
+&lt;td&gt; &lt;a href=&quot;http://ubuntu-tweak.com/&quot;&gt;Ubuntu tweak&lt;/a&gt; &lt;/td&gt;
+&lt;td&gt; 修改下系统配置，下载最新软件是自带software center 以外的一个好的选择&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★☆ &lt;/td&gt;
+&lt;td&gt; [Y-PPA-Maager] &lt;/td&gt;
+&lt;td&gt; Ubuntu 源管理工具&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;★★★★☆ &lt;/td&gt;
+&lt;td&gt; &lt;a href=&quot;https://launchpad.net/diodon&quot;&gt;Diodon&lt;/a&gt; &lt;/td&gt;
+&lt;td&gt; Ubuntu 剪切板管理工具&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+</description>
+        <pubDate>Tue, 31 Dec 2013 00:00:00 +0800</pubDate>
+        <link>/2013/12/31/best-app/</link>
+        <guid isPermaLink="true">/2013/12/31/best-app/</guid>
+      </item>
+    
+      <item>
+        <title>Php-Code-Style</title>
+        <description>&lt;hr /&gt;
+
+&lt;h2&gt;通用约定：&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;代码缩进全部用tab，在编辑器里面设置tab存为制表符，不要存为空格。不要打一堆空格来做缩进。&lt;/li&gt;
+&lt;li&gt;SVN / Git 中新建文件编码类型统一用utf-8编码（不带BOM）。&lt;/li&gt;
+&lt;li&gt;Unix 风格的换行: LF&lt;/li&gt;
+&lt;li&gt;所有可以直接访问的url中包含的文件名都是小写，如果是多个词组成，则用下划线连接。&lt;/li&gt;
+&lt;li&gt;行宽：120 字符&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;代码规范：&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php // 开头必须使用 &amp;lt;?php
+// panxiaoliang@baixing.com 每个文件必须注明owner的邮箱
+
+require_once('cg_conf/config.inc.php'); // require_once必须有括弧，并且左括弧前面没有空格
+
+class CodingStandard { // 大括号前面加空格，类名开头字母大写，多个字母首字母大写
+    private $attribute; // 属性注释直接注释在后方
+
+    // 数组格式
+    public $color = array(
+        '1' =&amp;gt; 'red', // 用tab缩进一次
+        '2' =&amp;gt; 'blue',
+        '3' =&amp;gt; 'yellow',
+        '4' =&amp;gt; array(
+            '1' =&amp;gt; 'green', // 在前面的数组对齐列之后再tab缩进一次
+            '2' =&amp;gt; 'gray'
+        ) // 数组的结尾与声明的变量最前面对齐
+    ); // 数组的结尾与数组变量声明的地方对齐
+
+    public $number = array(1, 2, 3, 4); // 对于简单数组，可以放一行
+
+    // 方法的注释采用双斜线，尽量在一行内完成
+    function foo($i, $list) { // 1.function名后面的(前面没有空格 2.多个参数，如果有逗号，那么逗号后面要有空格
+        for ($j = 0; $j &amp;lt; $i; $j++) { // for后面加空格
+            echo &quot;This is no.{$j}, content is {$list[$j]}&quot;; // echo语句不加括号。
+
+            // echo语句里面用单引号还是双引号，根据实际情况定
+            echo '&amp;amp;lttable border=&quot;0&quot; cellspacing=&quot;5&quot; cellpadding=&quot;5&quot;&amp;amp;gt';
+        }
+        if ($i &amp;gt; 0) { // 1.if后面加空格 2.操作符前后都要有空格
+            return $i % 2; // 操作符前后是有空格的
+        } else { // else前后也要有空格
+            return null;
+        }
+
+        if ($j == $i) return 1; // if里面只有一句语句且较短的情况，建议写成一行，如果要拆成多行，则前后建议加上括号。
+
+        $count = count($_SERVER); // 在外面写赋值
+        if ($count &amp;gt; 10) echo 'pass'; // if里面只做布尔判断，不要写赋值语句
+    }
+
+    public static function testFunction() { // 静态非静态方法命名都遵守驼峰原则
+    }
+}
+
+$s = new CodingStandard(); // new一个对象，后面必须加括弧
+$s-&amp;gt;foo(10, $s-&amp;gt;color); // 函数后面的括弧不要有空格，函数里面超过一个参数，逗号后面就要有空格
+CodingStandard::testFunction(); // 静态代码的调用方式唯一，仅限双冒号调用方式
+
+// php文件必须以 ?&amp;gt; 结尾，并且保证其后面没有空格或空行。
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;文献&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://framework.zend.com/manual/1.12/en/coding-standard.html&quot;&gt;Zend Framework Coding Standard for PHP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://codex.wordpress.org/WordPress_Coding_Standards&quot;&gt;WordPress Coding Standards&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://drupal.org/coding-standards&quot;&gt;Drupal Coding Standards&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://pear.php.net/manual/en/standards.php&quot;&gt;Pear Coding Standards&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sun, 01 Dec 2013 00:00:00 +0800</pubDate>
+        <link>/2013/12/01/php-code-style/</link>
+        <guid isPermaLink="true">/2013/12/01/php-code-style/</guid>
+      </item>
+    
+      <item>
+        <title>Use-Path-In-Unix</title>
+        <description>&lt;p&gt;Sometimes , after install some script (like npm ...) , when use it , we my get the command&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;command not found
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Two reasons
+1. script not installed
+2. can't find script in path&lt;/p&gt;
+
+&lt;p&gt;So if is reason 2 ,just put the script dir in your path.&lt;/p&gt;
+
+&lt;p&gt;Where is PATH ?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;echo $PATH
+
+/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin:/usr/include/include:/usr/include:/Users/mac/pear/bin:/usr/local/git/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Fri, 15 Nov 2013 00:00:00 +0800</pubDate>
+        <link>/2013/11/15/use-path-in-unix/</link>
+        <guid isPermaLink="true">/2013/11/15/use-path-in-unix/</guid>
+      </item>
+    
+      <item>
+        <title>Test-Private-Function-In-Php</title>
+        <description>&lt;p&gt;Demo class&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;class Foo {
+
+    public function __construct() {
+        //do some construct
+    }
+
+    private function plus($a , $b) {
+        return $a + $b;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;phpunit test&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;class FooTest extends PHPUnit_Framework_TestCase {
+
+     public function setUp() {
+         //do some setup here...
+     }
+
+     public function test_plus() {
+         //get function plus
+         $method = new \ReflectionMethod(new \Foo() , 'plus');
+         //set accessible
+         $method-&amp;gt;setAccessible(true);
+         //invoke function
+         $testres = $method-&amp;gt;invoke(new Foo() , 2 , 3);
+         //test function
+         $this-&amp;gt;assertEquals(5 , $testres);
+     }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Thu, 14 Nov 2013 00:00:00 +0800</pubDate>
+        <link>/2013/11/14/test-private/</link>
+        <guid isPermaLink="true">/2013/11/14/test-private/</guid>
+      </item>
+    
+      <item>
+        <title>Build-Blog</title>
+        <description>&lt;p&gt;安装ruby&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;sudo apt-get install ruby1.9.3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;安装 jekyll rdiscount&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;gem install jekyll rdiscount
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;编辑&lt;code&gt;__config.yml&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;markdown&quot;&gt;markdown: rdiscount
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Sun, 13 Oct 2013 00:00:00 +0800</pubDate>
+        <link>/2013/10/13/build-blog/</link>
+        <guid isPermaLink="true">/2013/10/13/build-blog/</guid>
+      </item>
+    
+      <item>
+        <title>你好，世界</title>
+        <description>&lt;p&gt;我的第一篇文章&lt;/p&gt;
+&lt;pre class=&quot;prettyprint lang-scm&quot;&gt;(friends 'of '(parentheses))&lt;/pre&gt;
+</description>
+        <pubDate>Fri, 04 Oct 2013 00:00:00 +0800</pubDate>
+        <link>/2013/10/04/hello-world/</link>
+        <guid isPermaLink="true">/2013/10/04/hello-world/</guid>
+      </item>
+    
+      <item>
+        <title>Hello MySQL</title>
+        <description>&lt;p&gt;mysql修改表名&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ALTER TABLE admin_user RENAME TO a_user
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Fri, 04 Oct 2013 00:00:00 +0800</pubDate>
+        <link>/2013/10/04/hello-mysql/</link>
+        <guid isPermaLink="true">/2013/10/04/hello-mysql/</guid>
+      </item>
+    
+  </channel>
+</rss>

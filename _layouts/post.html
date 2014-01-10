@@ -6,6 +6,7 @@ layout: default
 
 <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 <script type="text/javascript" src="/js/prettify/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
 
 <div class="entry-content">
 	<h2 class="entry-title">{{ page.title }}</h2>
@@ -16,6 +17,8 @@ layout: default
 	{{ content }}
 </div>
 
+<p id="back-to-top" style="display: block;"><a href="#top"><img width="40px" height="40px" src="/image/back-to-top.png" alt="back to the top"></a></p>
+
 <script type="text/javascript">
 	$(function(){
 		$('pre').each(function(){
@@ -23,7 +26,6 @@ layout: default
 		});
   		prettyPrint();
 	});
-
 </script>
 
 <div id="disqus_thread"></div>

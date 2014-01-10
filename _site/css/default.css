@@ -448,3 +448,22 @@ table tr:nth-child(2n) {
 #disqus_thread{
     margin: 0 30px 20px;
 }
+
+.footer {
+width: 100%;
+max-width: 768px;
+font-size:13px;
+line-height: 2em;
+margin: auto;
+padding-bottom: 30px;
+text-align: center;
+color: #797979
+margin-top:30px;
+}
+
+#back-to-top {
+position: fixed;
+bottom: 20px;
+left: 80%;
+z-index: 99;
+}

@@ -17,7 +17,6 @@ class Foo {
     private function plus($a , $b) {
         return $a + $b;
     }
-
 }
 ```
 
@@ -35,16 +34,12 @@ class FooTest extends PHPUnit_Framework_TestCase {
      public function test_plus() {
          //get function plus
          $method = new \ReflectionMethod(new \Foo() , 'plus');
-
          //set accessible
          $method->setAccessible(true);
-
          //invoke function
          $testres = $method->invoke(new Foo() , 2 , 3);
-
          //test function
          $this->assertEquals(5 , $testres);
      }
-
 }
 ```

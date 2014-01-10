@@ -6,28 +6,15 @@
 	<link rel="stylesheet" href="/css/default.css" type="text/css" />
 </head>
 <body>
-
-   <!-- <div class="left"> -->
-   <!--      <a href="javascript:void(0)"><div id="nav_avatars_back"><img id="home_avatar" src="/images/icon/plus.png" class="no" style="-webkit-transform: rotate(360deg); opacity: 0;"></div></a> -->
-   <!--      <div id="nav_avatars" style="display: none;"> -->
-   <!--          <a href="/"><img class="nav_avatar" id="nav_avatar1" src="/images/icon/1.png" title="主页" style="left: 25px; top: -75px;"></a> -->
-   <!--          <a href="javascript:void(0)"><img class="nav_avatar" id="nav_avatar2" src="/images/icon/2.png" title="归档" style="left: -31px; top: -75px;"></a> -->
-   <!--          <a href="/about.html"><img class="nav_avatar" id="nav_avatar3" src="/images/icon/3.png" title="关于" style="left: -87px; top: -75px;"></a> -->
-   <!--      </div> -->
-   <!--  </div> -->
-
     <div class="header">
         <div class='logo' style="text-align:center"> <a href=""> <img src="/image/logo.svg" height="50" alt="BOXKS"> </a> </div>
-        <!-- <div class="sitename"><a>SILVER <b> WING </b></a></div> -->
             <div class="nav" style="text-align:center">
-                <a href="">INDEX</a>
-                <a href="/archive">ARCHIVE</a>
-                <a href="/about">ABOUT</a>
-                <a href="">RSS</a>
+                <a href="">Index</a>
+                <a href="/about">About</a>
+                <a href="/tags">Tags</a>
+                <a href="/feed.xml">Feed</a>
             </div>
     </div>
-
-
 
 <div class="site">
 
@@ -35,6 +22,7 @@
 
 <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 <script type="text/javascript" src="/js/prettify/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
 
 <div class="entry-content">
 	<h2 class="entry-title">Php-Code-Style</h2>
@@ -122,6 +110,8 @@ CodingStandard::testFunction(); // 静态代码的调用方式唯一，仅限双
 
 </div>
 
+<p id="back-to-top" style="display: block;"><a href="#top"><img width="40px" height="40px" src="/image/back-to-top.png" alt="back to the top"></a></p>
+
 <script type="text/javascript">
 	$(function(){
 		$('pre').each(function(){
@@ -129,7 +119,6 @@ CodingStandard::testFunction(); // 静态代码的调用方式唯一，仅限双
 		});
   		prettyPrint();
 	});
-
 </script>
 
 <div id="disqus_thread"></div>
@@ -143,6 +132,10 @@ CodingStandard::testFunction(); // 静态代码的调用方式唯一，仅限双
     })();
 </script>
 
+</div>
+
+<div class ="footer">
+  <span class="muted">© foursk. All Rights Reserved.</span><br>
 </div>
 
 </body>
