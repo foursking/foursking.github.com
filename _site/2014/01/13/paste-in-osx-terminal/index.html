@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+　　<title>OSX 中vim的复制和粘贴</title>
+	<link rel="stylesheet" href="/css/default.css" type="text/css" />
+</head>
+<body>
+    <div class="header">
+        <div class='logo' style="text-align:center"> <a href=""> <img src="/image/logo.svg" height="50" alt="BOXKS"> </a> </div>
+            <div class="nav" style="text-align:center">
+                <a href="">Index</a>
+                <a href="/about">About</a>
+                <a href="/tags">Tags</a>
+                <a href="/feed.xml">Feed</a>
+            </div>
+    </div>
+
+<div class="site">
+
+    　　<link rel="stylesheet" href="/js/prettify/prettify.css" />
+
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/prettify/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
+
+<div class="entry-content">
+	<h2 class="entry-title">OSX 中vim的复制和粘贴</h2>
+    <div class="entry-meta">
+        <span class="entry-date">2014-01-13</span>
+        <span class="entry-cat">vim terminal tmux</span>
+    </div>
+	<h3>Term2 + Vim 下的复制粘贴</h3>
+
+<p>安装 Vim 时如果打开了 clipboard 特性 ( <code>vim --version | grep clipboard</code>，系统自带的 Vim 是没有打开的，不想自己编译的话也可以通过安装 Macvim 然后将 vim alias 到 mvim )，则可以使用 * 寄存器（ Vim 有很多剪贴板，mac 下的系统剪贴板是 *，还有 + ?），通过 <code>"*y</code> 和 <code>"*p</code> 就可以完成复制粘贴到系统剪贴板，在 <code>.vimrc</code> 里加入了<code>set cilpboard=unnamed</code>后就不用加 <code>"*</code> 直接 <code>yy</code> 了。没有<code>+clipboard</code>的话也没关系，我们还有 mac 下的 <code>pbcopy</code> 和 <code>pbpaste</code> 命令可以使用。</p>
+
+<pre><code class="vim">vmap "+y :w !pbcopy&lt;CR&gt;&lt;CR&gt;
+nmap "+p :r !pbpaste&lt;CR&gt;&lt;CR&gt;
+</code></pre>
+
+<h3>iTerm2+Tmux+Vim 下的复制粘贴</h3>
+
+<p>不过同时作为一个 Tmux 用户，一般情况下Vim里的复制会遇到问题。Tmux 自己有提供一套复制粘贴功能，通过 Tmux 自己的复制机制只是将选中的内容复制到自己的 buffer 中，而由于我没怎么搞清的（权限相关）原因， Tmux 自己又不能访问系统剪贴板，所以直接在 Vim 里复制到系统剪贴板（以及从系统剪贴板拿东西）是不行的。reattach-to-user-namespace 则是用来解决 tmux 中 pbcopy 和 pbpaste 不能正常访问的问题，具体是什么问题而又怎么解决反正我也不是很懂去链接里看吧。。。</p>
+
+<p>打开 Vim 对系统 clipboard 支持（可以自己编译或通过安装 Macvim 解决）。
+brew 安装 reattach-to-user-namespace
+.vimrc 中加入 set cilpboard=unnamed
+在 .tmux.conf 中加入</p>
+
+<pre><code class="sh">set-option -g default-command "reattach-to-user-namespace -l zsh"
+</code></pre>
+
+<h3>Tmux pannel中的复制</h3>
+
+<p>如果一个 Tmux window 中有两个水平的 pannel ，直接用鼠标选中然后复制是不能分辨 pannel 的，即复制一行会贯穿两个 pannel 。</p>
+
+<p>添加以下到 .tmux.conf</p>
+
+<pre><code class="sh"># Use vim keybindings in copy mode
+setw -g mode-keys vi
+
+# Setup 'v' to begin selection as in Vim （seems require Tmux 1.8）
+
+# 一般情况中，&lt;prefix&gt;-[ 进入复制模式后 &lt;space&gt; 开始选中，&lt;enter&gt; 结束选中 (copy to buffer)
+
+bind-key -t vi-copy v begin-selection
+bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
+
+# Update default binding of `Enter` to also use copy-pipe
+unbind -t vi-copy Enter
+bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"
+</code></pre>
+
+<p><code>&lt;prefix&gt;-[</code>进入 Tmux 的复制模式，使用 Vim 操作来进行移动，v 选中内容，y 进行复制，首先内容会复制到 Tmux 的 paste buffer 中，再由 pbcopy 来复制到系统的剪贴板中。</p>
+
+<h3>vim 的 paste mode</h3>
+
+<p>Vim中 ⌘+V 的粘贴
+有时候如果我们想用 <code>⌘+v</code> 来进行粘贴，直接粘贴的话内容是一段一段复制进去的，并且还伴有一些我们不希望出现的缩进或者其它奇怪的东西，我们可以进入 Vim 的 paste mode 来进行正常的粘贴。</p>
+
+<pre><code class="vim">:set paste "开启paste 模式
+:set nopaste "关闭paste 模式
+:set pastetoggle "toggle 模式
+</code></pre>
+
+</div>
+
+<p id="back-to-top" style="display: block;"><a href="#top"><img width="40px" height="40px" src="/image/back-to-top.png" alt="back to the top"></a></p>
+
+<script type="text/javascript">
+	$(function(){
+		$('pre').each(function(){
+			$(this).addClass('prettyprint');
+		});
+  		prettyPrint();
+	});
+</script>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'foursk';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+</div>
+
+<div class ="footer">
+  <span class="muted">© foursk. All Rights Reserved.</span><br>
+</div>
+
+</body>
+</html>

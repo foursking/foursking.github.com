@@ -7,6 +7,66 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>OSX 中vim的复制和粘贴</title>
+        <description>&lt;h3&gt;Term2 + Vim 下的复制粘贴&lt;/h3&gt;
+
+&lt;p&gt;安装 Vim 时如果打开了 clipboard 特性 ( &lt;code&gt;vim --version | grep clipboard&lt;/code&gt;，系统自带的 Vim 是没有打开的，不想自己编译的话也可以通过安装 Macvim 然后将 vim alias 到 mvim )，则可以使用 * 寄存器（ Vim 有很多剪贴板，mac 下的系统剪贴板是 *，还有 + ?），通过 &lt;code&gt;&quot;*y&lt;/code&gt; 和 &lt;code&gt;&quot;*p&lt;/code&gt; 就可以完成复制粘贴到系统剪贴板，在 &lt;code&gt;.vimrc&lt;/code&gt; 里加入了&lt;code&gt;set cilpboard=unnamed&lt;/code&gt;后就不用加 &lt;code&gt;&quot;*&lt;/code&gt; 直接 &lt;code&gt;yy&lt;/code&gt; 了。没有&lt;code&gt;+clipboard&lt;/code&gt;的话也没关系，我们还有 mac 下的 &lt;code&gt;pbcopy&lt;/code&gt; 和 &lt;code&gt;pbpaste&lt;/code&gt; 命令可以使用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;vim&quot;&gt;vmap &quot;+y :w !pbcopy&amp;lt;CR&amp;gt;&amp;lt;CR&amp;gt;
+nmap &quot;+p :r !pbpaste&amp;lt;CR&amp;gt;&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;iTerm2+Tmux+Vim 下的复制粘贴&lt;/h3&gt;
+
+&lt;p&gt;不过同时作为一个 Tmux 用户，一般情况下Vim里的复制会遇到问题。Tmux 自己有提供一套复制粘贴功能，通过 Tmux 自己的复制机制只是将选中的内容复制到自己的 buffer 中，而由于我没怎么搞清的（权限相关）原因， Tmux 自己又不能访问系统剪贴板，所以直接在 Vim 里复制到系统剪贴板（以及从系统剪贴板拿东西）是不行的。reattach-to-user-namespace 则是用来解决 tmux 中 pbcopy 和 pbpaste 不能正常访问的问题，具体是什么问题而又怎么解决反正我也不是很懂去链接里看吧。。。&lt;/p&gt;
+
+&lt;p&gt;打开 Vim 对系统 clipboard 支持（可以自己编译或通过安装 Macvim 解决）。
+brew 安装 reattach-to-user-namespace
+.vimrc 中加入 set cilpboard=unnamed
+在 .tmux.conf 中加入&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;set-option -g default-command &quot;reattach-to-user-namespace -l zsh&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;Tmux pannel中的复制&lt;/h3&gt;
+
+&lt;p&gt;如果一个 Tmux window 中有两个水平的 pannel ，直接用鼠标选中然后复制是不能分辨 pannel 的，即复制一行会贯穿两个 pannel 。&lt;/p&gt;
+
+&lt;p&gt;添加以下到 .tmux.conf&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;# Use vim keybindings in copy mode
+setw -g mode-keys vi
+
+# Setup &#39;v&#39; to begin selection as in Vim （seems require Tmux 1.8）
+
+# 一般情况中，&amp;lt;prefix&amp;gt;-[ 进入复制模式后 &amp;lt;space&amp;gt; 开始选中，&amp;lt;enter&amp;gt; 结束选中 (copy to buffer)
+
+bind-key -t vi-copy v begin-selection
+bind-key -t vi-copy y copy-pipe &quot;reattach-to-user-namespace pbcopy&quot;
+
+# Update default binding of `Enter` to also use copy-pipe
+unbind -t vi-copy Enter
+bind-key -t vi-copy Enter copy-pipe &quot;reattach-to-user-namespace pbcopy&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;lt;prefix&amp;gt;-[&lt;/code&gt;进入 Tmux 的复制模式，使用 Vim 操作来进行移动，v 选中内容，y 进行复制，首先内容会复制到 Tmux 的 paste buffer 中，再由 pbcopy 来复制到系统的剪贴板中。&lt;/p&gt;
+
+&lt;h3&gt;vim 的 paste mode&lt;/h3&gt;
+
+&lt;p&gt;Vim中 ⌘+V 的粘贴
+有时候如果我们想用 &lt;code&gt;⌘+v&lt;/code&gt; 来进行粘贴，直接粘贴的话内容是一段一段复制进去的，并且还伴有一些我们不希望出现的缩进或者其它奇怪的东西，我们可以进入 Vim 的 paste mode 来进行正常的粘贴。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;vim&quot;&gt;:set paste &quot;开启paste 模式
+:set nopaste &quot;关闭paste 模式
+:set pastetoggle &quot;toggle 模式
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Mon, 13 Jan 2014 00:00:00 +0800</pubDate>
+        <link>/2014/01/13/paste-in-osx-terminal/</link>
+        <guid isPermaLink="true">/2014/01/13/paste-in-osx-terminal/</guid>
+      </item>
+    
+      <item>
         <title>shell 流控制</title>
         <description>&lt;h2&gt;shell流控制分类&lt;/h2&gt;
 
@@ -201,8 +261,8 @@ fi
 &lt;h2&gt;6. 如何將文件提交(commit)&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git commit -m 'commit信息'&lt;/code&gt; 可以略过编辑器提交 commit&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git commit -am 'commit信息'&lt;/code&gt; 等同与 &lt;code&gt;git add . &amp;amp;&amp;amp; git commit -m 'commit信息'&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit -m &#39;commit信息&#39;&lt;/code&gt; 可以略过编辑器提交 commit&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit -am &#39;commit信息&#39;&lt;/code&gt; 等同与 &lt;code&gt;git add . &amp;amp;&amp;amp; git commit -m &#39;commit信息&#39;&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 
@@ -390,19 +450,19 @@ fi
 &lt;pre&gt;&lt;code&gt;&amp;lt;?php // 开头必须使用 &amp;lt;?php
 // panxiaoliang@baixing.com 每个文件必须注明owner的邮箱
 
-require_once('cg_conf/config.inc.php'); // require_once必须有括弧，并且左括弧前面没有空格
+require_once(&#39;cg_conf/config.inc.php&#39;); // require_once必须有括弧，并且左括弧前面没有空格
 
 class CodingStandard { // 大括号前面加空格，类名开头字母大写，多个字母首字母大写
     private $attribute; // 属性注释直接注释在后方
 
     // 数组格式
     public $color = array(
-        '1' =&amp;gt; 'red', // 用tab缩进一次
-        '2' =&amp;gt; 'blue',
-        '3' =&amp;gt; 'yellow',
-        '4' =&amp;gt; array(
-            '1' =&amp;gt; 'green', // 在前面的数组对齐列之后再tab缩进一次
-            '2' =&amp;gt; 'gray'
+        &#39;1&#39; =&amp;gt; &#39;red&#39;, // 用tab缩进一次
+        &#39;2&#39; =&amp;gt; &#39;blue&#39;,
+        &#39;3&#39; =&amp;gt; &#39;yellow&#39;,
+        &#39;4&#39; =&amp;gt; array(
+            &#39;1&#39; =&amp;gt; &#39;green&#39;, // 在前面的数组对齐列之后再tab缩进一次
+            &#39;2&#39; =&amp;gt; &#39;gray&#39;
         ) // 数组的结尾与声明的变量最前面对齐
     ); // 数组的结尾与数组变量声明的地方对齐
 
@@ -414,7 +474,7 @@ class CodingStandard { // 大括号前面加空格，类名开头字母大写，
             echo &quot;This is no.{$j}, content is {$list[$j]}&quot;; // echo语句不加括号。
 
             // echo语句里面用单引号还是双引号，根据实际情况定
-            echo '&amp;amp;lttable border=&quot;0&quot; cellspacing=&quot;5&quot; cellpadding=&quot;5&quot;&amp;amp;gt';
+            echo &#39;&amp;amp;lttable border=&quot;0&quot; cellspacing=&quot;5&quot; cellpadding=&quot;5&quot;&amp;amp;gt&#39;;
         }
         if ($i &amp;gt; 0) { // 1.if后面加空格 2.操作符前后都要有空格
             return $i % 2; // 操作符前后是有空格的
@@ -425,7 +485,7 @@ class CodingStandard { // 大括号前面加空格，类名开头字母大写，
         if ($j == $i) return 1; // if里面只有一句语句且较短的情况，建议写成一行，如果要拆成多行，则前后建议加上括号。
 
         $count = count($_SERVER); // 在外面写赋值
-        if ($count &amp;gt; 10) echo 'pass'; // if里面只做布尔判断，不要写赋值语句
+        if ($count &amp;gt; 10) echo &#39;pass&#39;; // if里面只做布尔判断，不要写赋值语句
     }
 
     public static function testFunction() { // 静态非静态方法命名都遵守驼峰原则
@@ -464,7 +524,7 @@ CodingStandard::testFunction(); // 静态代码的调用方式唯一，仅限双
 
 &lt;p&gt;Two reasons
 1. script not installed
-2. can't find script in path&lt;/p&gt;
+2. can&#39;t find script in path&lt;/p&gt;
 
 &lt;p&gt;So if is reason 2 ,just put the script dir in your path.&lt;/p&gt;
 
@@ -506,7 +566,7 @@ CodingStandard::testFunction(); // 静态代码的调用方式唯一，仅限双
 
      public function test_plus() {
          //get function plus
-         $method = new \ReflectionMethod(new \Foo() , 'plus');
+         $method = new \ReflectionMethod(new \Foo() , &#39;plus&#39;);
          //set accessible
          $method-&amp;gt;setAccessible(true);
          //invoke function
@@ -547,23 +607,11 @@ CodingStandard::testFunction(); // 静态代码的调用方式唯一，仅限双
       <item>
         <title>你好，世界</title>
         <description>&lt;p&gt;我的第一篇文章&lt;/p&gt;
-&lt;pre class=&quot;prettyprint lang-scm&quot;&gt;(friends 'of '(parentheses))&lt;/pre&gt;
+&lt;pre class=&quot;prettyprint lang-scm&quot;&gt;(friends &#39;of &#39;(parentheses))&lt;/pre&gt;
 </description>
         <pubDate>Fri, 04 Oct 2013 00:00:00 +0800</pubDate>
         <link>/2013/10/04/hello-world/</link>
         <guid isPermaLink="true">/2013/10/04/hello-world/</guid>
-      </item>
-    
-      <item>
-        <title>Hello MySQL</title>
-        <description>&lt;p&gt;mysql修改表名&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;ALTER TABLE admin_user RENAME TO a_user
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        <pubDate>Fri, 04 Oct 2013 00:00:00 +0800</pubDate>
-        <link>/2013/10/04/hello-mysql/</link>
-        <guid isPermaLink="true">/2013/10/04/hello-mysql/</guid>
       </item>
     
   </channel>
