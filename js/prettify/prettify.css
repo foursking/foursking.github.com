@@ -23,21 +23,21 @@
   word-wrap:break-word;/*InternetExplorer5.5+*/　
 }
 
- /* pre .pln, code.pln { color: #e9e4e5; } */
- /* pre .str, code.str { color: #bcd42a; } */
- /* pre .kwd, code.kwd { color: #4bb1b1; } */
- /* pre .com, code.com { color: #888888; } */
- /* pre .typ, code.typ { color: #ef7c61; } */
- /* pre .lit, code.lit { color: #bcd42a; } */
- /* pre .pun, code.pun, */
- /* pre .opn, code.pun, */
- /* pre .clo, code.clo,{ color: #ffffff; } */
- /* pre .tag, code.tag,{ color: #4bb1b1; } */
- /* pre .atn, code.atn,{ color: #ef7c61; } */
- /* pre .atv, code.atv,{ color: #bcd42a; } */
- /* pre .dec, code.dec, */
- /* pre .var, code.var,{ color: #660066; } */
- /* pre .fun, code.fun,{ color: #ff0000; } */
+ pre .pln, code.pln { color: #e9e4e5; }
+ pre .str, code.str { color: #bcd42a; }
+ pre .kwd, code.kwd { color: #4bb1b1; }
+ pre .com, code.com { color: #888888; }
+ pre .typ, code.typ { color: #ef7c61; }
+ pre .lit, code.lit { color: #bcd42a; }
+ pre .pun, code.pun { color: #888888; }
+ pre .opn, code.pun,{ color: #888888; }
+ pre .clo, code.clo,{ color: #ffffff; }
+ pre .tag, code.tag,{ color: #4bb1b1; }
+ pre .atn, code.atn,{ color: #ef7c61; }
+ pre .atv, code.atv,{ color: #bcd42a; }
+ pre .dec, code.dec,
+ pre .var, code.var,{ color: #660066; }
+ pre .fun, code.fun,{ color: #ff0000; }
 
 
  pre,code { font-family: Monaco, Consolas, "Lucida Console", monospace; }

@@ -7,6 +7,282 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>nginx ci</title>
+        <description>&lt;p&gt;ci 的nginx 配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;nginx&quot;&gt;server {
+
+    listen 80;
+    server_name  you.service.name
+
+    error_log /path/to/log;
+    access_log /path/to/log;
+
+    location / {
+       root /path/to/file
+       index index.php index.html index.htm;
+       if (-f $request_filename) {
+         expires max;
+         break;
+       }
+
+       #if (!-e $request_filename) {
+       #    rewrite ^/(.*)$ /index.php/$1 last;
+       #}
+        if ($request_filename !~ (js|css|images|robots/.txt|index/.php.*) ) {
+            rewrite ^/(.*)$ /index.php/$1 last;
+            break;
+        }
+
+    }
+
+    location ~ \.php($|/) {
+        root           /path/to/file
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  PATH_INFO  $fastcgi_path_info;
+        fastcgi_split_path_info ^(.+\.php)(.*)$;
+        include fastcgi_params;
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Mon, 20 Jan 2014 00:00:00 +0800</pubDate>
+        <link>/2014/01/20/nginx-ci/</link>
+        <guid isPermaLink="true">/2014/01/20/nginx-ci/</guid>
+      </item>
+    
+      <item>
+        <title>nginx 配置总结</title>
+        <description>&lt;h1&gt;基本设置&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&quot;nginx&quot;&gt;#定义Nginx运行的用户和用户组
+user www-data www-data;
+
+#nginx进程数，建议设置为等于CPU总核心数。
+worker_processes 4;
+
+#进程文件
+pid /var/run/nginx.pid;
+
+#一个nginx进程打开的最多文件描述符数目，理论值应该是最多打开文件数（系统的值ulimit -n）与nginx进程数相除，但是nginx分配请求并不均匀，所以建议与ulimit -n的值保持一致。
+worker_rlimit_nofile 65535;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1&gt;工作模式与连接数上限&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&quot;nginx&quot;&gt;events
+{
+#参考事件模型，use [ kqueue | rtsig | epoll | /dev/poll | select | poll ]; epoll模型是Linux 2.6以上版本内核中的高性能网络I/O模型，如果跑在FreeBSD上面，就用kqueue模型。
+use epoll;
+#单个进程最大连接数（最大连接数=连接数*进程数）
+worker_connections 65535;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1&gt;设定http服务器&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&quot;nginx&quot;&gt;http
+{
+  include mime.types; #文件扩展名与文件类型映射表
+  default_type application/octet-stream; #默认文件类型
+  #charset utf-8; #默认编码
+  server_names_hash_bucket_size 128; #服务器名字的hash表大小
+  client_header_buffer_size 32k; #上传文件大小限制
+  large_client_header_buffers 4 64k; #设定请求缓
+  client_max_body_size 8m; #设定请求缓
+  sendfile on; #开启高效文件传输模式，sendfile指令指定nginx是否调用sendfile函数来输出文件，对于普通应用设为 on，如果用来进行下载等应用磁盘IO重负载应用，可设置为off，以平衡磁盘与网络I/O处理速度，降低系统的负载。注意：如果图片显示不正常把这个改成off。
+  autoindex on; #开启目录列表访问，合适下载服务器，默认关闭。
+  tcp_nopush on; #防止网络阻塞
+  tcp_nodelay on; #防止网络阻塞
+  keepalive_timeout 120; #长连接超时时间，单位是秒
+
+  #FastCGI相关参数是为了改善网站的性能：减少资源占用，提高访问速度。下面参数看字面意思都能理解。
+  fastcgi_connect_timeout 300;
+  fastcgi_send_timeout 300;
+  fastcgi_read_timeout 300;
+  fastcgi_buffer_size 64k;
+  fastcgi_buffers 4 64k;
+  fastcgi_busy_buffers_size 128k;
+  fastcgi_temp_file_write_size 128k;
+
+  #gzip模块设置
+  gzip on; #开启gzip压缩输出
+  gzip_min_length 1k; #最小压缩文件大小
+  gzip_buffers 4 16k; #压缩缓冲区
+  gzip_http_version 1.0; #压缩版本（默认1.1，前端如果是squid2.5请使用1.0）
+  gzip_comp_level 2; #压缩等级
+  gzip_types text/plain application/x-javascript text/css application/xml;
+  #压缩类型，默认就已经包含text/html，所以下面就不用再写了，写上去也不会有问题，但是会有一个warn。
+  gzip_vary on;
+  #limit_zone crawler $binary_remote_addr 10m; #开启限制IP连接数的时候需要使用
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;http {
+    access_log /etc/nginx/logs/access.log;
+    error_log /etc/nginx/logs/error.log;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;include       mime.types;
+default_type  application/octet-stream;
+
+log_format  main  '$remote_addr - $remote_user [$time_local] &quot;$request&quot; '
+                  '$status $body_bytes_sent &quot;$http_referer&quot; '
+                  '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; $host';
+
+
+#sendfile        on;
+#tcp_nopush     on;
+
+#keepalive_timeout  0;
+#keepalive_timeout  65;
+
+sendfile        on;
+tcp_nopush      on;
+tcp_nodelay     on;
+server_tokens   off;
+
+#keepalive_timeout  0;
+keepalive_timeout  65;
+
+
+gzip on;
+gzip_min_length  2100;
+gzip_buffers     4 8k;
+gzip_types       text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript image/x-icon;
+
+output_buffers   1 32k;
+postpone_output  1460;
+client_max_body_size 20m;
+
+client_header_buffer_size 64k;
+large_client_header_buffers 4 128k;
+
+fastcgi_connect_timeout 3000;
+fastcgi_send_timeout 3000;
+fastcgi_read_timeout 3000;
+fastcgi_buffer_size 64k;
+fastcgi_buffers 4 64k;
+fastcgi_busy_buffers_size 128k;
+fastcgi_temp_file_write_size 128k;
+fastcgi_intercept_errors on; ### resolve the problem: no input file specified
+
+
+ #include vhost
+ include /etc/nginx/conf.d/*.conf;
+ include  /etc/nginx/vhosts/*.conf;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}&lt;/p&gt;
+</description>
+        <pubDate>Thu, 16 Jan 2014 00:00:00 +0800</pubDate>
+        <link>/2014/01/16/nginx-conf/</link>
+        <guid isPermaLink="true">/2014/01/16/nginx-conf/</guid>
+      </item>
+    
+      <item>
+        <title>symfony2 使用总结</title>
+        <description>&lt;h3&gt;symfony2 目录结构&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;    sf2/ &amp;lt;- Symfony2解压目录
+        app/ &amp;lt;- 存放symfony的核心文件的目录
+            cache/ &amp;lt;- 存放缓存文件的目录
+            config/ &amp;lt;- 存放应用程序全局配置的目录
+            logs/ &amp;lt;- 存放日志的目录
+        src/ &amp;lt;- 应用程序源代码
+            ...
+        vendor/ &amp;lt;- 供应商或第三方的模组和插件
+            ...
+        web/ &amp;lt;- Web入口
+            app_dev.php &amp;lt;- 生产环境下的前端控制器
+            ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;配置文件&lt;/h3&gt;
+
+&lt;p&gt;配置文件路径 &lt;code&gt;/sf2/app/config/parameters.yml&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3&gt;创建Bundle&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;php app/console generate:bundle --namnespace=path/file --format=yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后会有一系列的确认&lt;/p&gt;
+
+&lt;h3&gt;注册Bundle&lt;/h3&gt;
+
+&lt;p&gt;使用&lt;code&gt;app/console&lt;/code&gt; 工具能够自动帮我们注册Bundle，可以节省很多时间，但是有的时候我们需要修改bundle名字，修改namespace，那么就需要手动注册Bundle。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;//app/AppKernel.php
+
+&amp;lt;?php
+
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
+
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = array(
+            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
+            new Symfony\Bundle\TwigBundle\TwigBundle(),
+            new Symfony\Bundle\MonologBundle\MonologBundle(),
+            new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Acme\StudyBundle\AcmeStudyBundle(),
+        );
+
+        if (in_array($this-&amp;gt;getEnvironment(), array('dev', 'test'))) {
+            $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
+            $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
+            $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
+            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+        }
+
+        return $bundles;
+    }
+
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        $loader-&amp;gt;load(__DIR__.'/config/config_'.$this-&amp;gt;getEnvironment().'.yml');
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 &lt;code&gt;new Acme\StudyBundle\AcmeStudyBundle()&lt;/code&gt; 便是我们新注册的Bundle&lt;/p&gt;
+</description>
+        <pubDate>Wed, 15 Jan 2014 00:00:00 +0800</pubDate>
+        <link>/2014/01/15/start-with-symfony2/</link>
+        <guid isPermaLink="true">/2014/01/15/start-with-symfony2/</guid>
+      </item>
+    
+      <item>
+        <title>php-pear</title>
+        <description>&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;sudo apt-get install php-pear
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Wed, 15 Jan 2014 00:00:00 +0800</pubDate>
+        <link>/2014/01/15/php-pear/</link>
+        <guid isPermaLink="true">/2014/01/15/php-pear/</guid>
+      </item>
+    
+      <item>
+        <title>php错误报告</title>
+        <description>
+</description>
+        <pubDate>Tue, 14 Jan 2014 00:00:00 +0800</pubDate>
+        <link>/2014/01/14/php-error-reporting/</link>
+        <guid isPermaLink="true">/2014/01/14/php-error-reporting/</guid>
+      </item>
+    
+      <item>
         <title>OSX 中vim的复制和粘贴</title>
         <description>&lt;h3&gt;Term2 + Vim 下的复制粘贴&lt;/h3&gt;
 
@@ -32,12 +308,12 @@ brew 安装 reattach-to-user-namespace
 
 &lt;p&gt;如果一个 Tmux window 中有两个水平的 pannel ，直接用鼠标选中然后复制是不能分辨 pannel 的，即复制一行会贯穿两个 pannel 。&lt;/p&gt;
 
-&lt;p&gt;添加以下到 .tmux.conf&lt;/p&gt;
+&lt;p&gt;添加以下到 &lt;code&gt;.tmux.conf&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;# Use vim keybindings in copy mode
 setw -g mode-keys vi
 
-# Setup &#39;v&#39; to begin selection as in Vim （seems require Tmux 1.8）
+# Setup 'v' to begin selection as in Vim （seems require Tmux 1.8）
 
 # 一般情况中，&amp;lt;prefix&amp;gt;-[ 进入复制模式后 &amp;lt;space&amp;gt; 开始选中，&amp;lt;enter&amp;gt; 结束选中 (copy to buffer)
 
@@ -261,8 +537,8 @@ fi
 &lt;h2&gt;6. 如何將文件提交(commit)&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git commit -m &#39;commit信息&#39;&lt;/code&gt; 可以略过编辑器提交 commit&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git commit -am &#39;commit信息&#39;&lt;/code&gt; 等同与 &lt;code&gt;git add . &amp;amp;&amp;amp; git commit -m &#39;commit信息&#39;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit -m 'commit信息'&lt;/code&gt; 可以略过编辑器提交 commit&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit -am 'commit信息'&lt;/code&gt; 等同与 &lt;code&gt;git add . &amp;amp;&amp;amp; git commit -m 'commit信息'&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 
@@ -428,190 +704,6 @@ fi
         <pubDate>Tue, 31 Dec 2013 00:00:00 +0800</pubDate>
         <link>/2013/12/31/best-app/</link>
         <guid isPermaLink="true">/2013/12/31/best-app/</guid>
-      </item>
-    
-      <item>
-        <title>Php-Code-Style</title>
-        <description>&lt;hr /&gt;
-
-&lt;h2&gt;通用约定：&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;代码缩进全部用tab，在编辑器里面设置tab存为制表符，不要存为空格。不要打一堆空格来做缩进。&lt;/li&gt;
-&lt;li&gt;SVN / Git 中新建文件编码类型统一用utf-8编码（不带BOM）。&lt;/li&gt;
-&lt;li&gt;Unix 风格的换行: LF&lt;/li&gt;
-&lt;li&gt;所有可以直接访问的url中包含的文件名都是小写，如果是多个词组成，则用下划线连接。&lt;/li&gt;
-&lt;li&gt;行宽：120 字符&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;代码规范：&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;?php // 开头必须使用 &amp;lt;?php
-// panxiaoliang@baixing.com 每个文件必须注明owner的邮箱
-
-require_once(&#39;cg_conf/config.inc.php&#39;); // require_once必须有括弧，并且左括弧前面没有空格
-
-class CodingStandard { // 大括号前面加空格，类名开头字母大写，多个字母首字母大写
-    private $attribute; // 属性注释直接注释在后方
-
-    // 数组格式
-    public $color = array(
-        &#39;1&#39; =&amp;gt; &#39;red&#39;, // 用tab缩进一次
-        &#39;2&#39; =&amp;gt; &#39;blue&#39;,
-        &#39;3&#39; =&amp;gt; &#39;yellow&#39;,
-        &#39;4&#39; =&amp;gt; array(
-            &#39;1&#39; =&amp;gt; &#39;green&#39;, // 在前面的数组对齐列之后再tab缩进一次
-            &#39;2&#39; =&amp;gt; &#39;gray&#39;
-        ) // 数组的结尾与声明的变量最前面对齐
-    ); // 数组的结尾与数组变量声明的地方对齐
-
-    public $number = array(1, 2, 3, 4); // 对于简单数组，可以放一行
-
-    // 方法的注释采用双斜线，尽量在一行内完成
-    function foo($i, $list) { // 1.function名后面的(前面没有空格 2.多个参数，如果有逗号，那么逗号后面要有空格
-        for ($j = 0; $j &amp;lt; $i; $j++) { // for后面加空格
-            echo &quot;This is no.{$j}, content is {$list[$j]}&quot;; // echo语句不加括号。
-
-            // echo语句里面用单引号还是双引号，根据实际情况定
-            echo &#39;&amp;amp;lttable border=&quot;0&quot; cellspacing=&quot;5&quot; cellpadding=&quot;5&quot;&amp;amp;gt&#39;;
-        }
-        if ($i &amp;gt; 0) { // 1.if后面加空格 2.操作符前后都要有空格
-            return $i % 2; // 操作符前后是有空格的
-        } else { // else前后也要有空格
-            return null;
-        }
-
-        if ($j == $i) return 1; // if里面只有一句语句且较短的情况，建议写成一行，如果要拆成多行，则前后建议加上括号。
-
-        $count = count($_SERVER); // 在外面写赋值
-        if ($count &amp;gt; 10) echo &#39;pass&#39;; // if里面只做布尔判断，不要写赋值语句
-    }
-
-    public static function testFunction() { // 静态非静态方法命名都遵守驼峰原则
-    }
-}
-
-$s = new CodingStandard(); // new一个对象，后面必须加括弧
-$s-&amp;gt;foo(10, $s-&amp;gt;color); // 函数后面的括弧不要有空格，函数里面超过一个参数，逗号后面就要有空格
-CodingStandard::testFunction(); // 静态代码的调用方式唯一，仅限双冒号调用方式
-
-// php文件必须以 ?&amp;gt; 结尾，并且保证其后面没有空格或空行。
-?&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;文献&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://framework.zend.com/manual/1.12/en/coding-standard.html&quot;&gt;Zend Framework Coding Standard for PHP&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://codex.wordpress.org/WordPress_Coding_Standards&quot;&gt;WordPress Coding Standards&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://drupal.org/coding-standards&quot;&gt;Drupal Coding Standards&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://pear.php.net/manual/en/standards.php&quot;&gt;Pear Coding Standards&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-</description>
-        <pubDate>Sun, 01 Dec 2013 00:00:00 +0800</pubDate>
-        <link>/2013/12/01/php-code-style/</link>
-        <guid isPermaLink="true">/2013/12/01/php-code-style/</guid>
-      </item>
-    
-      <item>
-        <title>Use-Path-In-Unix</title>
-        <description>&lt;p&gt;Sometimes , after install some script (like npm ...) , when use it , we my get the command&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;command not found
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Two reasons
-1. script not installed
-2. can&#39;t find script in path&lt;/p&gt;
-
-&lt;p&gt;So if is reason 2 ,just put the script dir in your path.&lt;/p&gt;
-
-&lt;p&gt;Where is PATH ?&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;echo $PATH
-
-/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/mysql/bin:/usr/include/include:/usr/include:/Users/mac/pear/bin:/usr/local/git/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        <pubDate>Fri, 15 Nov 2013 00:00:00 +0800</pubDate>
-        <link>/2013/11/15/use-path-in-unix/</link>
-        <guid isPermaLink="true">/2013/11/15/use-path-in-unix/</guid>
-      </item>
-    
-      <item>
-        <title>Test-Private-Function-In-Php</title>
-        <description>&lt;p&gt;Demo class&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;class Foo {
-
-    public function __construct() {
-        //do some construct
-    }
-
-    private function plus($a , $b) {
-        return $a + $b;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;phpunit test&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;class FooTest extends PHPUnit_Framework_TestCase {
-
-     public function setUp() {
-         //do some setup here...
-     }
-
-     public function test_plus() {
-         //get function plus
-         $method = new \ReflectionMethod(new \Foo() , &#39;plus&#39;);
-         //set accessible
-         $method-&amp;gt;setAccessible(true);
-         //invoke function
-         $testres = $method-&amp;gt;invoke(new Foo() , 2 , 3);
-         //test function
-         $this-&amp;gt;assertEquals(5 , $testres);
-     }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        <pubDate>Thu, 14 Nov 2013 00:00:00 +0800</pubDate>
-        <link>/2013/11/14/test-private/</link>
-        <guid isPermaLink="true">/2013/11/14/test-private/</guid>
-      </item>
-    
-      <item>
-        <title>Build-Blog</title>
-        <description>&lt;p&gt;安装ruby&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;sudo apt-get install ruby1.9.3
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;安装 jekyll rdiscount&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;gem install jekyll rdiscount
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;编辑&lt;code&gt;__config.yml&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;markdown&quot;&gt;markdown: rdiscount
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        <pubDate>Sun, 13 Oct 2013 00:00:00 +0800</pubDate>
-        <link>/2013/10/13/build-blog/</link>
-        <guid isPermaLink="true">/2013/10/13/build-blog/</guid>
-      </item>
-    
-      <item>
-        <title>你好，世界</title>
-        <description>&lt;p&gt;我的第一篇文章&lt;/p&gt;
-&lt;pre class=&quot;prettyprint lang-scm&quot;&gt;(friends &#39;of &#39;(parentheses))&lt;/pre&gt;
-</description>
-        <pubDate>Fri, 04 Oct 2013 00:00:00 +0800</pubDate>
-        <link>/2013/10/04/hello-world/</link>
-        <guid isPermaLink="true">/2013/10/04/hello-world/</guid>
       </item>
     
   </channel>

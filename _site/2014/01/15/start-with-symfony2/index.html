@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+　　<title>symfony2 使用总结</title>
+	<link rel="stylesheet" href="/css/default.css" type="text/css" />
+</head>
+<body>
+    <div class="header">
+        <div class='logo' style="text-align:center"> <a href=""> <img src="/image/logo.svg" height="50" alt="BOXKS"> </a> </div>
+            <div class="nav" style="text-align:center">
+                <a href="">Index</a>
+                <a href="/about">About</a>
+                <a href="/tags">Tags</a>
+                <a href="/feed.xml">Feed</a>
+            </div>
+    </div>
+
+<div class="site">
+
+    　　<link rel="stylesheet" href="/js/prettify/prettify.css" />
+
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/prettify/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
+
+<div class="entry-content">
+	<h2 class="entry-title">symfony2 使用总结</h2>
+    <div class="entry-meta">
+        <span class="entry-date">2014-01-15</span>
+        <span class="entry-cat">symfony2</span>
+    </div>
+	<h3>symfony2 目录结构</h3>
+
+<pre><code class="sh">    sf2/ &lt;- Symfony2解压目录
+        app/ &lt;- 存放symfony的核心文件的目录
+            cache/ &lt;- 存放缓存文件的目录
+            config/ &lt;- 存放应用程序全局配置的目录
+            logs/ &lt;- 存放日志的目录
+        src/ &lt;- 应用程序源代码
+            ...
+        vendor/ &lt;- 供应商或第三方的模组和插件
+            ...
+        web/ &lt;- Web入口
+            app_dev.php &lt;- 生产环境下的前端控制器
+            ...
+</code></pre>
+
+<h3>配置文件</h3>
+
+<p>配置文件路径 <code>/sf2/app/config/parameters.yml</code></p>
+
+<h3>创建Bundle</h3>
+
+<pre><code class="php">php app/console generate:bundle --namnespace=path/file --format=yml
+</code></pre>
+
+<p>之后会有一系列的确认</p>
+
+<h3>注册Bundle</h3>
+
+<p>使用<code>app/console</code> 工具能够自动帮我们注册Bundle，可以节省很多时间，但是有的时候我们需要修改bundle名字，修改namespace，那么就需要手动注册Bundle。</p>
+
+<pre><code class="php">//app/AppKernel.php
+
+&lt;?php
+
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
+
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = array(
+            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
+            new Symfony\Bundle\TwigBundle\TwigBundle(),
+            new Symfony\Bundle\MonologBundle\MonologBundle(),
+            new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Acme\StudyBundle\AcmeStudyBundle(),
+        );
+
+        if (in_array($this-&gt;getEnvironment(), array('dev', 'test'))) {
+            $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
+            $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
+            $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
+            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+        }
+
+        return $bundles;
+    }
+
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        $loader-&gt;load(__DIR__.'/config/config_'.$this-&gt;getEnvironment().'.yml');
+    }
+}
+</code></pre>
+
+<p>其中 <code>new Acme\StudyBundle\AcmeStudyBundle()</code> 便是我们新注册的Bundle</p>
+
+</div>
+
+<p id="back-to-top" style="display: block;"><a href="#top"><img width="40px" height="40px" src="/image/back-to-top.png" alt="back to the top"></a></p>
+
+<script type="text/javascript">
+	$(function(){
+		$('pre').each(function(){
+			$(this).addClass('prettyprint');
+		});
+  		prettyPrint();
+	});
+</script>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'foursk';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+</div>
+
+<div class ="footer">
+  <span class="muted">© foursk. All Rights Reserved.</span><br>
+</div>
+
+</body>
+</html>
