@@ -4,7 +4,7 @@ title: nginx 配置总结
 cat: nginx
 ---
 
-#基本设置
+###基本设置
 
 ```nginx
 #定义Nginx运行的用户和用户组
@@ -21,7 +21,7 @@ worker_rlimit_nofile 65535;
 ```
 
 
-#工作模式与连接数上限
+###工作模式与连接数上限
 
 ```nginx
 events
@@ -34,7 +34,7 @@ worker_connections 65535;
 ```
 
 
-#设定http服务器
+###设定http服务器
 
 ```nginx
 http
@@ -77,6 +77,7 @@ http
 
 
 
+```nginx
 http {
 	access_log /etc/nginx/logs/access.log;
 	error_log /etc/nginx/logs/error.log;
@@ -131,3 +132,4 @@ http {
      include  /etc/nginx/vhosts/*.conf;
 
 }
+```

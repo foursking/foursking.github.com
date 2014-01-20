@@ -56,7 +56,7 @@
     
       <item>
         <title>nginx 配置总结</title>
-        <description>&lt;h1&gt;基本设置&lt;/h1&gt;
+        <description>&lt;h3&gt;基本设置&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&quot;nginx&quot;&gt;#定义Nginx运行的用户和用户组
 user www-data www-data;
@@ -71,7 +71,7 @@ pid /var/run/nginx.pid;
 worker_rlimit_nofile 65535;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h1&gt;工作模式与连接数上限&lt;/h1&gt;
+&lt;h3&gt;工作模式与连接数上限&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&quot;nginx&quot;&gt;events
 {
@@ -82,7 +82,7 @@ worker_connections 65535;
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h1&gt;设定http服务器&lt;/h1&gt;
+&lt;h3&gt;设定http服务器&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&quot;nginx&quot;&gt;http
 {
@@ -122,61 +122,61 @@ worker_connections 65535;
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;http {
+&lt;pre&gt;&lt;code class=&quot;nginx&quot;&gt;http {
     access_log /etc/nginx/logs/access.log;
-    error_log /etc/nginx/logs/error.log;&lt;/p&gt;
+    error_log /etc/nginx/logs/error.log;
 
-&lt;pre&gt;&lt;code&gt;include       mime.types;
-default_type  application/octet-stream;
+    include       mime.types;
+    default_type  application/octet-stream;
 
-log_format  main  '$remote_addr - $remote_user [$time_local] &quot;$request&quot; '
-                  '$status $body_bytes_sent &quot;$http_referer&quot; '
-                  '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; $host';
-
-
-#sendfile        on;
-#tcp_nopush     on;
-
-#keepalive_timeout  0;
-#keepalive_timeout  65;
-
-sendfile        on;
-tcp_nopush      on;
-tcp_nodelay     on;
-server_tokens   off;
-
-#keepalive_timeout  0;
-keepalive_timeout  65;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; $host&#39;;
 
 
-gzip on;
-gzip_min_length  2100;
-gzip_buffers     4 8k;
-gzip_types       text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript image/x-icon;
+    #sendfile        on;
+    #tcp_nopush     on;
 
-output_buffers   1 32k;
-postpone_output  1460;
-client_max_body_size 20m;
+    #keepalive_timeout  0;
+    #keepalive_timeout  65;
 
-client_header_buffer_size 64k;
-large_client_header_buffers 4 128k;
+    sendfile        on;
+    tcp_nopush      on;
+    tcp_nodelay     on;
+    server_tokens   off;
 
-fastcgi_connect_timeout 3000;
-fastcgi_send_timeout 3000;
-fastcgi_read_timeout 3000;
-fastcgi_buffer_size 64k;
-fastcgi_buffers 4 64k;
-fastcgi_busy_buffers_size 128k;
-fastcgi_temp_file_write_size 128k;
-fastcgi_intercept_errors on; ### resolve the problem: no input file specified
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
 
 
- #include vhost
- include /etc/nginx/conf.d/*.conf;
- include  /etc/nginx/vhosts/*.conf;
+    gzip on;
+    gzip_min_length  2100;
+    gzip_buffers     4 8k;
+    gzip_types       text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript image/x-icon;
+
+    output_buffers   1 32k;
+    postpone_output  1460;
+    client_max_body_size 20m;
+
+    client_header_buffer_size 64k;
+    large_client_header_buffers 4 128k;
+
+    fastcgi_connect_timeout 3000;
+    fastcgi_send_timeout 3000;
+    fastcgi_read_timeout 3000;
+    fastcgi_buffer_size 64k;
+    fastcgi_buffers 4 64k;
+    fastcgi_busy_buffers_size 128k;
+    fastcgi_temp_file_write_size 128k;
+    fastcgi_intercept_errors on; ### resolve the problem: no input file specified
+
+
+     #include vhost
+     include /etc/nginx/conf.d/*.conf;
+     include  /etc/nginx/vhosts/*.conf;
+
+}
 &lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;}&lt;/p&gt;
 </description>
         <pubDate>Thu, 16 Jan 2014 00:00:00 +0800</pubDate>
         <link>/2014/01/16/nginx-conf/</link>
@@ -239,7 +239,7 @@ class AppKernel extends Kernel
             new Acme\StudyBundle\AcmeStudyBundle(),
         );
 
-        if (in_array($this-&amp;gt;getEnvironment(), array('dev', 'test'))) {
+        if (in_array($this-&amp;gt;getEnvironment(), array(&#39;dev&#39;, &#39;test&#39;))) {
             $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
@@ -251,7 +251,7 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader-&amp;gt;load(__DIR__.'/config/config_'.$this-&amp;gt;getEnvironment().'.yml');
+        $loader-&amp;gt;load(__DIR__.&#39;/config/config_&#39;.$this-&amp;gt;getEnvironment().&#39;.yml&#39;);
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -280,6 +280,20 @@ class AppKernel extends Kernel
         <pubDate>Tue, 14 Jan 2014 00:00:00 +0800</pubDate>
         <link>/2014/01/14/php-error-reporting/</link>
         <guid isPermaLink="true">/2014/01/14/php-error-reporting/</guid>
+      </item>
+    
+      <item>
+        <title>Test-Private-Function-In-Php</title>
+        <description>&lt;h2&gt;开始 symfony2&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;php composer.phar create-project symfony/framework-standard-edition path/ 2.4.1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 &lt;code&gt;php composer.phar&lt;/code&gt; 是使用composer 命令 ， &lt;code&gt;path/&lt;/code&gt; 是安装路径 ， &lt;code&gt;2.4.1&lt;/code&gt; 是版本号&lt;/p&gt;
+</description>
+        <pubDate>Mon, 13 Jan 2014 00:00:00 +0800</pubDate>
+        <link>/2014/01/13/symfony2-1/</link>
+        <guid isPermaLink="true">/2014/01/13/symfony2-1/</guid>
       </item>
     
       <item>
@@ -313,7 +327,7 @@ brew 安装 reattach-to-user-namespace
 &lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;# Use vim keybindings in copy mode
 setw -g mode-keys vi
 
-# Setup 'v' to begin selection as in Vim （seems require Tmux 1.8）
+# Setup &#39;v&#39; to begin selection as in Vim （seems require Tmux 1.8）
 
 # 一般情况中，&amp;lt;prefix&amp;gt;-[ 进入复制模式后 &amp;lt;space&amp;gt; 开始选中，&amp;lt;enter&amp;gt; 结束选中 (copy to buffer)
 
@@ -537,8 +551,8 @@ fi
 &lt;h2&gt;6. 如何將文件提交(commit)&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git commit -m 'commit信息'&lt;/code&gt; 可以略过编辑器提交 commit&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git commit -am 'commit信息'&lt;/code&gt; 等同与 &lt;code&gt;git add . &amp;amp;&amp;amp; git commit -m 'commit信息'&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit -m &#39;commit信息&#39;&lt;/code&gt; 可以略过编辑器提交 commit&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit -am &#39;commit信息&#39;&lt;/code&gt; 等同与 &lt;code&gt;git add . &amp;amp;&amp;amp; git commit -m &#39;commit信息&#39;&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 
@@ -617,93 +631,6 @@ fi
         <pubDate>Sat, 04 Jan 2014 00:00:00 +0800</pubDate>
         <link>/2014/01/04/play-git/</link>
         <guid isPermaLink="true">/2014/01/04/play-git/</guid>
-      </item>
-    
-      <item>
-        <title>Best-App</title>
-        <description>&lt;h4&gt;1.1 Ubuntu&lt;/h4&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;评分  &lt;/th&gt;
-&lt;th&gt; 名称  &lt;/th&gt;
-&lt;th&gt; 功能简述&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★★ &lt;/td&gt;
-&lt;td&gt; &lt;a href=&quot;http://www.vim.org/&quot;&gt;vim&lt;/a&gt; &lt;/td&gt;
-&lt;td&gt; 心目中排名第一的神器&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★★ &lt;/td&gt;
-&lt;td&gt; &lt;a href=&quot;https://fcitx-im.org/wiki/Fcitx/&quot;&gt;Fcitx&lt;/a&gt;+&lt;a href=&quot;https://code.google.com/p/rimeime/&quot;&gt;Rime&lt;/a&gt; &lt;/td&gt;
-&lt;td&gt; Ubuntu下感觉最好用的输入法&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★★ &lt;/td&gt;
-&lt;td&gt; &lt;a href=&quot;http://www.google.cn/chrome/intl/zh-cn/landing_chrome.html&quot;&gt;Chrome&lt;/a&gt; &lt;/td&gt;
-&lt;td&gt;浏览器首选，Linux 下有Chromium ,不过不稳定&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★★ &lt;/td&gt;
-&lt;td&gt; &lt;a href=&quot;http://community.linuxmint.com/software/view/yakuake/&quot;&gt;Yakuake&lt;/a&gt; &lt;/td&gt;
-&lt;td&gt; 下拉式终端，比系统自带的方便许多，自定义度较高，也比较方便&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★★ &lt;/td&gt;
-&lt;td&gt; &lt;a href=&quot;http://lifehacker.com/5704221/synapse-is-a-super+fast-tightly-integrated-application-launcher-for-linux/&quot;&gt;Synapse&lt;/a&gt; &lt;/td&gt;
-&lt;td&gt; 此乃Ubuntu桌面文件搜索查找、应用程序查找打开的神器&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★★ &lt;/td&gt;
-&lt;td&gt; &lt;a href=&quot;&quot;&gt;VirtualBox&lt;/a&gt; &lt;/td&gt;
-&lt;td&gt; 虚拟机，用于安装一些Ubuntu不能安装的工具&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★★ &lt;/td&gt;
-&lt;td&gt; &lt;a href=&quot;&quot;&gt;Wunderlist&lt;/a&gt; &lt;/td&gt;
-&lt;td&gt; 好用的GTK工具,界面优雅，关键是全平台通用&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★☆ &lt;/td&gt;
-&lt;td&gt; [uGet+aria2] &lt;/td&gt;
-&lt;td&gt; 下载暂时选用这个&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★☆ &lt;/td&gt;
-&lt;td&gt; &lt;a href=&quot;http://ranger.nongnu.org/&quot;&gt;ranger&lt;/a&gt; &lt;/td&gt;
-&lt;td&gt; 终端下文件管理器，可以使用vim快捷键&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★☆ &lt;/td&gt;
-&lt;td&gt; &lt;a href=&quot;http://www.mupdf.com/&quot;&gt;MuPdf&lt;/a&gt; &lt;/td&gt;
-&lt;td&gt; MuPDF是类似Vim操作的PDF浏览器，没有任何按钮,对中文支持好&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★☆ &lt;/td&gt;
-&lt;td&gt; &lt;a href=&quot;http://ubuntu-tweak.com/&quot;&gt;Ubuntu tweak&lt;/a&gt; &lt;/td&gt;
-&lt;td&gt; 修改下系统配置，下载最新软件是自带software center 以外的一个好的选择&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★☆ &lt;/td&gt;
-&lt;td&gt; [Y-PPA-Maager] &lt;/td&gt;
-&lt;td&gt; Ubuntu 源管理工具&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;★★★★☆ &lt;/td&gt;
-&lt;td&gt; &lt;a href=&quot;https://launchpad.net/diodon&quot;&gt;Diodon&lt;/a&gt; &lt;/td&gt;
-&lt;td&gt; Ubuntu 剪切板管理工具&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-</description>
-        <pubDate>Tue, 31 Dec 2013 00:00:00 +0800</pubDate>
-        <link>/2013/12/31/best-app/</link>
-        <guid isPermaLink="true">/2013/12/31/best-app/</guid>
       </item>
     
   </channel>

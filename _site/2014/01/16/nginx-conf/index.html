@@ -30,7 +30,7 @@
         <span class="entry-date">2014-01-16</span>
         <span class="entry-cat">nginx</span>
     </div>
-	<h1>基本设置</h1>
+	<h3>基本设置</h3>
 
 <pre><code class="nginx">#定义Nginx运行的用户和用户组
 user www-data www-data;
@@ -45,7 +45,7 @@ pid /var/run/nginx.pid;
 worker_rlimit_nofile 65535;
 </code></pre>
 
-<h1>工作模式与连接数上限</h1>
+<h3>工作模式与连接数上限</h3>
 
 <pre><code class="nginx">events
 {
@@ -56,7 +56,7 @@ worker_connections 65535;
 }
 </code></pre>
 
-<h1>设定http服务器</h1>
+<h3>设定http服务器</h3>
 
 <pre><code class="nginx">http
 {
@@ -96,61 +96,61 @@ worker_connections 65535;
 }
 </code></pre>
 
-<p>http {
+<pre><code class="nginx">http {
     access_log /etc/nginx/logs/access.log;
-    error_log /etc/nginx/logs/error.log;</p>
+    error_log /etc/nginx/logs/error.log;
 
-<pre><code>include       mime.types;
-default_type  application/octet-stream;
+    include       mime.types;
+    default_type  application/octet-stream;
 
-log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                  '$status $body_bytes_sent "$http_referer" '
-                  '"$http_user_agent" "$http_x_forwarded_for" $host';
-
-
-#sendfile        on;
-#tcp_nopush     on;
-
-#keepalive_timeout  0;
-#keepalive_timeout  65;
-
-sendfile        on;
-tcp_nopush      on;
-tcp_nodelay     on;
-server_tokens   off;
-
-#keepalive_timeout  0;
-keepalive_timeout  65;
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for" $host';
 
 
-gzip on;
-gzip_min_length  2100;
-gzip_buffers     4 8k;
-gzip_types       text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript image/x-icon;
+    #sendfile        on;
+    #tcp_nopush     on;
 
-output_buffers   1 32k;
-postpone_output  1460;
-client_max_body_size 20m;
+    #keepalive_timeout  0;
+    #keepalive_timeout  65;
 
-client_header_buffer_size 64k;
-large_client_header_buffers 4 128k;
+    sendfile        on;
+    tcp_nopush      on;
+    tcp_nodelay     on;
+    server_tokens   off;
 
-fastcgi_connect_timeout 3000;
-fastcgi_send_timeout 3000;
-fastcgi_read_timeout 3000;
-fastcgi_buffer_size 64k;
-fastcgi_buffers 4 64k;
-fastcgi_busy_buffers_size 128k;
-fastcgi_temp_file_write_size 128k;
-fastcgi_intercept_errors on; ### resolve the problem: no input file specified
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
 
 
- #include vhost
- include /etc/nginx/conf.d/*.conf;
- include  /etc/nginx/vhosts/*.conf;
+    gzip on;
+    gzip_min_length  2100;
+    gzip_buffers     4 8k;
+    gzip_types       text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript image/x-icon;
+
+    output_buffers   1 32k;
+    postpone_output  1460;
+    client_max_body_size 20m;
+
+    client_header_buffer_size 64k;
+    large_client_header_buffers 4 128k;
+
+    fastcgi_connect_timeout 3000;
+    fastcgi_send_timeout 3000;
+    fastcgi_read_timeout 3000;
+    fastcgi_buffer_size 64k;
+    fastcgi_buffers 4 64k;
+    fastcgi_busy_buffers_size 128k;
+    fastcgi_temp_file_write_size 128k;
+    fastcgi_intercept_errors on; ### resolve the problem: no input file specified
+
+
+     #include vhost
+     include /etc/nginx/conf.d/*.conf;
+     include  /etc/nginx/vhosts/*.conf;
+
+}
 </code></pre>
-
-<p>}</p>
 
 </div>
 

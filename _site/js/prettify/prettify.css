@@ -6,11 +6,10 @@
   padding: 20px;
   font-size: 13px;
   border: 0;
-  //color: #e9e4e5;
   line-height: 20px;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
-  overflow:auto;
+  overflow-x:auto;
 
   border: 1px solid rgba(0,0,0,0.15);
   -webkit-border-radius: 4px;
