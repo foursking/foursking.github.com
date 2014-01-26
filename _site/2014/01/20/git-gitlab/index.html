@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+　　<title>gitlab ssh 提交代码</title>
+	<link rel="stylesheet" href="/css/default.css" type="text/css" />
+</head>
+<body>
+    <div class="header">
+        <div class='logo' style="text-align:center"> <a href=""> <img src="/image/logo.svg" height="50" alt="BOXKS"> </a> </div>
+            <div class="nav" style="text-align:center">
+                <a href="">Index</a>
+                <a href="/about">About</a>
+                <a href="/tags">Tags</a>
+                <a href="/feed.xml">Feed</a>
+            </div>
+    </div>
+
+<div class="site">
+
+    　　<link rel="stylesheet" href="/js/prettify/prettify.css" />
+
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/prettify/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
+
+<div class="entry-content">
+	<h2 class="entry-title">gitlab ssh 提交代码</h2>
+    <div class="entry-meta">
+        <span class="entry-date">2014-01-20</span>
+        <span class="entry-cat">git</span>
+    </div>
+	<p>最近公司版本管理工具尝试在用<code>git</code>，通过<code>gitlab</code> 管理代码。总结了ssh pull/push 代码时遇到的问题和解决的方法，供大家参考。</p>
+
+<h3>1.创建ssh 公钥和私钥</h3>
+
+<pre><code class="sh">cd ~/.ssh &amp;&amp; ssh-keygen #创建ssh key
+</code></pre>
+
+<p>看到如下提示:</p>
+
+<pre><code>Generating public/private rsa key pair.
+ Enter file in which to save the key (/home/foursk/.ssh/id_rsa): test #输入需要的name
+</code></pre>
+
+<p>创建完之后在 .ssh 目录会看到 两个文件</p>
+
+<pre><code class="sh">test test.pub
+</code></pre>
+
+<p>其中<code>.pub</code> 结尾的就是公钥</p>
+
+<h3>2.复制公钥内容粘贴到自己的gitlab</h3>
+
+<p>单击gitlab <code>Add Public Key</code> 按钮 粘贴内容</p>
+
+<h3>3.设置ssh</h3>
+
+<p>创建完<code>ssh-key</code>以后，我们需要让git提交的时候能够使用我们的<code>ssh-key</code></p>
+
+<pre><code class="sh">touch ~/.ssh/config   #创建config
+</code></pre>
+
+<p>编辑config</p>
+
+<pre><code class="sh">Host you.host
+    Hostname your.host.name
+    User git
+    IdentityFile ~/.ssh/test
+</code></pre>
+
+<p>重启ssh服务</p>
+
+<pre><code class="sh">service ssh restart
+</code></pre>
+
+</div>
+
+<p id="back-to-top" style="display: block;"><a href="#top"><img width="40px" height="40px" src="/image/back-to-top.png" alt="back to the top"></a></p>
+
+<script type="text/javascript">
+	$(function(){
+		$('pre').each(function(){
+			$(this).addClass('prettyprint');
+		});
+  		prettyPrint();
+	});
+</script>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'foursk';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+</div>
+
+<div class ="footer">
+  <span class="muted">© foursk. All Rights Reserved.</span><br>
+</div>
+
+</body>
+</html>

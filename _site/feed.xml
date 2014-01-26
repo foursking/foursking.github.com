@@ -55,6 +55,57 @@
       </item>
     
       <item>
+        <title>gitlab ssh 提交代码</title>
+        <description>&lt;p&gt;最近公司版本管理工具尝试在用&lt;code&gt;git&lt;/code&gt;，通过&lt;code&gt;gitlab&lt;/code&gt; 管理代码。总结了ssh pull/push 代码时遇到的问题和解决的方法，供大家参考。&lt;/p&gt;
+
+&lt;h3&gt;1.创建ssh 公钥和私钥&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;cd ~/.ssh &amp;amp;&amp;amp; ssh-keygen #创建ssh key
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;看到如下提示:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Generating public/private rsa key pair.
+ Enter file in which to save the key (/home/foursk/.ssh/id_rsa): test #输入需要的name
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;创建完之后在 .ssh 目录会看到 两个文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;test test.pub
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中&lt;code&gt;.pub&lt;/code&gt; 结尾的就是公钥&lt;/p&gt;
+
+&lt;h3&gt;2.复制公钥内容粘贴到自己的gitlab&lt;/h3&gt;
+
+&lt;p&gt;单击gitlab &lt;code&gt;Add Public Key&lt;/code&gt; 按钮 粘贴内容&lt;/p&gt;
+
+&lt;h3&gt;3.设置ssh&lt;/h3&gt;
+
+&lt;p&gt;创建完&lt;code&gt;ssh-key&lt;/code&gt;以后，我们需要让git提交的时候能够使用我们的&lt;code&gt;ssh-key&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;touch ~/.ssh/config   #创建config
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;编辑config&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;Host you.host
+    Hostname your.host.name
+    User git
+    IdentityFile ~/.ssh/test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;重启ssh服务&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;service ssh restart
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Mon, 20 Jan 2014 00:00:00 +0800</pubDate>
+        <link>/2014/01/20/git-gitlab/</link>
+        <guid isPermaLink="true">/2014/01/20/git-gitlab/</guid>
+      </item>
+    
+      <item>
         <title>nginx 配置总结</title>
         <description>&lt;h3&gt;基本设置&lt;/h3&gt;
 
@@ -129,9 +180,9 @@ worker_connections 65535;
     include       mime.types;
     default_type  application/octet-stream;
 
-    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
-                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
-                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; $host&#39;;
+    log_format  main  '$remote_addr - $remote_user [$time_local] &quot;$request&quot; '
+                      '$status $body_bytes_sent &quot;$http_referer&quot; '
+                      '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; $host';
 
 
     #sendfile        on;
@@ -239,7 +290,7 @@ class AppKernel extends Kernel
             new Acme\StudyBundle\AcmeStudyBundle(),
         );
 
-        if (in_array($this-&amp;gt;getEnvironment(), array(&#39;dev&#39;, &#39;test&#39;))) {
+        if (in_array($this-&amp;gt;getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
@@ -251,7 +302,7 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader-&amp;gt;load(__DIR__.&#39;/config/config_&#39;.$this-&amp;gt;getEnvironment().&#39;.yml&#39;);
+        $loader-&amp;gt;load(__DIR__.'/config/config_'.$this-&amp;gt;getEnvironment().'.yml');
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -327,7 +378,7 @@ brew 安装 reattach-to-user-namespace
 &lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;# Use vim keybindings in copy mode
 setw -g mode-keys vi
 
-# Setup &#39;v&#39; to begin selection as in Vim （seems require Tmux 1.8）
+# Setup 'v' to begin selection as in Vim （seems require Tmux 1.8）
 
 # 一般情况中，&amp;lt;prefix&amp;gt;-[ 进入复制模式后 &amp;lt;space&amp;gt; 开始选中，&amp;lt;enter&amp;gt; 结束选中 (copy to buffer)
 
@@ -503,134 +554,6 @@ fi
         <pubDate>Wed, 08 Jan 2014 00:00:00 +0800</pubDate>
         <link>/2014/01/08/Miss-Chen/</link>
         <guid isPermaLink="true">/2014/01/08/Miss-Chen/</guid>
-      </item>
-    
-      <item>
-        <title>Plag-Git</title>
-        <description>&lt;h2&gt;1.如何安装git&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Mac &lt;code&gt;brew install git&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Linux(Ubuntu) &lt;code&gt;apt-get install git&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;windows 下载 &lt;a href=&quot;http://msysgit.github.io&quot;&gt;msysgit&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;2.如何設定 Git&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Mac : &lt;a href=&quot;https://help.github.com/articles/set-up-git#platform-mac&quot;&gt; Set Up Git on Mac &lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Linux : &lt;a href=&quot;https://help.github.com/articles/set-up-git#platform-linux&quot;&gt;Set Up Git on Linux&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Windows : &lt;a href=&quot;https://help.github.com/articles/set-up-git#platform-windows&quot;&gt;Set up Git on Windows&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;3. 开始一个 Git Repository&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;使用 &lt;code&gt;git init&lt;/code&gt; 建立一个git仓库 使用 &lt;code&gt;git init --bare&lt;/code&gt; 建立一个裸仓库&lt;/li&gt;
-&lt;li&gt;使用 &lt;code&gt;git clone&lt;/code&gt; 来获取一个git仓库&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;4. 将文件加入Stage&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;使用 &lt;code&gt;git add filename&lt;/code&gt; 将文件加入stage&lt;/li&gt;
-&lt;li&gt;也可以使用 &lt;code&gt;git add .&lt;/code&gt; 将所有修改文件加入 stage&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;5. 取消前一次文件add (reset)&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git reset HEAD filename&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;6. 如何將文件提交(commit)&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git commit -m &#39;commit信息&#39;&lt;/code&gt; 可以略过编辑器提交 commit&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git commit -am &#39;commit信息&#39;&lt;/code&gt; 等同与 &lt;code&gt;git add . &amp;amp;&amp;amp; git commit -m &#39;commit信息&#39;&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;7. 如何修改/取消上一次的 commit&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git commit --amend&lt;/code&gt; 修改上一次的 commit 信息。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git commit --amend filename1 filename2&lt;/code&gt; 將filename1、filename2加入上一次的 commit。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git reset HEAD^ --soft&lt;/code&gt; 取消刚刚的 commit，但保留修改的文件&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git reset HEAD^ --hard&lt;/code&gt; 取消刚刚的 commit，回到再上一次 commit 状态&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;8. 分支基本操作(branch)&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git branch&lt;/code&gt; 列出所有本地端的 branch&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git branch -r&lt;/code&gt; 列出所有远程端的 branch&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git branch -a&lt;/code&gt; 列出所有本地及远程端的 branch&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git branch &quot;branch名称&quot;&lt;/code&gt; 建立一個新的 branch&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git checkout branch名称&lt;/code&gt; 切换到另一個 branch(所有修改过程會被保留)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git checkout -b &quot;branch名称&quot;&lt;/code&gt; 建立一個新的 branch 并切换到该 branch&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git branch -d &quot;branch名称&quot;&lt;/code&gt; 刪除 branch&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;9. 远端操作(remote)&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git remote add remote名称&lt;/code&gt; remote地址 加入一个 remote repository，例如&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;pre&gt;&lt;code class=&quot;git&quot;&gt;git remote add github git://github.com/foursking/test.git
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git push remote名称 :branch名称&lt;/code&gt; 刪除远端 branch，例如&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;pre&gt;&lt;code class=&quot;git&quot;&gt;git push origin :somebranch
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git pull remote名称 branch名称&lt;/code&gt; 下載一個远端的 branch 并合并(注意是下载远端的 branch 合并到目前本地端所在的 branch)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git push&lt;/code&gt;  类似于pull 操作，將本地端的 branch 上傳到远端&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;10. 合并操作(merge)&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git merge branch名称&lt;/code&gt; 合并指定的 branch 到目前的 branch&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git merge branch名称 --no-commit&lt;/code&gt; 合并指定的 branch 到目前的 branch 但是不會产生合并的 commit&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;11.  以下操作自己还不是很熟练，暂时不整理&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;git branch branch名称 起始点 以起始点作为基准建立一個新的 branch，起始点可以是一個 tag，branch 或是 commit&lt;/li&gt;
-&lt;li&gt;git branch --track branch名称 远端branch 建立一個 tracking 远端 branch 的 branch，這樣以後 push/pull都會直接對應到該遠端的branch&lt;/li&gt;
-&lt;li&gt;git branch --set-upstream branch 遠端branch 將一個已存在的 branch 設定成 tracking 遠端的branch&lt;/li&gt;
-&lt;li&gt;git -r -d 遠端branch 刪除一個 tracking 的遠端 branch，例如git branch -r -d wycats/master&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;git push repository名稱 :遠端branch 刪除一個 repository 的 branch，通常用在刪除遠端的 branch，例如git push origin :old_branch_to_be_deleted&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;git cherry-pick SHA 將某一個 commit 的內容合併到目前 branch，指定 commit 是使用該 commit 的 SHA 值，例如 git cherry-pick 7300a6130d9447e18a931e898b64eefedea19544&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;git stash 將目前所做的修改都暫存起來&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;git stash apply 取出最新一次的暫存&lt;/li&gt;
-&lt;li&gt;git stash pop 取出最新一次的暫存並將他從暫存清單中移除&lt;/li&gt;
-&lt;li&gt;git stash list 顯示出所有的暫存清單&lt;/li&gt;
-&lt;li&gt;git stash clear 清除所有暫存&lt;/li&gt;
-&lt;/ul&gt;
-
-</description>
-        <pubDate>Sat, 04 Jan 2014 00:00:00 +0800</pubDate>
-        <link>/2014/01/04/play-git/</link>
-        <guid isPermaLink="true">/2014/01/04/play-git/</guid>
       </item>
     
   </channel>
