@@ -22,8 +22,6 @@
   /* /*word-wrap:break-word;/*InternetExplorer5.5+*/　 */
 }
 
-<<<<<<< HEAD
-=======
 pre::-webkit-scrollbar {
 	height: .7em;
 	background: rgba(255, 255, 255, 0.15);
@@ -35,7 +33,6 @@ pre::-webkit-scrollbar-thumb {
     background: rgba(191,191,191,0.5);
     -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
 
->>>>>>> 4e90761f3ea8fd37cec60ae3e3e46597956a5a99
  pre .com, code.com { color: #888888; }
  /* pre .pln, code.pln { color: #e9e4e5; } */
  /* pre .str, code.str { color: #bcd42a; } */
