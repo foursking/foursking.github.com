@@ -9,7 +9,7 @@ Demo class
 
 
 
-{% highlight ruby %}
+{% highlight php %}
 
 class Foo {
 
