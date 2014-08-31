@@ -2,7 +2,7 @@
 <html>
 <head>
 　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-　　<title>Test-Private-Function-In-Php</title>
+　　<title>Mac通过homebrew 安装mysql</title>
 	<link rel="stylesheet" href="/css/default.css" type="text/css" />
 	<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
 </head>
@@ -24,17 +24,51 @@
 <script type="text/javascript" src="/js/default.js"></script>
 
 <div class="entry-content">
-	<h2 class="entry-title">Test-Private-Function-In-Php</h2>
+	<h2 class="entry-title">Mac通过homebrew 安装mysql</h2>
     <div class="entry-meta">
-        <span class="entry-date">2014-01-13</span>
-        <span class="entry-cat">symfony</span>
+        <span class="entry-date">2014-02-01</span>
+        <span class="entry-cat">brew mysql</span>
     </div>
-	<h2>开始 symfony2</h2>
+	<p>通过brew安装mysql:</p>
 
-<pre><code class="sh">php composer.phar create-project symfony/framework-standard-edition path/ 2.4.1
+<pre><code class="shell">brew install mysql
 </code></pre>
 
-<p>其中 <code>php composer.phar</code> 是使用composer 命令 ， <code>path/</code> 是安装路径 ， <code>2.4.1</code> 是版本号</p>
+<p>等成功安装完成，想要登录的时候出问题了：</p>
+
+<pre><code class="shell">ERROR 2002 (HY000): Can not connect to local MySQL server through socket '/tmp/mysql.sock' (2)
+</code></pre>
+
+<p>google了一下，找到答案原来，还没彻底安装完成：</p>
+
+<pre><code class="shell">brew info mysql
+</code></pre>
+
+<p>可以看到如下命令，执行之:</p>
+
+<pre><code class="shell">ln -sfv /usr/local/opt/mysql/homebrew.mxcl.mysql.plist ~/Library/LaunchAgents
+</code></pre>
+
+<p>下面我们还需要启动mysql服务：</p>
+
+<pre><code class="shell">mysql.server start
+</code></pre>
+
+<p>用如下命令登录即可：</p>
+
+<pre><code class="shell">mysql -uroot  #初始没有设置密码
+</code></pre>
+
+<p>mysql 修改root密码</p>
+
+<pre><code class="mysql">$ mysql -u root
+mysql&gt; use mysql;
+mysql&gt; update user set password=PASSWORD("NEWPASSWORD") where User='root';
+mysql&gt; flush privileges;
+mysql&gt; quit
+</code></pre>
+
+<p>done!</p>
 
 </div>
 

@@ -7,7 +7,10 @@ cat: phpunit
 
 Demo class
 
-```php
+
+
+{% highlight ruby %}
+
 class Foo {
 
     public function __construct() {
@@ -18,7 +21,7 @@ class Foo {
         return $a + $b;
     }
 }
-```
+{% endhighlight %}
 
 
 phpunit test

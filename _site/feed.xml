@@ -7,6 +7,72 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>新的开始</title>
+        <description>&lt;p&gt;从6号开始，自己一直在休息。
+在结束了和blu3gui7ar的谈话后，就算是正式的结束了在leqee的工作。原本和女王大人计划的周末杭州之行也因为一些突发的事情被推到2周之后。（哎，女王有事情要回家）。因此这周的周末就只有一个人在家里面。以前偶尔会内心嫌她话多，但是一下子家里就自己一个人就越来越不适应，必须得承认生活中离不了她了。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;入职体检 X1 (好像重了不少，应该是自己一直不注意锻炼的缘故。锻炼计划还是得安排上计划)&lt;/li&gt;
+&lt;li&gt;整理房间 X1 (整理了下房间的布局,感觉清爽了很多，也一洗了女王大人说我懒惰的言论）&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sun, 09 Mar 2014 00:00:00 +0800</pubDate>
+        <link>/2014/03/09/new-start/</link>
+        <guid isPermaLink="true">/2014/03/09/new-start/</guid>
+      </item>
+    
+      <item>
+        <title>Mac通过homebrew 安装mysql</title>
+        <description>&lt;p&gt;通过brew安装mysql:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;brew install mysql
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;等成功安装完成，想要登录的时候出问题了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;ERROR 2002 (HY000): Can not connect to local MySQL server through socket &#39;/tmp/mysql.sock&#39; (2)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;google了一下，找到答案原来，还没彻底安装完成：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;brew info mysql
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到如下命令，执行之:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;ln -sfv /usr/local/opt/mysql/homebrew.mxcl.mysql.plist ~/Library/LaunchAgents
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面我们还需要启动mysql服务：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;mysql.server start
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;用如下命令登录即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;mysql -uroot  #初始没有设置密码
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;mysql 修改root密码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;mysql&quot;&gt;$ mysql -u root
+mysql&amp;gt; use mysql;
+mysql&amp;gt; update user set password=PASSWORD(&quot;NEWPASSWORD&quot;) where User=&#39;root&#39;;
+mysql&amp;gt; flush privileges;
+mysql&amp;gt; quit
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;done!&lt;/p&gt;
+</description>
+        <pubDate>Sat, 01 Feb 2014 00:00:00 +0800</pubDate>
+        <link>/2014/02/01/install-mysql-in-osx/</link>
+        <guid isPermaLink="true">/2014/02/01/install-mysql-in-osx/</guid>
+      </item>
+    
+      <item>
         <title>nginx ci</title>
         <description>&lt;p&gt;ci 的nginx 配置&lt;/p&gt;
 
@@ -180,9 +246,9 @@ worker_connections 65535;
     include       mime.types;
     default_type  application/octet-stream;
 
-    log_format  main  '$remote_addr - $remote_user [$time_local] &quot;$request&quot; '
-                      '$status $body_bytes_sent &quot;$http_referer&quot; '
-                      '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; $host';
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; $host&#39;;
 
 
     #sendfile        on;
@@ -290,7 +356,7 @@ class AppKernel extends Kernel
             new Acme\StudyBundle\AcmeStudyBundle(),
         );
 
-        if (in_array($this-&amp;gt;getEnvironment(), array('dev', 'test'))) {
+        if (in_array($this-&amp;gt;getEnvironment(), array(&#39;dev&#39;, &#39;test&#39;))) {
             $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
@@ -302,7 +368,7 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader-&amp;gt;load(__DIR__.'/config/config_'.$this-&amp;gt;getEnvironment().'.yml');
+        $loader-&amp;gt;load(__DIR__.&#39;/config/config_&#39;.$this-&amp;gt;getEnvironment().&#39;.yml&#39;);
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -353,9 +419,10 @@ class AppKernel extends Kernel
 
 &lt;p&gt;安装 Vim 时如果打开了 clipboard 特性 ( &lt;code&gt;vim --version | grep clipboard&lt;/code&gt;，系统自带的 Vim 是没有打开的，不想自己编译的话也可以通过安装 Macvim 然后将 vim alias 到 mvim )，则可以使用 * 寄存器（ Vim 有很多剪贴板，mac 下的系统剪贴板是 *，还有 + ?），通过 &lt;code&gt;&quot;*y&lt;/code&gt; 和 &lt;code&gt;&quot;*p&lt;/code&gt; 就可以完成复制粘贴到系统剪贴板，在 &lt;code&gt;.vimrc&lt;/code&gt; 里加入了&lt;code&gt;set cilpboard=unnamed&lt;/code&gt;后就不用加 &lt;code&gt;&quot;*&lt;/code&gt; 直接 &lt;code&gt;yy&lt;/code&gt; 了。没有&lt;code&gt;+clipboard&lt;/code&gt;的话也没关系，我们还有 mac 下的 &lt;code&gt;pbcopy&lt;/code&gt; 和 &lt;code&gt;pbpaste&lt;/code&gt; 命令可以使用。&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;vim&quot;&gt;vmap &quot;+y :w !pbcopy&amp;lt;CR&amp;gt;&amp;lt;CR&amp;gt;
-nmap &quot;+p :r !pbpaste&amp;lt;CR&amp;gt;&amp;lt;CR&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;vim&quot;&gt;vmap &lt;span class=&quot;c&quot;&gt;&amp;quot;+y :w !pbcopy&amp;lt;CR&amp;gt;&amp;lt;CR&amp;gt;&lt;/span&gt;
+nmap &lt;span class=&quot;c&quot;&gt;&amp;quot;+p :r !pbpaste&amp;lt;CR&amp;gt;&amp;lt;CR&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 
 &lt;h3&gt;iTerm2+Tmux+Vim 下的复制粘贴&lt;/h3&gt;
 
@@ -366,8 +433,7 @@ brew 安装 reattach-to-user-namespace
 .vimrc 中加入 set cilpboard=unnamed
 在 .tmux.conf 中加入&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;set-option -g default-command &quot;reattach-to-user-namespace -l zsh&quot;
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;set-option -g default-command &quot;reattach-to-user-namespace -l zsh&quot;&lt;/p&gt;
 
 &lt;h3&gt;Tmux pannel中的复制&lt;/h3&gt;
 
@@ -375,20 +441,21 @@ brew 安装 reattach-to-user-namespace
 
 &lt;p&gt;添加以下到 &lt;code&gt;.tmux.conf&lt;/code&gt;&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;# Use vim keybindings in copy mode
-setw -g mode-keys vi
+&lt;h1&gt;Use vim keybindings in copy mode&lt;/h1&gt;
 
-# Setup 'v' to begin selection as in Vim （seems require Tmux 1.8）
+&lt;p&gt;setw -g mode-keys vi&lt;/p&gt;
 
-# 一般情况中，&amp;lt;prefix&amp;gt;-[ 进入复制模式后 &amp;lt;space&amp;gt; 开始选中，&amp;lt;enter&amp;gt; 结束选中 (copy to buffer)
+&lt;h1&gt;Setup &#39;v&#39; to begin selection as in Vim （seems require Tmux 1.8）&lt;/h1&gt;
 
-bind-key -t vi-copy v begin-selection
-bind-key -t vi-copy y copy-pipe &quot;reattach-to-user-namespace pbcopy&quot;
+&lt;h1&gt;一般情况中，&lt;prefix&gt;-[ 进入复制模式后 &lt;space&gt; 开始选中，&lt;enter&gt; 结束选中 (copy to buffer)&lt;/h1&gt;
 
-# Update default binding of `Enter` to also use copy-pipe
-unbind -t vi-copy Enter
-bind-key -t vi-copy Enter copy-pipe &quot;reattach-to-user-namespace pbcopy&quot;
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;bind-key -t vi-copy v begin-selection
+bind-key -t vi-copy y copy-pipe &quot;reattach-to-user-namespace pbcopy&quot;&lt;/p&gt;
+
+&lt;h1&gt;Update default binding of &lt;code&gt;Enter&lt;/code&gt; to also use copy-pipe&lt;/h1&gt;
+
+&lt;p&gt;unbind -t vi-copy Enter
+bind-key -t vi-copy Enter copy-pipe &quot;reattach-to-user-namespace pbcopy&quot;&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;&amp;lt;prefix&amp;gt;-[&lt;/code&gt;进入 Tmux 的复制模式，使用 Vim 操作来进行移动，v 选中内容，y 进行复制，首先内容会复制到 Tmux 的 paste buffer 中，再由 pbcopy 来复制到系统的剪贴板中。&lt;/p&gt;
 
@@ -397,139 +464,17 @@ bind-key -t vi-copy Enter copy-pipe &quot;reattach-to-user-namespace pbcopy&quot
 &lt;p&gt;Vim中 ⌘+V 的粘贴
 有时候如果我们想用 &lt;code&gt;⌘+v&lt;/code&gt; 来进行粘贴，直接粘贴的话内容是一段一段复制进去的，并且还伴有一些我们不希望出现的缩进或者其它奇怪的东西，我们可以进入 Vim 的 paste mode 来进行正常的粘贴。&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;vim&quot;&gt;:set paste &quot;开启paste 模式
-:set nopaste &quot;关闭paste 模式
-:set pastetoggle &quot;toggle 模式
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;vim&quot;&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;paste&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;&amp;quot;开启paste 模式&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nopaste&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;&amp;quot;关闭paste 模式&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;pastetoggle&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;&amp;quot;toggle 模式&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+
 </description>
         <pubDate>Mon, 13 Jan 2014 00:00:00 +0800</pubDate>
         <link>/2014/01/13/paste-in-osx-terminal/</link>
         <guid isPermaLink="true">/2014/01/13/paste-in-osx-terminal/</guid>
-      </item>
-    
-      <item>
-        <title>shell 流控制</title>
-        <description>&lt;h2&gt;shell流控制分类&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;判断 if&lt;/li&gt;
-&lt;li&gt;分支判断case&lt;/li&gt;
-&lt;li&gt;循环 for&lt;/li&gt;
-&lt;li&gt;循环 while&lt;/li&gt;
-&lt;li&gt;循环 until&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt; 其实概括起来，只是2类结构而已：&lt;code&gt;判断和循环&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;#!/bin/sh
-if [commend1];then
-    commend2
-    ......
-else
-    commend3
-    ......
-fi
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3&gt;if条件判断&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;字符串判断&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;str1 = str2　　　　　　当两个串有相同内容、长度时为真&lt;/li&gt;
-&lt;li&gt;str1 != str2　　　　　 当串str1和str2不等时为真&lt;/li&gt;
-&lt;li&gt;-n str1　　　　　　　 当串的长度大于0时为真(串非空)&lt;/li&gt;
-&lt;li&gt;-z str1　　　　　　　 当串的长度为0时为真(空串)&lt;/li&gt;
-&lt;li&gt;str1　　　　　　　　   当串str1为非空时为真&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;数字的判断&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;int1 -eq int2　　　　两数相等为真&lt;/li&gt;
-&lt;li&gt;int1 -ne int2　　　　两数不等为真&lt;/li&gt;
-&lt;li&gt;int1 -gt int2　　　　int1大于int2为真&lt;/li&gt;
-&lt;li&gt;int1 -ge int2　　　　int1大于等于int2为真&lt;/li&gt;
-&lt;li&gt;int1 -lt int2　　　　int1小于int2为真&lt;/li&gt;
-&lt;li&gt;int1 -le int2　　　　int1小于等于int2为真&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;文件的判断&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;-r file　　　　　用户可读为真&lt;/li&gt;
-&lt;li&gt;-w file　　　　　用户可写为真&lt;/li&gt;
-&lt;li&gt;-x file　　　　　用户可执行为真&lt;/li&gt;
-&lt;li&gt;-f file　　　　　文件为正规文件为真&lt;/li&gt;
-&lt;li&gt;-d file　　　　　文件为目录为真&lt;/li&gt;
-&lt;li&gt;-c file　　　　　文件为字符特殊文件为真&lt;/li&gt;
-&lt;li&gt;-b file　　　　　文件为块特殊文件为真&lt;/li&gt;
-&lt;li&gt;-s file　　　　　文件大小非0时为真&lt;/li&gt;
-&lt;li&gt;-t file　　　　　当文件描述符(默认为1)指定的设备为终端时为真&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h3&gt;简单脚本示例&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;#!/bin/bash
-i=&quot;shell&quot;
-if [ &quot;$i&quot;==&quot;shell&quot; ]; then
-    echo $i
-else
-    echo &quot;not shell&quot;
-fi
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3&gt;总结的注意点&lt;/h3&gt;
-
-&lt;ol&gt;
-&lt;li&gt;有点不习惯书写方式 如表达式 $i==shell 也成立 作为一个写php的觉得很不习惯&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;[]&lt;/code&gt; 左右都要留一个空格&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;==&lt;/code&gt; 两边最好都要用&lt;code&gt;&quot;&quot;&lt;/code&gt;扩起来,防止有特殊的变量&lt;/li&gt;
-&lt;li&gt;不要忘记fi&lt;/li&gt;
-&lt;/ol&gt;
-
-</description>
-        <pubDate>Fri, 10 Jan 2014 00:00:00 +0800</pubDate>
-        <link>/2014/01/10/condition-test/</link>
-        <guid isPermaLink="true">/2014/01/10/condition-test/</guid>
-      </item>
-    
-      <item>
-        <title>陈小姐</title>
-        <description>&lt;p&gt;几日前，有个多日不见的朋友和我诉苦，说是思念一个人，希望留下点回忆的东西，却总是得不到合适的寄托。他和我讲述了他和她的故事。故事不长，和那些烂长的小说故事比起来说甚至短的有点可怜，记下来一是因为白白听了别人一个故事，就当是做个寄托，二是因为确实是个好故事。&lt;/p&gt;
-
-&lt;p&gt;好友暂称为E君 ，故事中的她暂称为陈小姐。&lt;/p&gt;
-
-&lt;p&gt;陈小姐二十五岁，开心时笑起来特美，眼睛弯起来像月牙那样，仿佛能让人忘掉忧愁。&lt;/p&gt;
-
-&lt;p&gt;和陈小姐的相遇算是机缘，他笑说一定是上辈子未尽的缘分，陈小姐也不反驳，只露出另一种醉人的微笑给予回应。&lt;/p&gt;
-
-&lt;p&gt;E君在网上闲逛的时候遇到一个转让物品的帖子,价钱超乎寻常的低，大概意思就是由于搬家，低价转让。E君看了看价格，第一反应就是：是个骗子！ E君很生气，不过转念一想，反正上午没什么工作，就抽空好好“教育教育”这个家伙吧，&lt;/p&gt;
-
-&lt;p&gt;“喂，你好”
-出于应有的礼貌E君主动向对方问好。
-“嗯，你好
-” 电话的那头传来了一个女孩子的声音。&lt;/p&gt;
-
-&lt;p&gt;E君听到对方的声音心里突然感觉有点慌，因为听着声音对方应该是个和自己差不多年纪的女孩，对于单身的E君来说这种同龄女孩子E君都会有莫名其妙的好感，（不要问我为什么，我自己也不知道），随带的便会感到紧张，手足无措，不知道说什么好，即便是我们的E君压根就不知道手机另外一端的这个女孩子张什么样子，仅仅是就听了她说“嗯，你好”，当然还有一个更加简单而又重要的原因:&quot;这个声音很好听~ E君心里想着，这么好听的声音怎么可能是一个骗子的，不对，应该是一个骗子怎么可能会有这么好听的声音。总而言之，E君奇怪的逻辑又开始作祟了，E君忽然觉得对不起这个仅仅就听对方说了一句话的女孩子，不应该把她定义成一个骗子。只是E君的这些想法对于在电话另一端的女孩子来说，全然不知。&lt;/p&gt;
-
-&lt;p&gt;”今天晚上，地铁口面交“&lt;/p&gt;
-
-&lt;p&gt;E君来到了和女孩约定的地铁口，时间正好，E君拿出了手机拨了那个女孩的电话&lt;/p&gt;
-
-&lt;p&gt;“喂，你在哪，我已经到了” E君和女孩子说着
-“嗯，我就在出口着”  电话里传来了那个女孩子的声音，E君忽然觉得这个声音是那么的熟悉，整整一个下午在脑海中回荡的那个声音，那个像是魔豆一样落地就疯狂生长，缠绕着E君脑海的声音，再一次听到，仿佛什么东西突然苏醒了一样，让E君就这样愣在了那里。而就在这时，E君看到了一个女子，相距30米外，笑着，一手扶着头发，另外一只手中垂着还未挂掉的电话。&lt;/p&gt;
-
-&lt;p&gt;这是E君和她第一次见面，在后来的日子里，有的时候E君躺在床上也会回忆那天晚上见面的场景，每一个细节，每一个动作E君都很贪婪的想把它们想起来，然后E君就会开始用双手敲打自己的头，厉声的骂自己为什么都当时怎么就没有好好的记住，E君也未曾想到自己会如此的渴望多记得一点，自己会如此的念念不忘。&lt;/p&gt;
-</description>
-        <pubDate>Wed, 08 Jan 2014 00:00:00 +0800</pubDate>
-        <link>/2014/01/08/Miss-Chen/</link>
-        <guid isPermaLink="true">/2014/01/08/Miss-Chen/</guid>
       </item>
     
   </channel>

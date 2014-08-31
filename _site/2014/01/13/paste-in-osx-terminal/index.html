@@ -4,6 +4,7 @@
 　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 　　<title>OSX 中vim的复制和粘贴</title>
 	<link rel="stylesheet" href="/css/default.css" type="text/css" />
+	<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
 </head>
 <body>
     <div class="header">
@@ -18,9 +19,7 @@
 
 <div class="site">
 
-    　　<link rel="stylesheet" href="/js/prettify/prettify.css" />
-
-<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    　　<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 <script type="text/javascript" src="/js/prettify/prettify.js"></script>
 <script type="text/javascript" src="/js/default.js"></script>
 
@@ -34,9 +33,10 @@
 
 <p>安装 Vim 时如果打开了 clipboard 特性 ( <code>vim --version | grep clipboard</code>，系统自带的 Vim 是没有打开的，不想自己编译的话也可以通过安装 Macvim 然后将 vim alias 到 mvim )，则可以使用 * 寄存器（ Vim 有很多剪贴板，mac 下的系统剪贴板是 *，还有 + ?），通过 <code>"*y</code> 和 <code>"*p</code> 就可以完成复制粘贴到系统剪贴板，在 <code>.vimrc</code> 里加入了<code>set cilpboard=unnamed</code>后就不用加 <code>"*</code> 直接 <code>yy</code> 了。没有<code>+clipboard</code>的话也没关系，我们还有 mac 下的 <code>pbcopy</code> 和 <code>pbpaste</code> 命令可以使用。</p>
 
-<pre><code class="vim">vmap "+y :w !pbcopy&lt;CR&gt;&lt;CR&gt;
-nmap "+p :r !pbpaste&lt;CR&gt;&lt;CR&gt;
-</code></pre>
+<div class="highlight"><pre><code class="vim">vmap <span class="c">&quot;+y :w !pbcopy&lt;CR&gt;&lt;CR&gt;</span>
+nmap <span class="c">&quot;+p :r !pbpaste&lt;CR&gt;&lt;CR&gt;</span>
+</code></pre></div>
+
 
 <h3>iTerm2+Tmux+Vim 下的复制粘贴</h3>
 
@@ -47,8 +47,7 @@ brew 安装 reattach-to-user-namespace
 .vimrc 中加入 set cilpboard=unnamed
 在 .tmux.conf 中加入</p>
 
-<pre><code class="sh">set-option -g default-command "reattach-to-user-namespace -l zsh"
-</code></pre>
+<p>set-option -g default-command "reattach-to-user-namespace -l zsh"</p>
 
 <h3>Tmux pannel中的复制</h3>
 
@@ -56,20 +55,21 @@ brew 安装 reattach-to-user-namespace
 
 <p>添加以下到 <code>.tmux.conf</code></p>
 
-<pre><code class="sh"># Use vim keybindings in copy mode
-setw -g mode-keys vi
+<h1>Use vim keybindings in copy mode</h1>
 
-# Setup 'v' to begin selection as in Vim （seems require Tmux 1.8）
+<p>setw -g mode-keys vi</p>
 
-# 一般情况中，&lt;prefix&gt;-[ 进入复制模式后 &lt;space&gt; 开始选中，&lt;enter&gt; 结束选中 (copy to buffer)
+<h1>Setup 'v' to begin selection as in Vim （seems require Tmux 1.8）</h1>
 
-bind-key -t vi-copy v begin-selection
-bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
+<h1>一般情况中，<prefix>-[ 进入复制模式后 <space> 开始选中，<enter> 结束选中 (copy to buffer)</h1>
 
-# Update default binding of `Enter` to also use copy-pipe
-unbind -t vi-copy Enter
-bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"
-</code></pre>
+<p>bind-key -t vi-copy v begin-selection
+bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"</p>
+
+<h1>Update default binding of <code>Enter</code> to also use copy-pipe</h1>
+
+<p>unbind -t vi-copy Enter
+bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"</p>
 
 <p><code>&lt;prefix&gt;-[</code>进入 Tmux 的复制模式，使用 Vim 操作来进行移动，v 选中内容，y 进行复制，首先内容会复制到 Tmux 的 paste buffer 中，再由 pbcopy 来复制到系统的剪贴板中。</p>
 
@@ -78,23 +78,26 @@ bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"
 <p>Vim中 ⌘+V 的粘贴
 有时候如果我们想用 <code>⌘+v</code> 来进行粘贴，直接粘贴的话内容是一段一段复制进去的，并且还伴有一些我们不希望出现的缩进或者其它奇怪的东西，我们可以进入 Vim 的 paste mode 来进行正常的粘贴。</p>
 
-<pre><code class="vim">:set paste "开启paste 模式
-:set nopaste "关闭paste 模式
-:set pastetoggle "toggle 模式
-</code></pre>
+<div class="highlight"><pre><code class="vim"><span class="p">:</span><span class="k">set</span> <span class="nb">paste</span> <span class="c">&quot;开启paste 模式</span>
+<span class="p">:</span><span class="k">set</span> <span class="nb">nopaste</span> <span class="c">&quot;关闭paste 模式</span>
+<span class="p">:</span><span class="k">set</span> <span class="nb">pastetoggle</span> <span class="c">&quot;toggle 模式</span>
+</code></pre></div>
+
+
+
 
 </div>
 
 <p id="back-to-top" style="display: block;"><a href="#top"><img width="40px" height="40px" src="/image/back-to-top.png" alt="back to the top"></a></p>
 
-<script type="text/javascript">
-	$(function(){
-		$('pre').each(function(){
-			$(this).addClass('prettyprint');
-		});
-  		prettyPrint();
-	});
-</script>
+<!-- <script type="text/javascript"> -->
+<!-- 	$(function(){ -->
+<!-- 		$('pre').each(function(){ -->
+<!-- 			$(this).addClass('prettyprint'); -->
+<!-- 		}); -->
+<!--   		prettyPrint(); -->
+<!-- 	}); -->
+<!-- </script> -->
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">

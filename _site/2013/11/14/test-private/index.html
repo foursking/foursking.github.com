@@ -4,6 +4,7 @@
 　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 　　<title>Test-Private-Function-In-Php</title>
 	<link rel="stylesheet" href="/css/default.css" type="text/css" />
+	<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
 </head>
 <body>
     <div class="header">
@@ -18,9 +19,7 @@
 
 <div class="site">
 
-    　　<link rel="stylesheet" href="/js/prettify/prettify.css" />
-
-<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    　　<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 <script type="text/javascript" src="/js/prettify/prettify.js"></script>
 <script type="text/javascript" src="/js/default.js"></script>
 
@@ -32,17 +31,18 @@
     </div>
 	<p>Demo class</p>
 
-<pre><code class="php">class Foo {
+<div class="highlight"><pre><code class="python"><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
 
-    public function __construct() {
-        //do some construct
-    }
+    <span class="n">public</span> <span class="n">function</span> <span class="n">__construct</span><span class="p">()</span> <span class="p">{</span>
+        <span class="o">//</span><span class="n">do</span> <span class="n">some</span> <span class="n">construct</span>
+    <span class="p">}</span>
 
-    private function plus($a , $b) {
-        return $a + $b;
-    }
-}
-</code></pre>
+    <span class="n">private</span> <span class="n">function</span> <span class="n">plus</span><span class="p">(</span><span class="err">$</span><span class="n">a</span> <span class="p">,</span> <span class="err">$</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="err">$</span><span class="n">a</span> <span class="o">+</span> <span class="err">$</span><span class="n">b</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
 
 <p>phpunit test</p>
 
@@ -69,14 +69,14 @@
 
 <p id="back-to-top" style="display: block;"><a href="#top"><img width="40px" height="40px" src="/image/back-to-top.png" alt="back to the top"></a></p>
 
-<script type="text/javascript">
-	$(function(){
-		$('pre').each(function(){
-			$(this).addClass('prettyprint');
-		});
-  		prettyPrint();
-	});
-</script>
+<!-- <script type="text/javascript"> -->
+<!-- 	$(function(){ -->
+<!-- 		$('pre').each(function(){ -->
+<!-- 			$(this).addClass('prettyprint'); -->
+<!-- 		}); -->
+<!--   		prettyPrint(); -->
+<!-- 	}); -->
+<!-- </script> -->
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
