@@ -55,23 +55,23 @@ brew 安装 reattach-to-user-namespace
 
 <p>添加以下到 <code>.tmux.conf</code></p>
 
-<h1>Use vim keybindings in copy mode</h1>
+<div class="highlight"><pre><code class="vim"># Use <span class="k">vim</span> keybindings <span class="k">in</span> copy <span class="k">mode</span>
+setw <span class="p">-</span><span class="k">g</span> <span class="k">mode</span><span class="p">-</span>keys <span class="k">vi</span>
 
-<p>setw -g mode-keys vi</p>
+# Setup <span class="s1">&#39;v&#39;</span> <span class="k">to</span> begin <span class="nb">selection</span> <span class="k">as</span> <span class="k">in</span> Vim （seems require Tmux <span class="m">1</span>.<span class="m">8</span>）
 
-<h1>Setup 'v' to begin selection as in Vim （seems require Tmux 1.8）</h1>
+# 一般情况中，<span class="p">&lt;</span>prefix<span class="p">&gt;-</span>[ 进入复制模式后 <span class="p">&lt;</span>space<span class="p">&gt;</span> 开始选中，<span class="p">&lt;</span>enter<span class="p">&gt;</span> 结束选中 <span class="p">(</span>copy <span class="k">to</span> buffer<span class="p">)</span>
 
-<h1>一般情况中，<prefix>-[ 进入复制模式后 <space> 开始选中，<enter> 结束选中 (copy to buffer)</h1>
+bind<span class="p">-</span><span class="nb">key</span> <span class="p">-</span><span class="k">t</span> <span class="k">vi</span><span class="p">-</span>copy <span class="k">v</span> begin<span class="p">-</span><span class="nb">selection</span>
+bind<span class="p">-</span><span class="nb">key</span> <span class="p">-</span><span class="k">t</span> <span class="k">vi</span><span class="p">-</span>copy <span class="k">y</span> copy<span class="p">-</span>pipe <span class="s2">&quot;reattach-to-user-namespace pbcopy&quot;</span>
 
-<p>bind-key -t vi-copy v begin-selection
-bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"</p>
+# Update default binding of `Enter` <span class="k">to</span> also use copy<span class="p">-</span>pipe
+unbind <span class="p">-</span><span class="k">t</span> <span class="k">vi</span><span class="p">-</span>copy Enter
+bind<span class="p">-</span><span class="nb">key</span> <span class="p">-</span><span class="k">t</span> <span class="k">vi</span><span class="p">-</span>copy Enter copy<span class="p">-</span>pipe <span class="s2">&quot;reattach-to-user-namespace pbcopy&quot;</span>
 
-<h1>Update default binding of <code>Enter</code> to also use copy-pipe</h1>
+`<span class="p">&lt;</span>prefix<span class="p">&gt;-</span>[ `进入 Tmux 的复制模式，使用 Vim 操作来进行移动，<span class="k">v</span> 选中内容，<span class="k">y</span> 进行复制，首先内容会复制到 Tmux 的 <span class="nb">paste</span> buffer 中，再由 pbcopy 来复制到系统的剪贴板中。
+</code></pre></div>
 
-<p>unbind -t vi-copy Enter
-bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"</p>
-
-<p><code>&lt;prefix&gt;-[</code>进入 Tmux 的复制模式，使用 Vim 操作来进行移动，v 选中内容，y 进行复制，首先内容会复制到 Tmux 的 paste buffer 中，再由 pbcopy 来复制到系统的剪贴板中。</p>
 
 <h3>vim 的 paste mode</h3>
 

@@ -1,7 +1,7 @@
 body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    color:#777;
     font-size:15px;
+	color:#4f4f4f;
     background-color:#f9f9f9;
 }
 
@@ -79,6 +79,24 @@ li code,p code {
 ul, ol { margin: 1.5em 0; padding-left: 1.5em; line-height: 1.5em; }
 ul li { list-style-type: square; }
 ul li p { margin: 0; }
+
+blockquote { margin: 0; font-style: normal !important; } 
+
+ .entry-content blockquote {
+    padding: 0 1em;
+    margin: 14px 0;
+    border: 2px dashed #d0dfda;
+    border-radius: 5px;
+    color: #606060;
+    background: #f9f9f9;
+    -webkit-transition: all, 0.3s;
+    -moz-transition: all, 0.3s;
+    -ms-transition: all, 0.3s;
+    -o-transition: all, 0.3s;
+    transition: all, 0.3s; }
+    .entry-content blockquote:hover {
+      color: #454545; }
+
 
 .site {
     line-height: 1.7;

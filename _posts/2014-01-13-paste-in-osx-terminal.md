@@ -32,6 +32,7 @@ set-option -g default-command "reattach-to-user-namespace -l zsh"
 
 添加以下到 `.tmux.conf`
 
+{% highlight vim %}
 # Use vim keybindings in copy mode
 setw -g mode-keys vi
 
@@ -47,7 +48,7 @@ unbind -t vi-copy Enter
 bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"
 
 `<prefix>-[ `进入 Tmux 的复制模式，使用 Vim 操作来进行移动，v 选中内容，y 进行复制，首先内容会复制到 Tmux 的 paste buffer 中，再由 pbcopy 来复制到系统的剪贴板中。
-
+{% endhighlight %}
 
 ###vim 的 paste mode
 

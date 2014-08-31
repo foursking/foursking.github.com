@@ -441,23 +441,23 @@ brew 安装 reattach-to-user-namespace
 
 &lt;p&gt;添加以下到 &lt;code&gt;.tmux.conf&lt;/code&gt;&lt;/p&gt;
 
-&lt;h1&gt;Use vim keybindings in copy mode&lt;/h1&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;vim&quot;&gt;# Use &lt;span class=&quot;k&quot;&gt;vim&lt;/span&gt; keybindings &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; copy &lt;span class=&quot;k&quot;&gt;mode&lt;/span&gt;
+setw &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;g&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;keys &lt;span class=&quot;k&quot;&gt;vi&lt;/span&gt;
 
-&lt;p&gt;setw -g mode-keys vi&lt;/p&gt;
+# Setup &lt;span class=&quot;s1&quot;&gt;&amp;#39;v&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; begin &lt;span class=&quot;nb&quot;&gt;selection&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; Vim （seems require Tmux &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;8&lt;/span&gt;）
 
-&lt;h1&gt;Setup &#39;v&#39; to begin selection as in Vim （seems require Tmux 1.8）&lt;/h1&gt;
+# 一般情况中，&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;prefix&lt;span class=&quot;p&quot;&gt;&amp;gt;-&lt;/span&gt;[ 进入复制模式后 &lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;space&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; 开始选中，&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;enter&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; 结束选中 &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;copy &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; buffer&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;h1&gt;一般情况中，&lt;prefix&gt;-[ 进入复制模式后 &lt;space&gt; 开始选中，&lt;enter&gt; 结束选中 (copy to buffer)&lt;/h1&gt;
+bind&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;vi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;copy &lt;span class=&quot;k&quot;&gt;v&lt;/span&gt; begin&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;selection&lt;/span&gt;
+bind&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;vi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;copy &lt;span class=&quot;k&quot;&gt;y&lt;/span&gt; copy&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;pipe &lt;span class=&quot;s2&quot;&gt;&amp;quot;reattach-to-user-namespace pbcopy&amp;quot;&lt;/span&gt;
 
-&lt;p&gt;bind-key -t vi-copy v begin-selection
-bind-key -t vi-copy y copy-pipe &quot;reattach-to-user-namespace pbcopy&quot;&lt;/p&gt;
+# Update default binding of `Enter` &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; also use copy&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;pipe
+unbind &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;vi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;copy Enter
+bind&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;vi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;copy Enter copy&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;pipe &lt;span class=&quot;s2&quot;&gt;&amp;quot;reattach-to-user-namespace pbcopy&amp;quot;&lt;/span&gt;
 
-&lt;h1&gt;Update default binding of &lt;code&gt;Enter&lt;/code&gt; to also use copy-pipe&lt;/h1&gt;
+`&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;prefix&lt;span class=&quot;p&quot;&gt;&amp;gt;-&lt;/span&gt;[ `进入 Tmux 的复制模式，使用 Vim 操作来进行移动，&lt;span class=&quot;k&quot;&gt;v&lt;/span&gt; 选中内容，&lt;span class=&quot;k&quot;&gt;y&lt;/span&gt; 进行复制，首先内容会复制到 Tmux 的 &lt;span class=&quot;nb&quot;&gt;paste&lt;/span&gt; buffer 中，再由 pbcopy 来复制到系统的剪贴板中。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;unbind -t vi-copy Enter
-bind-key -t vi-copy Enter copy-pipe &quot;reattach-to-user-namespace pbcopy&quot;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;lt;prefix&amp;gt;-[&lt;/code&gt;进入 Tmux 的复制模式，使用 Vim 操作来进行移动，v 选中内容，y 进行复制，首先内容会复制到 Tmux 的 paste buffer 中，再由 pbcopy 来复制到系统的剪贴板中。&lt;/p&gt;
 
 &lt;h3&gt;vim 的 paste mode&lt;/h3&gt;
 
