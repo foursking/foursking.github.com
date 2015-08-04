@@ -1,7 +1,7 @@
 ---
 layout: post
-title: 使用brew 管理mac php版本
-categories: [php]
+title: mac下面 hhkb使用
+categories: [tool]
 
 ---
 
