@@ -3,19 +3,25 @@ layout: default
 title : 文章分类
 ---
 
-文章列表
---------
+<style>
 
+.category ul li{list-style:none;}
+.category ul{padding-bottom:2em}
+.category ul, ol { margin: 1.5em 0; padding-left: 2.5em; line-height: 1.5em; }
+</style>
+<div class="entry-content">
+<div class="category">
 {% for category in site.categories %}
 
-<a id="{{category[0]}}"></a>
+<h4>{{category[0]}}</h4>
 
-####{{category[0]}} ({{category[1] | size}})
-
+<ul>
 {% for post in category[1] %}
-
-- [{{post.title}}]({{post.url}})
+<li><p><a href="{{post.url}}">{{post.title}}</a></p></li>
+{% endfor %}
+</ul>
 
 {% endfor %}
+</div>
+</div>
 
-{% endfor %}

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: OSX 中vim的复制和粘贴
-cat: vim terminal tmux
+categories: [vim]
 ---
 
 ###Term2 + Vim 下的复制粘贴

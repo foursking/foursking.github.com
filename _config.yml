@@ -1,7 +1,8 @@
-baseurl:
+baseurl: 
 source:      .
 plugins:     ./_plugins
 permalink: pretty
 markdown: rdiscount
 auto: true
 pygments: true
+excerpt_separator: ""

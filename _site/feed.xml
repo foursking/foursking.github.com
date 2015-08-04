@@ -7,6 +7,372 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>tmux使用 转自tankywoo</title>
+        <description>&lt;p&gt;三个术语:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;session: 管理多个window的会话&lt;/li&gt;
+&lt;li&gt;window: 一个window就是整个屏幕&lt;/li&gt;
+&lt;li&gt;pane: 一个window可以被横向或纵向分割为多个pane, 也就是俗称的分屏&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;tmux有很多组合键, 类似screen, tmux的组合键前缀(prefix)默认是&lt;code&gt;C-b&lt;/code&gt;, 如果习惯了screen的&lt;code&gt;C-a&lt;/code&gt;, 可以修改prefix, 以下都用&lt;code&gt;C-b&lt;/code&gt;表示前缀&lt;/p&gt;
+
+&lt;h2&gt;快捷键&lt;/h2&gt;
+
+&lt;h3&gt;基本操作&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;C-b :&lt;/code&gt; 进入tmux的命令行模式&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b ?&lt;/code&gt; 显示所有的bind-key&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b [&lt;/code&gt; 进入复制模式&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b ]&lt;/code&gt; 进入粘贴模式&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;如果有设置 &lt;code&gt;setw -g mode-keys vi&lt;/code&gt; 的话，可按 vi 的按键模式操作。移动至待复制的文本处，按一下空格，结合 vi 移动命令开始选择，选好后按回车确认.&lt;/p&gt;
+
+&lt;h3&gt;session 操作&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;C-b d&lt;/code&gt; deattch当前的session&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b C-z&lt;/code&gt; 挂起当前的session&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tmux attach [-t sessionname]&lt;/code&gt; 恢复session&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b $&lt;/code&gt; 可以重命名当前的session&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tmux ls&lt;/code&gt; 显示tmux的所有session&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h3&gt;window 操作&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;C-b c&lt;/code&gt; 可以新建一个新的window&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b &amp;amp;&lt;/code&gt; 关闭当前的window&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b ,&lt;/code&gt; 可以重命名当前的window&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b p&lt;/code&gt; 切换到前一个window&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b n&lt;/code&gt; 切换到后一个window&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b l&lt;/code&gt; 切换到上一次的window&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b number&lt;/code&gt; 切换到指定编号的window, 默认从0开始&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b w&lt;/code&gt; 显示当前会话的window, 可以通过上下选择来切换&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tmux neww -n tmux&lt;/code&gt; 新建一个window, 名称是tmux&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h3&gt;pane 操作&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;C-b &quot;&lt;/code&gt; 将当前window横向分割为两个pane&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b %&lt;/code&gt; 将当前window纵向分割为两个pane&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b 方向键&lt;/code&gt; 在当前window里移动到其他pane&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b o&lt;/code&gt; 切换到下一个pane&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b Alt+方向键&lt;/code&gt; 调整pane的大小&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b q&lt;/code&gt; 显示pane的编号&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b x&lt;/code&gt; 关闭当前的pane, 会有确认提示. 也可以直接C-d&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b {&lt;/code&gt; 把当前的pane移到左边&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b }&lt;/code&gt; 把当前的pane移到右边&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b z&lt;/code&gt; 把当前pane最大化/恢复. 感谢 yanyaoer 和 陈兴明Mingo 两位同学, tmux 升级到 1.8 后有这个特性了.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-b Space&lt;/code&gt; 切换到下一个布局(这个布局应该是系统默认的一些)&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;配置文件&lt;/h2&gt;
+
+&lt;p&gt;以下配置更新会有延迟, 最新配置见我的 &lt;a href=&quot;https://github.com/foursking/dotfiles&quot;&gt;dotfiles&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# 配置使用和GNU Screen相同的C-a作为命令引导键 默认的C-b 和vim冲突&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g prefix C-a
+&lt;span class=&quot;c&quot;&gt;# 设置终端类型为256色&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g default-terminal &lt;span class=&quot;s2&quot;&gt;&amp;quot;screen-256color&amp;quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 设置状态栏左部宽度&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g status-left-length 40
+&lt;span class=&quot;c&quot;&gt;# 设置状态栏显示内容和内容颜色。这里配置从左边开始显示，使用绿色显示session名称，黄色显示窗口号，蓝色显示窗口分割号&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g status-left &lt;span class=&quot;s2&quot;&gt;&amp;quot;#[fg=colour52]#S #[fg=yellow]#I #[fg=cyan]#P&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 设置状态栏右部宽度&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g status-right-length 80
+&lt;span class=&quot;c&quot;&gt;# 设置状态栏右边内容，这里设置为时间信息&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g status-right &lt;span class=&quot;s2&quot;&gt;&amp;quot;#[fg=colour106]#(~/bin/system_info.sh) #[fg=colour208]|%d %b %R&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 窗口信息居中显示&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g status-justify centre
+
+&lt;span class=&quot;c&quot;&gt;# 监视窗口信息，如有内容变动，进行提示&lt;/span&gt;
+setw -g monitor-activity on
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g visual-activity on
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g status-utf8 on
+
+setw -g mode-keys vi
+&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;-option -g default-command &lt;span class=&quot;s2&quot;&gt;&amp;quot;reattach-to-user-namespace -l zsh&amp;quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#colorscheme&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt;-file ~/Develop/dotfiles/tmux/color/solarized-256.conf
+
+&lt;span class=&quot;c&quot;&gt;# 窗口号和窗口分割号都以1开始（默认从0开始）&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g base-index 1
+setw -g pane-base-index 1
+
+&lt;span class=&quot;c&quot;&gt;# 支持鼠标选择窗口，调节窗口大小&lt;/span&gt;
+setw -g mode-mouse on
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g mouse-select-pane on
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g mouse-resize-pane on
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -g mouse-select-window on
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -s escape-time 1
+
+&lt;span class=&quot;c&quot;&gt;# 设置C-a a为发送C-a键&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;bind &lt;/span&gt;a send-prefix
+&lt;span class=&quot;c&quot;&gt;# 加载tmux配置文件的快捷键&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;bind &lt;/span&gt;r &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt;-file ~/.tmux.conf&lt;span class=&quot;se&quot;&gt;\;&lt;/span&gt; display &lt;span class=&quot;s2&quot;&gt;&amp;quot;Reloaded!&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 快捷键查看man&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; / &lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt;-prompt &lt;span class=&quot;s2&quot;&gt;&amp;quot;split-window &amp;#39;exec man %%&amp;#39;&amp;quot;&lt;/span&gt;
+unbind &lt;span class=&quot;s2&quot;&gt;&amp;quot;%&amp;quot;&lt;/span&gt;
+unbind &lt;span class=&quot;s2&quot;&gt;&amp;quot;\&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 修改默认的窗口分割快捷键，使用更直观的符号&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; | split-window -h
+&lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; - split-window -v
+&lt;span class=&quot;c&quot;&gt;# 选择窗口功能修改为和Screen一样的C-a &amp;quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;\&amp;quot;&amp;quot;&lt;/span&gt; choose-window
+
+&lt;span class=&quot;c&quot;&gt;# 选择窗口分割快捷键&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;bind &lt;/span&gt;h &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-pane -L
+&lt;span class=&quot;nb&quot;&gt;bind &lt;/span&gt;j &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-pane -D
+&lt;span class=&quot;nb&quot;&gt;bind &lt;/span&gt;k &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-pane -U
+&lt;span class=&quot;nb&quot;&gt;bind &lt;/span&gt;l &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-pane -R
+&lt;span class=&quot;c&quot;&gt;# 选择窗口快捷键&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; -r C-h &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-window -t :-
+&lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; -r C-l &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-window -t :+
+&lt;span class=&quot;c&quot;&gt;# 调节窗口大小快捷键&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; -r H resize-pane -L 5
+&lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; -r J resize-pane -D 5
+&lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; -r K resize-pane -U 5
+&lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; -r L resize-pane -R 5
+
+&lt;span class=&quot;c&quot;&gt;# 快捷调整窗口分割到全屏&lt;/span&gt;
+unbind Up
+&lt;span class=&quot;nb&quot;&gt;bind &lt;/span&gt;Up new-window -d -n tmp &lt;span class=&quot;se&quot;&gt;\;&lt;/span&gt; swap-pane -s tmp.1 &lt;span class=&quot;se&quot;&gt;\;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-window -t tmp
+unbind Down
+&lt;span class=&quot;nb&quot;&gt;bind &lt;/span&gt;Down last-window &lt;span class=&quot;se&quot;&gt;\;&lt;/span&gt; swap-pane -s tmp.1 &lt;span class=&quot;se&quot;&gt;\;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;kill&lt;/span&gt;-window -t tmp
+
+&lt;span class=&quot;c&quot;&gt;# 快捷记录窗口内的内容到文件中&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;bind &lt;/span&gt;P pipe-pane -o &lt;span class=&quot;s2&quot;&gt;&amp;quot;cat &amp;gt;&amp;gt;~/#W.log&amp;quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\;&lt;/span&gt; display &lt;span class=&quot;s2&quot;&gt;&amp;quot;Toggled logging to ~/#W.log&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;脚本化tmux&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt; 脚本化是 Tmux 的一大亮点 &lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;脚本化可以让我们自己定义一些脚本, 来构造自己的tmux布局&lt;/p&gt;
+
+&lt;p&gt;比如我写了一个分割三个pane的小脚本放在 ~/.tmux/tanky 里:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-pane -t 0
+split-window -h -p 60
+&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-pane -t 1
+split-window -v -p 25
+send-keys -t 0 &lt;span class=&quot;s1&quot;&gt;&amp;#39;ipython&amp;#39;&lt;/span&gt; C-m
+&lt;span class=&quot;c&quot;&gt;# The C-m at the end is interpreted by Tmux as the enter key.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-pane -t 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;google搜出来的讲解tmux脚本化的E文不少, 不过没几个解释了 &lt;code&gt;C-m&lt;/code&gt; 是干嘛的, 查看绑定键也没找到&lt;br/&gt;
+后来在&lt;a href=&quot;http://spin.atomicobject.com/2013/04/11/tmux-key-binding-scripting/&quot;&gt;An Introduction to Scripting Tmux Key Bindings&lt;/a&gt;上看到了解释.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;The C-m at the end is interpreted by Tmux as the enter key.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;在 ~/.tmux.conf 里绑定快捷键: bind T source-file ~/.tmux/tanky&lt;/p&gt;
+
+&lt;p&gt;这样, 就可以通过快捷键 C-b S-t 一键初始化一个如下图的布局.
+&lt;img src=&quot;http://tankywoo-wb.b0.upaiyun.com/tmux_new.png&quot; alt=&quot;Script Tmux&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;另外, 还可以直接写shell脚本, 然后运行, 比如:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Tanky Woo@2013-06-19 10:51:15&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# About:&lt;/span&gt;
+
+tmux start-server
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; ! &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;tmux has-session -t &lt;span class=&quot;s1&quot;&gt;&amp;#39;tankywoo&amp;#39;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;        &lt;/span&gt;tmux new-session -d -s &lt;span class=&quot;s1&quot;&gt;&amp;#39;tankywoo&amp;#39;&lt;/span&gt; -n &lt;span class=&quot;s1&quot;&gt;&amp;#39;tankywoo&amp;#39;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# -d *&lt;/span&gt;
+        tmux &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-window -t &lt;span class=&quot;s1&quot;&gt;&amp;#39;tankywoo&amp;#39;&lt;/span&gt;
+        tmux split-window -h -p 60
+        tmux &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-pane -t 1
+        tmux split-window -v -p 25
+        tmux send-keys -t 0 &lt;span class=&quot;s1&quot;&gt;&amp;#39;ipython&amp;#39;&lt;/span&gt; C-m
+        &lt;span class=&quot;c&quot;&gt;# The C-m at the end is interpreted by Tmux as the enter key.&lt;/span&gt;
+
+        tmux new-window -n &lt;span class=&quot;s1&quot;&gt;&amp;#39;ops-dev&amp;#39;&lt;/span&gt;
+
+        tmux &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-window -t &lt;span class=&quot;s1&quot;&gt;&amp;#39;tankywoo&amp;#39;&lt;/span&gt;
+        tmux &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;-pane -t 1
+&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+
+tmux attach-session -d -t &lt;span class=&quot;s1&quot;&gt;&amp;#39;tankywoo&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;下面这几个链接不错&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://amjith.blogspot.com/2011/08/scripting-tmux-layouts.html&quot;&gt;Scripting Tmux Layouts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.htbaa.com/news/tmux-scripting&quot;&gt;TMUX SCRIPTING&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://toastdriven.com/blog/2009/oct/09/scripting-tmux/&quot;&gt;Scripting tmux&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;技巧&lt;/h2&gt;
+
+&lt;h3&gt;批量操作&lt;/h3&gt;
+
+&lt;p&gt;当需要在多个机器执行相同操作时, 可以考虑用&lt;code&gt;pdsh&lt;/code&gt;等内容分发的工具, 而tmux也有它的一种强悍的方式. 在一个windows里打开多个pane, 每个pane登录一台服务器, 设置windows的选项, 在其中一个pane上操作时, 其它pane都会复制相同的操作.&lt;/p&gt;
+
+&lt;p&gt;在tmux的命令行里, 使用选项&lt;code&gt;set synchronize-panes on&lt;/code&gt;即可.&lt;/p&gt;
+
+&lt;h3&gt;在不同大小的屏幕打开一个session&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt; TODO &lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;比如在一个较小的桌面打开一个session, 然后又在一个较大的桌面也打开这个session:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;tmux attach -t session-name
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;则会发现在较大的桌面上, 也只会显示和小桌面同样大小的窗口, 其余部分被密密麻麻的小点扩充.&lt;/p&gt;
+
+&lt;p&gt;解决方法之一是:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;tmux attach -d -t session-name
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;即先强制 &lt;code&gt;detach&lt;/code&gt; 掉小桌面的session, 然后再在较大桌面打开session.&lt;/p&gt;
+
+&lt;p&gt;另外, 看到很多帖子说可以设置:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;setw -g aggressive-resize on
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是我设置后还是没有成功.&lt;/p&gt;
+
+&lt;p&gt;参考:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://unix.stackexchange.com/questions/24274/attach-to-different-windows-in-session&quot;&gt;Attach to different windows in session&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://superuser.com/questions/300251/maximize-window-in-tmux&quot;&gt;Maximize window in tmux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://mutelight.org/practical-tmux&quot;&gt;Practical Tmux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/Tmux&quot;&gt;Archlinux - Tmux&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;扩展 - tmux powerline&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/erikw/tmux-powerline&quot;&gt;tmux-powerline项目&lt;/a&gt; 官方说此项目现在只做维护, 不更新&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/Lokaltog/powerline&quot;&gt;powerline项目&lt;/a&gt; 这个是最新项目&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;其他资料&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.dayid.org/os/notes/tm.html&quot;&gt;screen and tmux&lt;/a&gt; screen和tmux的操作对比&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/Tmux&quot;&gt;Tmux - ArchWIKI&lt;/a&gt; 对tmux介绍的非常详细&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.hawkhost.com/2010/06/28/tmux-the-terminal-multiplexer/&quot;&gt;TMUX – The Terminal Multiplexer (Part 1)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://wiki.freebsdchina.org/software/t/tmux&quot;&gt;使用tmux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://510x.se/notes/posts/Using_tmux/&quot;&gt;Using tmux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://mutelight.org/practical-tmux&quot;&gt;Practical Tmux&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Wed, 22 Oct 2014 00:00:00 +0800</pubDate>
+        <link>/tool/2014/10/22/tmux/</link>
+        <guid isPermaLink="true">/tool/2014/10/22/tmux/</guid>
+      </item>
+    
+      <item>
+        <title>python抓取luoo站点专辑</title>
+        <description>
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;python&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/usr/bin/env python2&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# vim: set fileencoding=utf8&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sys&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;re&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;urllib&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;urllib2&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;os&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;random&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# for format string&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;format_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;{:0&amp;gt;2d}&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;u&amp;#39;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x1b&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;[1;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%d&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%s&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x1b&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;[0m&amp;#39;&lt;/span&gt;       &lt;span class=&quot;c&quot;&gt;# terminual color template&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;luo_domain&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;http://www.luoo.net/music/{id}&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;download_domain&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;http://luoo.800edu.net/low/luoo/radio{id}/&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;thumb_580_url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;http://img.luoo.net/pics/albums/{song_id}/cover.jpg_580x580.jpg&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;/Users/mac/Develop/cygnuss/luoo/&amp;#39;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;album_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# define album id&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;album_section&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urllib2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;urlopen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;luo_domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;{id}&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;album_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r&amp;#39;&amp;lt;span class=&amp;quot;vol-number rounded&amp;quot;&amp;gt;([^/]*)&amp;lt;/span&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;vol&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;findall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;vol&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# vol .100&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;dir_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;vol.&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vol&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exists&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dir_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mkdir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dir_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r&amp;#39;&amp;lt;img src=&amp;quot;http://img2.luoo.net/pics/albums/(.+)/cover.jpg_580x580.jpg&amp;quot; alt=&amp;quot;.+&amp;quot; class=&amp;quot;cover rounded&amp;quot;&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;songs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;findall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r&amp;#39;&amp;lt;a href=&amp;quot;javascript:;&amp;quot; rel=&amp;quot;nofollow&amp;quot; class=&amp;quot;trackname btn-play&amp;quot;&amp;gt;(.+)&amp;lt;/a&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;song_titles&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;findall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r&amp;#39;&amp;lt;span class=&amp;quot;vol-number rounded&amp;quot;&amp;gt;.+&amp;lt;/span&amp;gt;\s*&amp;lt;span class=&amp;quot;vol-title&amp;quot;&amp;gt;(.+)&amp;lt;/span&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;album_title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;findall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;song&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;songs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;song_titles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;{:0&amp;gt;2d}&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;thumb&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thumb_580_url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;{song_id}&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;song&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;download_domain&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;download_domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;{id}&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;album_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;download_domain&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;.mp3&amp;#39;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;album_section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;song&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;thumb&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thumb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;开始下载 &amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;《&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;album_title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;》&amp;#39;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;amount_songs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;album_section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;album_section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;randint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;col&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;90&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;album_section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;u&amp;#39;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;  ++ 正在下载: #&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%s&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%s&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;# &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%s&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;amount_songs&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;col&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;song_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dir_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;/&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;album_section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;.mp3&amp;#39;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;img_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dir_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;/&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;album_section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;.jpg&amp;#39;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;urllib&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;urlretrieve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;album_section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;song_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;urllib&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;urlretrieve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;album_section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;thumb&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;img_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+
+</description>
+        <pubDate>Mon, 18 Aug 2014 00:00:00 +0800</pubDate>
+        <link>/python/2014/08/18/py-d1/</link>
+        <guid isPermaLink="true">/python/2014/08/18/py-d1/</guid>
+      </item>
+    
+      <item>
         <title>新的开始</title>
         <description>&lt;p&gt;从6号开始，自己一直在休息。
 在结束了和blu3gui7ar的谈话后，就算是正式的结束了在leqee的工作。原本和女王大人计划的周末杭州之行也因为一些突发的事情被推到2周之后。（哎，女王有事情要回家）。因此这周的周末就只有一个人在家里面。以前偶尔会内心嫌她话多，但是一下子家里就自己一个人就越来越不适应，必须得承认生活中离不了她了。&lt;/p&gt;
@@ -397,84 +763,6 @@ class AppKernel extends Kernel
         <pubDate>Tue, 14 Jan 2014 00:00:00 +0800</pubDate>
         <link>/2014/01/14/php-error-reporting/</link>
         <guid isPermaLink="true">/2014/01/14/php-error-reporting/</guid>
-      </item>
-    
-      <item>
-        <title>Test-Private-Function-In-Php</title>
-        <description>&lt;h2&gt;开始 symfony2&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;php composer.phar create-project symfony/framework-standard-edition path/ 2.4.1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;其中 &lt;code&gt;php composer.phar&lt;/code&gt; 是使用composer 命令 ， &lt;code&gt;path/&lt;/code&gt; 是安装路径 ， &lt;code&gt;2.4.1&lt;/code&gt; 是版本号&lt;/p&gt;
-</description>
-        <pubDate>Mon, 13 Jan 2014 00:00:00 +0800</pubDate>
-        <link>/2014/01/13/symfony2-1/</link>
-        <guid isPermaLink="true">/2014/01/13/symfony2-1/</guid>
-      </item>
-    
-      <item>
-        <title>OSX 中vim的复制和粘贴</title>
-        <description>&lt;h3&gt;Term2 + Vim 下的复制粘贴&lt;/h3&gt;
-
-&lt;p&gt;安装 Vim 时如果打开了 clipboard 特性 ( &lt;code&gt;vim --version | grep clipboard&lt;/code&gt;，系统自带的 Vim 是没有打开的，不想自己编译的话也可以通过安装 Macvim 然后将 vim alias 到 mvim )，则可以使用 * 寄存器（ Vim 有很多剪贴板，mac 下的系统剪贴板是 *，还有 + ?），通过 &lt;code&gt;&quot;*y&lt;/code&gt; 和 &lt;code&gt;&quot;*p&lt;/code&gt; 就可以完成复制粘贴到系统剪贴板，在 &lt;code&gt;.vimrc&lt;/code&gt; 里加入了&lt;code&gt;set cilpboard=unnamed&lt;/code&gt;后就不用加 &lt;code&gt;&quot;*&lt;/code&gt; 直接 &lt;code&gt;yy&lt;/code&gt; 了。没有&lt;code&gt;+clipboard&lt;/code&gt;的话也没关系，我们还有 mac 下的 &lt;code&gt;pbcopy&lt;/code&gt; 和 &lt;code&gt;pbpaste&lt;/code&gt; 命令可以使用。&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;vim&quot;&gt;vmap &lt;span class=&quot;c&quot;&gt;&amp;quot;+y :w !pbcopy&amp;lt;CR&amp;gt;&amp;lt;CR&amp;gt;&lt;/span&gt;
-nmap &lt;span class=&quot;c&quot;&gt;&amp;quot;+p :r !pbpaste&amp;lt;CR&amp;gt;&amp;lt;CR&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h3&gt;iTerm2+Tmux+Vim 下的复制粘贴&lt;/h3&gt;
-
-&lt;p&gt;不过同时作为一个 Tmux 用户，一般情况下Vim里的复制会遇到问题。Tmux 自己有提供一套复制粘贴功能，通过 Tmux 自己的复制机制只是将选中的内容复制到自己的 buffer 中，而由于我没怎么搞清的（权限相关）原因， Tmux 自己又不能访问系统剪贴板，所以直接在 Vim 里复制到系统剪贴板（以及从系统剪贴板拿东西）是不行的。reattach-to-user-namespace 则是用来解决 tmux 中 pbcopy 和 pbpaste 不能正常访问的问题，具体是什么问题而又怎么解决反正我也不是很懂去链接里看吧。。。&lt;/p&gt;
-
-&lt;p&gt;打开 Vim 对系统 clipboard 支持（可以自己编译或通过安装 Macvim 解决）。
-brew 安装 reattach-to-user-namespace
-.vimrc 中加入 set cilpboard=unnamed
-在 .tmux.conf 中加入&lt;/p&gt;
-
-&lt;p&gt;set-option -g default-command &quot;reattach-to-user-namespace -l zsh&quot;&lt;/p&gt;
-
-&lt;h3&gt;Tmux pannel中的复制&lt;/h3&gt;
-
-&lt;p&gt;如果一个 Tmux window 中有两个水平的 pannel ，直接用鼠标选中然后复制是不能分辨 pannel 的，即复制一行会贯穿两个 pannel 。&lt;/p&gt;
-
-&lt;p&gt;添加以下到 &lt;code&gt;.tmux.conf&lt;/code&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;vim&quot;&gt;# Use &lt;span class=&quot;k&quot;&gt;vim&lt;/span&gt; keybindings &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; copy &lt;span class=&quot;k&quot;&gt;mode&lt;/span&gt;
-setw &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;g&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;keys &lt;span class=&quot;k&quot;&gt;vi&lt;/span&gt;
-
-# Setup &lt;span class=&quot;s1&quot;&gt;&amp;#39;v&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; begin &lt;span class=&quot;nb&quot;&gt;selection&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; Vim （seems require Tmux &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;8&lt;/span&gt;）
-
-# 一般情况中，&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;prefix&lt;span class=&quot;p&quot;&gt;&amp;gt;-&lt;/span&gt;[ 进入复制模式后 &lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;space&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; 开始选中，&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;enter&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; 结束选中 &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;copy &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; buffer&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-bind&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;vi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;copy &lt;span class=&quot;k&quot;&gt;v&lt;/span&gt; begin&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;selection&lt;/span&gt;
-bind&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;vi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;copy &lt;span class=&quot;k&quot;&gt;y&lt;/span&gt; copy&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;pipe &lt;span class=&quot;s2&quot;&gt;&amp;quot;reattach-to-user-namespace pbcopy&amp;quot;&lt;/span&gt;
-
-# Update default binding of `Enter` &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; also use copy&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;pipe
-unbind &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;vi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;copy Enter
-bind&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;vi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;copy Enter copy&lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;pipe &lt;span class=&quot;s2&quot;&gt;&amp;quot;reattach-to-user-namespace pbcopy&amp;quot;&lt;/span&gt;
-
-`&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;prefix&lt;span class=&quot;p&quot;&gt;&amp;gt;-&lt;/span&gt;[ `进入 Tmux 的复制模式，使用 Vim 操作来进行移动，&lt;span class=&quot;k&quot;&gt;v&lt;/span&gt; 选中内容，&lt;span class=&quot;k&quot;&gt;y&lt;/span&gt; 进行复制，首先内容会复制到 Tmux 的 &lt;span class=&quot;nb&quot;&gt;paste&lt;/span&gt; buffer 中，再由 pbcopy 来复制到系统的剪贴板中。
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h3&gt;vim 的 paste mode&lt;/h3&gt;
-
-&lt;p&gt;Vim中 ⌘+V 的粘贴
-有时候如果我们想用 &lt;code&gt;⌘+v&lt;/code&gt; 来进行粘贴，直接粘贴的话内容是一段一段复制进去的，并且还伴有一些我们不希望出现的缩进或者其它奇怪的东西，我们可以进入 Vim 的 paste mode 来进行正常的粘贴。&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;vim&quot;&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;paste&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;&amp;quot;开启paste 模式&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nopaste&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;&amp;quot;关闭paste 模式&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;pastetoggle&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;&amp;quot;toggle 模式&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-
-
-</description>
-        <pubDate>Mon, 13 Jan 2014 00:00:00 +0800</pubDate>
-        <link>/2014/01/13/paste-in-osx-terminal/</link>
-        <guid isPermaLink="true">/2014/01/13/paste-in-osx-terminal/</guid>
       </item>
     
   </channel>

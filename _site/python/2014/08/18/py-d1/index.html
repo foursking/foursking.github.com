@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+　　<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+　　<title>python抓取luoo站点专辑</title>
+	<link rel="stylesheet" href="/css/default.css" type="text/css" />
+	<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+</head>
+<body>
+    <div class="header">
+        <div class='logo' style="text-align:center"> <a href=""> <img src="/image/logo.svg" height="50" alt="BOXKS"> </a> </div>
+            <div class="nav" style="text-align:center">
+                <a href="/">Index</a>
+                <a href="/about">About</a>
+                <a href="/categorys">Tags</a>
+                <a href="/feed.xml">Feed</a>
+            </div>
+    </div>
+
+<div class="site">
+
+    　　<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/prettify/prettify.js"></script>
+<script type="text/javascript" src="/js/default.js"></script>
+
+<div class="entry-content">
+	<h2 class="entry-title">python抓取luoo站点专辑</h2>
+    <div class="entry-meta">
+        <span class="entry-date">2014-08-18</span>
+        <span class="entry-cat"></span>
+    </div>
+	
+
+<div class="highlight"><pre><code class="python"><span class="c">#!/usr/bin/env python2</span>
+<span class="c"># vim: set fileencoding=utf8</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="c"># for format string</span>
+<span class="k">def</span> <span class="nf">format_string</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;{:0&gt;2d}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="s">u&#39;</span><span class="se">\x1b</span><span class="s">[1;</span><span class="si">%d</span><span class="s">m</span><span class="si">%s</span><span class="se">\x1b</span><span class="s">[0m&#39;</span>       <span class="c"># terminual color template</span>
+
+<span class="n">luo_domain</span> <span class="o">=</span> <span class="s">&#39;http://www.luoo.net/music/{id}&#39;</span>
+<span class="n">download_domain</span> <span class="o">=</span> <span class="s">&#39;http://luoo.800edu.net/low/luoo/radio{id}/&#39;</span>
+<span class="n">thumb_580_url</span> <span class="o">=</span> <span class="s">&#39;http://img.luoo.net/pics/albums/{song_id}/cover.jpg_580x580.jpg&#39;</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s">&#39;/Users/mac/Develop/cygnuss/luoo/&#39;</span>
+
+<span class="n">album_id</span> <span class="o">=</span> <span class="mi">30</span> <span class="c"># define album id</span>
+
+<span class="n">album_section</span><span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">luo_domain</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;{id}&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">album_id</span><span class="p">)))</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;span class=&quot;vol-number rounded&quot;&gt;([^/]*)&lt;/span&gt;&#39;</span><span class="p">)</span>
+<span class="n">vol</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+
+<span class="n">vol</span> <span class="o">=</span> <span class="n">vol</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="c"># vol .100</span>
+<span class="n">dir_</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s">&#39;vol.&#39;</span> <span class="o">+</span> <span class="n">vol</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dir_</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">dir_</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;img src=&quot;http://img2.luoo.net/pics/albums/(.+)/cover.jpg_580x580.jpg&quot; alt=&quot;.+&quot; class=&quot;cover rounded&quot;&gt;&#39;</span><span class="p">)</span>
+<span class="n">songs</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;a href=&quot;javascript:;&quot; rel=&quot;nofollow&quot; class=&quot;trackname btn-play&quot;&gt;(.+)&lt;/a&gt;&#39;</span><span class="p">)</span>
+<span class="n">song_titles</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;span class=&quot;vol-number rounded&quot;&gt;.+&lt;/span&gt;\s*&lt;span class=&quot;vol-title&quot;&gt;(.+)&lt;/span&gt;&#39;</span><span class="p">)</span>
+<span class="n">album_title</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">song</span> <span class="ow">in</span> <span class="n">songs</span><span class="p">:</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">song_titles</span><span class="p">[</span><span class="n">count</span><span class="p">]</span>
+    <span class="n">num</span>  <span class="o">=</span> <span class="s">&#39;{:0&gt;2d}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">thumb</span> <span class="o">=</span> <span class="n">thumb_580_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;{song_id}&#39;</span><span class="p">,</span> <span class="n">song</span><span class="p">)</span>
+    <span class="n">download_domain</span> <span class="o">=</span> <span class="n">download_domain</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;{id}&#39;</span> <span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">album_id</span><span class="p">))</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">download_domain</span> <span class="o">+</span> <span class="n">num</span> <span class="o">+</span> <span class="s">&#39;.mp3&#39;</span>
+    <span class="n">album_section</span><span class="p">[</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="n">song</span><span class="p">,</span> <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s">&#39;thumb&#39;</span><span class="p">:</span> <span class="n">thumb</span><span class="p">,</span> <span class="s">&#39;url&#39;</span><span class="p">:</span> <span class="n">url</span><span class="p">}</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="k">print</span> <span class="s">&#39;开始下载 &#39;</span> <span class="o">+</span> <span class="s">&#39;《&#39;</span> <span class="o">+</span> <span class="n">album_title</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;》&#39;</span>
+
+<span class="n">amount_songs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">album_section</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">album_section</span><span class="p">:</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">%</span> <span class="mi">7</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="n">s</span> <span class="o">%</span> <span class="p">(</span><span class="n">num</span> <span class="o">+</span> <span class="mi">90</span><span class="p">,</span> <span class="n">album_section</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s">&#39;title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">u&#39;</span><span class="se">\n</span><span class="s">  ++ 正在下载: #</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s"># </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="o">+</span><span class="mi">1</span> <span class="p">,</span> <span class="n">amount_songs</span> <span class="p">,</span> <span class="n">col</span><span class="p">))</span>
+    <span class="n">song_path</span> <span class="o">=</span> <span class="n">dir_</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">album_section</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s">&#39;title&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.mp3&#39;</span>
+    <span class="n">img_path</span> <span class="o">=</span> <span class="n">dir_</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">album_section</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s">&#39;title&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.jpg&#39;</span>
+    <span class="n">urllib</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="n">album_section</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s">&#39;url&#39;</span><span class="p">],</span> <span class="n">song_path</span><span class="p">)</span>
+    <span class="n">urllib</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="n">album_section</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s">&#39;thumb&#39;</span><span class="p">],</span> <span class="n">img_path</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+</div>
+
+<p id="back-to-top" style="display: block;"><a href="#top"><img width="40px" height="40px" src="/image/back-to-top.png" alt="back to the top"></a></p>
+
+<!-- <script type="text/javascript"> -->
+<!-- 	$(function(){ -->
+<!-- 		$('pre').each(function(){ -->
+<!-- 			$(this).addClass('prettyprint'); -->
+<!-- 		}); -->
+<!--   		prettyPrint(); -->
+<!-- 	}); -->
+<!-- </script> -->
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'foursk';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+</div>
+
+<div class ="footer">
+  <span class="muted">© foursk. All Rights Reserved.</span><br>
+</div>
+
+</body>
+</html>
